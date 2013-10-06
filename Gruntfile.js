@@ -38,22 +38,8 @@ module.exports = function(grunt) {
                 src: 'js/*.js',              // source (string expression or filenames array)
                 dest: 'build/build.js'         // destination
             }
-        },
-
-        "ftp-deploy" : {
-            build: {
-                auth: {
-                    host: 'ftp.richardhunter.co.uk',
-                    port: 21,
-                    authKey: 'key1'
-                },
-                src: 'build',
-                dest: '/carracci',
-                exclusions: [
-                    'build/richardUtils'
-                ]
-            }
         }
+
 
 
     });
