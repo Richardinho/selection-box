@@ -3,7 +3,7 @@ describe("model", function  () {
     var model;
 
     var html = [
-        "<select id='select'>",
+        "<select id='select' required >",
             "<option value='a'>alpha</option>",
             "<option value='b'>beta</option>",
             "<option value='g' selected>gamma</option>",
@@ -20,6 +20,33 @@ describe("model", function  () {
     afterEach(function () {
 
         $('#select').remove();
+    });
+
+    describe('config', function () {
+        var config;
+        beforeEach(function () {
+            config = model.config;
+        });
+
+        it('required should be true', function () {
+            expect(config.required).toBe(true);
+        });
+        it('multiple should be false', function () {
+            expect(config.multiple).toBe(false);
+        });
+        it('autofocus should be false', function () {
+            expect(config.autofocus).toBe(false);
+        });
+        it('size should be 0', function () {
+            expect(config.size).toBe(0);  //  default is theoretically '1' but in practice is normally 0
+            //  see here for more info: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+        });
+        it('disabled should be false', function () {
+            expect(config.disabled).toBe(false);
+        });
+        it('selectedIndex should be 2', function () {
+            expect(config.selectedIndex).toBe(2);
+        });
     });
 
     describe("getOptions()", function () {

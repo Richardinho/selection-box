@@ -16,7 +16,7 @@ gulp.task('browser-sync', function() {
 
 gulp.task('build', function () {
 	gulp.src('bower_components/jquery/dist/jquery.js')
-		.pipe(gulp.dest('./web/js'));
+		.pipe(gulp.dest('./web/lib'));
 
 });
 
@@ -38,3 +38,4 @@ gulp.task('sass', function () {
 gulp.task('watch-scss', function () {
    gulp.watch('./scss/**/*.scss', ['sass']);
 });
+

@@ -1,7 +1,51 @@
 /*
-	
+	Styled Select Box
 */
+var SSB = SSB || {};
+
+SSB.OptgroupModel = function () {
+
+    var defaults = {
+        disabled : false,
+        label : ''
+    };
+}
+
+SSB.OptionModel = function () {
+    var defaults = {
+        disabled : false,
+        label : '',
+        value : '',
+        selected : false
+    };
+}
+/*
+    extract options from select element
+*/
+function _getOptions(selectEl) {
+
+    var options = {};
+    options.id = selectEl.id;
+    options.multiple= selectEl.multiple;
+    options.autofocus = selectEl.autofocus;
+    options.required = selectEl.required;
+    options.size = selectEl.size;
+    options.form = selectEl.form;
+    options.disabled = selectEl.disabled;
+    options.selectedIndex = selectEl.selectedIndex;
+    return options;
+
+};
+
+
 var SelectModel = function (modelEl){
+
+    var defaults = {
+        optionGroups : [],
+        options : [],
+    };
+
+    this.config = SSB.utils._extend({}, defaults, _getOptions(modelEl))
 
     this.$modelEl = $(modelEl);
 
@@ -16,6 +60,8 @@ var SelectModel = function (modelEl){
 
     }).get();
 };
+
+
 
 $.extend(SelectModel.prototype, {
 
@@ -297,26 +343,8 @@ $.extend(SelectController.prototype, {
 
 });
 
-//deprecate: don't do it this way.
-// export plugin
-window.styledSelect = function (config) {
 
-    var defaults = {
-        dataRole : "styledselect",
-        templateId : null,
-    };
 
-    config = $.extend(defaults, config);
-
-    $('[data-role=' + config.dataRole + ']').each(function (index, element) {
-
-        var model = new SelectModel(element);
-        var view = new SelectView( model, config.templateId );
-
-        var controller = new SelectController(model, view);
-
-    });
-};
 //  right way to do it!
 function createStyledSelect(element, templateId) {
 	var model = new SelectModel(element);
