@@ -1,8 +1,9 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
+var Server = require('karma').Server;
 
-gulp.task('default', function () {
+gulp.task('default', ['test'],  function () {
 	console.log('this is the gulp default task');
 });
 gulp.task('browser-sync', function() {
@@ -17,6 +18,13 @@ gulp.task('build', function () {
 	gulp.src('bower_components/jquery/dist/jquery.js')
 		.pipe(gulp.dest('./web/js'));
 
+});
+
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
 gulp.task('sass', function () {
