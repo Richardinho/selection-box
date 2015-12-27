@@ -1,0 +1,24 @@
+{
+  "name": "styledSelect",
+  "description": "Jquery plug in for custom select elements",
+  "main": "",
+  "authors": [
+    "Richard Hunter"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "jquery", "select", "custom select"
+  ],
+  "homepage": "https://github.com/Richardinho/styledSelect",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
+}

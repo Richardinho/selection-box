@@ -1,34 +1,22 @@
 {
-    "name": "styledSelect",
-
-    "version": "0.0.0",
-
-    "description": "Jquery plug in for custom select elements",
-
-    "main": "Gruntfile.js",
-
-    "directories": {
-        "test": "test"
-    },
-
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-
-    "keywords": [
-        "select"
-
-    ],
-
-    "devDependencies": {
-        "grunt": "~0.4.1",
-        "grunt-karma" : "~0.4.4",
-        "grunt-encase" : "~0.0.3"
-    },
-
-    "author": "Richard Hunter",
-
-    "license": "MIT",
-
-    "readmeFilename": "README.md"
+  "name": "styledSelect",
+  "version": "0.1.0",
+  "description": "Jquery plug in for custom select elements",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "select"
+  ],
+  "devDependencies": {
+    "browser-sync": "^2.10.1",
+    "gulp": "^3.9.0",
+    "gulp-sass": "^2.1.1"
+  },
+  "author": "Richard Hunter",
+  "license": "MIT",
+  "readmeFilename": "README.md"
 }

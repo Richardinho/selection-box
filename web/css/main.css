@@ -126,7 +126,7 @@
     font-size: 12px; }
   .active .tickets__th .tickets__tc--quantity {
     text-align: center; }
-  .active .tickets__tc--event, .active .tickets__tc--price, .active .tickets__tc--quantity, .active .tickets__tc--buy, .active .tickets__tc--event, .active .tickets__tc--price, .active .tickets__tc--quantity, .active .tickets__tc--buy {
+  .active .tickets__tc--event, .active .tickets__tc--price, .active .tickets__tc--quantity, .active .tickets__tc--buy {
     padding-top: 20px;
     padding-bottom: 10px;
     border-bottom: solid 1px black;
@@ -239,15 +239,12 @@ h2 {
   .ruler {
     width: 320px;
     background: black; }
-
   .tickets__container {
     height: auto;
     width: 320px;
     overflow-y: hidden;
     background: white; }
-
   .tickets__th {
     display: none; }
-
   .tickets__tc--price {
     display: none; } }

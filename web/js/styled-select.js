@@ -1,4 +1,6 @@
-
+/*
+	
+*/
 var SelectModel = function (modelEl){
 
     this.$modelEl = $(modelEl);
@@ -295,9 +297,9 @@ $.extend(SelectController.prototype, {
 
 });
 
-
+//deprecate: don't do it this way.
 // export plugin
-$.styledSelect = function (config) {
+window.styledSelect = function (config) {
 
     var defaults = {
         dataRole : "styledselect",
@@ -315,3 +317,9 @@ $.styledSelect = function (config) {
 
     });
 };
+//  right way to do it!
+function createStyledSelect(element, templateId) {
+	var model = new SelectModel(element);
+	var view = new SelectView(model, templateId);
+	var controller = new SelectController(model, view);
+}
