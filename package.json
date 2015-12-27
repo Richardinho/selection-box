@@ -14,7 +14,11 @@
   "devDependencies": {
     "browser-sync": "^2.10.1",
     "gulp": "^3.9.0",
-    "gulp-sass": "^2.1.1"
+    "gulp-sass": "^2.1.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.16",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.6"
   },
   "author": "Richard Hunter",
   "license": "MIT",

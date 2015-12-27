@@ -1,69 +1,70 @@
 // Karma configuration
-// Generated on Sun Mar 31 2013 21:59:25 GMT+0200 (CEST)
+// Generated on Sun Dec 27 2015 12:05:22 GMT+0000 (GMT)
+
+module.exports = function(config) {
+  config.set({
+
+    // base path that will be used to resolve all patterns (eg. files, exclude)
+    basePath: '',
 
 
-// base path, that will be used to resolve files and exclude
-basePath = '';
+    // frameworks to use
+    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+    frameworks: ['jasmine'],
 
 
-// list of files / patterns to load in the browser
-files = [
-  JASMINE,
-  JASMINE_ADAPTER,
-
-  'lib/jquery-1.10.2.js',
-  'js/styledSelect.js',
-  'test/modelSpec.js',
-  'test/viewSpec.js',
-  'test/controllerSpec.js'
-
-];
+    // list of files / patterns to load in the browser
+    files: [
+      'web/js/**/*.js',
+      'test/unit/*.js'
+    ],
 
 
-// test results reporter to use
-// possible values: 'dots', 'progress', 'junit'
-reporters = ['progress'];
+    // list of files to exclude
+    exclude: [
+    ],
 
 
-// web server port
-port = 9876;
+    // preprocess matching files before serving them to the browser
+    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    preprocessors: {
+    },
 
 
-// cli runner port
-runnerPort = 9100;
+    // test results reporter to use
+    // possible values: 'dots', 'progress'
+    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+    reporters: ['progress'],
 
 
-// enable / disable colors in the output (reporters and logs)
-colors = true;
+    // web server port
+    port: 9876,
 
 
-// level of logging
-// possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-logLevel = LOG_INFO;
+    // enable / disable colors in the output (reporters and logs)
+    colors: true,
 
 
-// enable / disable watching file and executing tests whenever any file changes
-autoWatch = false;
+    // level of logging
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    logLevel: config.LOG_INFO,
 
 
-// Start these browsers, currently available:
-// - Chrome
-// - ChromeCanary
-// - Firefox
-// - Opera
-// - Safari (only Mac)
-// - PhantomJS
-// - IE (only Windows)
-browsers = ['Firefox'];
+    // enable / disable watching file and executing tests whenever any file changes
+    autoWatch: false,
 
 
-// If browser does not capture in given timeout [ms], kill it
-captureTimeout = 60000;
+    // start these browsers
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    browsers: ['Chrome'],
 
 
-// Continuous Integration mode
-// if true, it capture browsers, run tests and exit
-singleRun = true;
-// Karma configuration
-// Generated on Sun Mar 31 2013 21:59:25 GMT+0200 (CEST)
+    // Continuous Integration mode
+    // if true, Karma captures browsers, runs the tests and exits
+    singleRun: true,
 
+    // Concurrency level
+    // how many browser should be started simultaneous
+    concurrency: Infinity
+  })
+}

@@ -7,6 +7,18 @@
 
     <body>
 
+		<h1>Styled select box</h1>
+		<p>Project to create a jquery plugin which acts as a proxy for a native select control, therefore allowing
+		custom styles.Currently work in progress - not finished!</p>
+		<h2>Requirements</h2>
+		<ul>
+			<li>Support all functionality of native select controls</li>
+			<li>Fully accessible</li>
+			<li>Maintainable and readable code</li>
+			<li>Tested</li>
+			<li>Cross browser back to IE8 and mobile compatible</li>
+		</ul>
+
 		<div id="ticketsSelectTemplate" class="select-wrapper" style="display:none" tabindex="0">
 			<div data-role="display-area" class="selected-value" >my template</div>
 			<ul data-role="list" class="option-list hide">
@@ -28,7 +40,7 @@
 			var fooElement = document.getElementById('foo');
 			var fooTemplateId = 'ticketsSelectTemplate';
 			createStyledSelect(fooElement, fooTemplateId);
-			
+
         </script>
     </body>
 </html>
