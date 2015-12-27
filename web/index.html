@@ -7,104 +7,28 @@
 
     <body>
 
-        <form method="get">
-            <div class="ruler"></div>
-            <div class="tickets__container">
-            <ul class="tickets__table">
+		<div id="ticketsSelectTemplate" class="select-wrapper" style="display:none" tabindex="0">
+			<div data-role="display-area" class="selected-value" >my template</div>
+			<ul data-role="list" class="option-list hide">
+				<li data-role="option" class="option">hello</li>
+			</ul>
+		</div>
 
-                <li class="tickets__th">
-                  <div class="tickets__tc--event">
-                    Section
-                  </div>
-                  <div class="tickets__tc--price">
-                    Price
-                  </div>
-                  <div class="tickets__tc--quantity">
-                    Qty
-                  </div>
-                  <div class="tickets__tc--buy">
+		<select id='foo'>
+			<option>apple</option>
+			<option>banana</option>
+			<option>cucumber</option>
+		</select>
 
-                  </div>
-                </li>
-                <li class="tickets__tr">
-
-                  <div class="tickets__tc--event">
-
-                    <div class="event__name">The Beatles</div>
-                    <div class="event__sub">foo</div>
-                  </div>
-
-                  <div class="tickets__tc--price">
-                    $12.35
-                  </div>
-
-                  <div class="tickets__tc--quantity">
-                    <select data-role="ticket__Select" name="mySelect">
-                      <option>1</option>
-                          <option>2</option>
-                           <option>3</option>
-                           <option>24</option>
-                          <option>5</option>
-                           <option>6</option>
-                           <option>7</option>
-                          <option>8</option>
-                           <option>9</option>
-                           <option>10</option>
-                        </select>
-                      </div>
-
-                      <div class="tickets__tc--buy">
-                        <button class="buy-button">Buy</button>
-                      </div>
-
-                    </li>
-                </ul>
-
-                <div id="ticketsSelectTemplate" class="fooSelectWrapper" style="display:none" tabindex="0">
-                    <h2 data-role="display-area" class="fooSelectVal" >my template</h2>
-                    <div data-role="button" class="fooSelectButton">V</div>
-                    <ul data-role="list" class="fooSelectList hide">
-                        <li data-role="option" class="fooSelectOption">hello</li>
-                        <li data-role="option" class="fooSelectOption">goodbye</li>
-                        <li data-role="option" class="fooSelectOption">23</li>
-                    </ul>
-                </div>
-            </div>
-            <input type="submit" value="submit this"/>
-        </form>
-<br><br>
-
-	<select id='foo'>
-		<option>apple</option>
-		<option>banana</option>
-		<option>cucumber</option>
-	</select>
         <script src="/js/jquery.js"></script>
         <script type="text/javascript" src="/js/styled-select.js"></script>
 
         <script>
 
-            $(document).ready(function() {
-
-              var row = $('.tickets__tr');
-              var table = $('.tickets__table');
-              for(var i = 0; i < 3; i++) {
-
-                table.append(row.clone());
-
-              }
-
-              // example useage
-              window.styledSelect({
-                dataRole : "ticket__Select",
-                templateId : "ticketsSelectTemplate"
-              });
-
-							var fooElement = document.getElementById('foo');
-							var fooTemplateId = 'ticketsSelectTemplate';
-							createStyledSelect(fooElement, fooTemplateId);
-            });
-
+			var fooElement = document.getElementById('foo');
+			var fooTemplateId = 'ticketsSelectTemplate';
+			createStyledSelect(fooElement, fooTemplateId);
+			
         </script>
     </body>
 </html>

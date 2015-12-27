@@ -1,85 +1,22 @@
-.ruler {
-  width: 502px;
-  height: 20px;
-  background: black; }
-
-.tickets__container {
-  width: 500px;
-  background: seashell;
-  border-left: solid 1px lightgray;
-  border-right: solid 1px lightgray; }
-
-.tickets__table {
-  display: table;
-  list-style: none;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  font-family: arial;
-  color: #666; }
-
-.tickets__tr, .tickets__th {
-  display: table-row; }
-
-.tickets__th .tickets__tc {
-  font-size: 12px; }
-
-.tickets__th .tickets__tc--quantity {
-  text-align: center; }
-
-.tickets__tc--event, .tickets__tc--price, .tickets__tc--quantity, .tickets__tc--buy, .active .tickets__tc--event, .active .tickets__tc--price, .active .tickets__tc--quantity, .active .tickets__tc--buy {
-  padding-top: 20px;
-  padding-bottom: 10px;
-  border-bottom: solid 1px black;
-  display: table-cell; }
-
-.tickets__tc--event {
-  padding-left: 10px;
-  line-height: 20px; }
-
-.event__name {
-  font-weight: 700; }
-
-.tickets__tc--price {
-  width: 60px;
-  text-align: right;
-  padding-right: 10px; }
-
-.tickets__tc--quantity {
-  width: 80px;
-  vertical-align: top; }
-
-.tickets__tc--buy {
-  width: 50px;
-  padding-right: 20px;
-  text-align: right; }
-
-.buy-button {
-  background: #666;
-  padding: 4px 6px;
-  text-transform: uppercase;
-  color: white;
-  border: none; }
-
-.fooSelectWrapper {
-  float: left;
+.select-wrapper {
+  font-size: 12px;
   position: relative;
-  outline: none; }
+  outline: none;
+  background-color: pink;
+  display: inline-block;
+  width: 100px;
+  box-sizing: border-box; }
 
 .hide {
   display: none !important; }
 
-.fooSelectVal {
+.selected-value {
   font-family: arial;
-  color: cornflowerblue;
-  font-size: 40px;
   line-height: 20px;
-  float: left;
-  width: 40px;
-  text-align: right;
-  margin-right: 10px; }
+  background-color: yellow;
+  border: solid 1px red; }
 
-.fooSelectList {
+.option-list {
   list-style: none;
   border: solid 1px #333;
   z-index: 4;
@@ -87,164 +24,21 @@
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 44px;
-  left: 35px;
-  width: 30px;
-  text-align: center; }
+  top: 100%;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box; }
 
-.fooSelectOption {
+.option {
   font-family: arial;
   color: #999;
-  font-size: 12px;
   background: lightgray;
   border-top: 1px solid silver;
   padding: 4px 5px; }
 
+.option:first-child {
+  border-top: none; }
+
 .active {
   background: #666;
   color: white; }
-  .active .ruler {
-    width: 502px;
-    height: 20px;
-    background: black; }
-  .active .tickets__container {
-    width: 500px;
-    background: seashell;
-    border-left: solid 1px lightgray;
-    border-right: solid 1px lightgray; }
-  .active .tickets__table {
-    display: table;
-    list-style: none;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    font-family: arial;
-    color: #666; }
-  .active .tickets__tr, .active .tickets__th {
-    display: table-row; }
-  .active .tickets__th .tickets__tc {
-    font-size: 12px; }
-  .active .tickets__th .tickets__tc--quantity {
-    text-align: center; }
-  .active .tickets__tc--event, .active .tickets__tc--price, .active .tickets__tc--quantity, .active .tickets__tc--buy {
-    padding-top: 20px;
-    padding-bottom: 10px;
-    border-bottom: solid 1px black;
-    display: table-cell; }
-  .active .tickets__tc--event {
-    padding-left: 10px;
-    line-height: 20px; }
-  .active .event__name {
-    font-weight: 700; }
-  .active .tickets__tc--price {
-    width: 60px;
-    text-align: right;
-    padding-right: 10px; }
-  .active .tickets__tc--quantity {
-    width: 80px;
-    vertical-align: top; }
-  .active .tickets__tc--buy {
-    width: 50px;
-    padding-right: 20px;
-    text-align: right; }
-  .active .buy-button {
-    background: #666;
-    padding: 4px 6px;
-    text-transform: uppercase;
-    color: white;
-    border: none; }
-  .active .fooSelectWrapper {
-    float: left;
-    position: relative;
-    outline: none; }
-  .active .hide {
-    display: none !important; }
-  .active .fooSelectVal {
-    font-family: arial;
-    color: cornflowerblue;
-    font-size: 40px;
-    line-height: 20px;
-    float: left;
-    width: 40px;
-    text-align: right;
-    margin-right: 10px; }
-  .active .fooSelectList {
-    list-style: none;
-    border: solid 1px #333;
-    z-index: 4;
-    display: block;
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    top: 44px;
-    left: 35px;
-    width: 30px;
-    text-align: center; }
-  .active .fooSelectOption {
-    font-family: arial;
-    color: #999;
-    font-size: 12px;
-    background: lightgray;
-    border-top: 1px solid silver;
-    padding: 4px 5px; }
-  .active .active {
-    background: #666;
-    color: white; }
-  .active .fooSelectOption:first-child {
-    border-top: none; }
-  .active h2 {
-    margin: 0; }
-  .active .fooSelectButton {
-    font-family: arial;
-    float: left;
-    color: cornflowerblue;
-    font-size: 20px;
-    border: none;
-    text-transform: uppercase;
-    padding: 0;
-    margin: 0;
-    vertical-align: bottom; }
-  @media (max-width: 500px) {
-    .active .ruler {
-      width: 320px;
-      background: black; }
-    .active .tickets__container {
-      height: auto;
-      width: 320px;
-      overflow-y: hidden;
-      background: white; }
-    .active .tickets__th {
-      display: none; }
-    .active .tickets__tc--price {
-      display: none; } }
-
-.fooSelectOption:first-child {
-  border-top: none; }
-
-h2 {
-  margin: 0; }
-
-.fooSelectButton {
-  font-family: arial;
-  float: left;
-  color: cornflowerblue;
-  font-size: 20px;
-  border: none;
-  text-transform: uppercase;
-  padding: 0;
-  margin: 0;
-  vertical-align: bottom; }
-
-@media (max-width: 500px) {
-  .ruler {
-    width: 320px;
-    background: black; }
-  .tickets__container {
-    height: auto;
-    width: 320px;
-    overflow-y: hidden;
-    background: white; }
-  .tickets__th {
-    display: none; }
-  .tickets__tc--price {
-    display: none; } }
