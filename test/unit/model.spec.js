@@ -64,10 +64,8 @@ describe("model", function  () {
         ].join("");
 
         beforeEach(function () {
-
             $('body').append(html);
             model = new SelectModel(document.getElementById("select-with-optgroups"));
-
         });
 
         afterEach(function () {

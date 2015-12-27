@@ -113,6 +113,7 @@ $.extend(SelectModel.prototype, {
 
 });
 
+
 var SelectView = function (model, templateId) {
 
     this.$template = $(document.getElementById(templateId));
@@ -125,6 +126,7 @@ var SelectView = function (model, templateId) {
 $.extend(SelectView.prototype, {
 
     render : function () {
+
 
         this.$el = $(this.$template).clone();
 
@@ -362,6 +364,12 @@ $.extend(SelectController.prototype, {
 //  right way to do it!
 function createStyledSelect(element, templateId) {
 	var model = new SelectModel(element);
-	var view = new SelectView(model, templateId);
+	var view;
+	if(model.hasOptionGroups) {
+        view = new SSB.SelectWithOptionGroupsView(model);
+
+	} else {
+        view = new SelectView(model, templateId);
+	}
 	var controller = new SelectController(model, view);
 }
