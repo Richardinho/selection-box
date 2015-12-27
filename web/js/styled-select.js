@@ -3,12 +3,8 @@
 */
 var SSB = SSB || {};
 
-SSB.OptgroupModel = function () {
-
-    var defaults = {
-        disabled : false,
-        label : ''
-    };
+SSB.OptgroupModel = function (optionGroup) {
+    this.el = optionGroup;
 }
 
 SSB.OptionModel = function () {
@@ -37,6 +33,13 @@ function _getOptions(selectEl) {
 
 };
 
+function _hasOptionGroups(selectEl) {
+
+    var childrenOfSelect = $(selectEl).children();
+    return childrenOfSelect[0] ? (childrenOfSelect[0].nodeName === 'OPTGROUP') : false;
+
+}
+
 
 var SelectModel = function (modelEl){
 
@@ -45,29 +48,40 @@ var SelectModel = function (modelEl){
         options : [],
     };
 
+    this.hasOptionGroups = _hasOptionGroups(modelEl);
+
     this.config = SSB.utils._extend({}, defaults, _getOptions(modelEl))
 
     this.$modelEl = $(modelEl);
 
-    var options = $("option", this.$modelEl);
+    this.model = {};
 
-    this.model = options.map(function (index, option) {
-
-        return {
-            text : $(option).text(),
-            value : $(option).val()
-        };
-
-    }).get();
+    if(this.hasOptionGroups) {
+        this.model.optionGroups = this.$modelEl.children().map(function (index, optionGroup) {
+            return new SSB.OptgroupModel(optionGroup);
+        });
+    } else {
+        this.model.options = $("option", this.$modelEl).map(function (index, option) {
+            return {
+                text : $(option).text(),
+                value : $(option).val()
+            };
+        }).get();
+    }
 };
 
 
 
 $.extend(SelectModel.prototype, {
 
+    getOptionsGroups : function () {
+
+        return this.model.optionGroups;
+    },
+
     getOptions : function () {
 
-        return this.model;
+        return this.model.options;
     },
 
     getOptionsLength : function () {
@@ -83,7 +97,7 @@ $.extend(SelectModel.prototype, {
 
     getSelectedText : function () {
 
-        return this.model[this.getSelectedIndex()].text;
+        return this.model.options[this.getSelectedIndex()].text;
     },
 
     setSelectedIndex : function (index) {

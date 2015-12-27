@@ -49,6 +49,44 @@ describe("model", function  () {
         });
     });
 
+    describe('with option groups', function () {
+        var model;
+        var html = [
+            "<select id='select-with-optgroups'>",
+                "<optgroup>",
+                    "<option value='a'>alpha</option>",
+                    "<option value='b'>beta</option>",
+                "</optgroup>",
+                "<optgroup>",
+                    "<option value='g' selected>gamma</option>",
+                "</optgroup>",
+            "</select>"
+        ].join("");
+
+        beforeEach(function () {
+
+            $('body').append(html);
+            model = new SelectModel(document.getElementById("select-with-optgroups"));
+
+        });
+
+        afterEach(function () {
+            $('#select-with-optgroups').remove();
+        });
+
+        describe('hasOptionGroups', function () {
+            it('should be TRUE', function () {
+                expect(model.hasOptionGroups).toBe(true);
+            });
+        });
+        
+        describe('optionGroups', function () {
+            it('should be an ARRAY', function () {
+                expect(model.getOptionsGroups().length).toBe(2);
+            })
+        });
+    });
+
     describe("getOptions()", function () {
 
         var internalArray;
