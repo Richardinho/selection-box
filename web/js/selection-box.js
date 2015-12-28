@@ -31,6 +31,11 @@
             this.$el.on('keyup', '[data-role=display-area]', $.proxy(this._displayKeyUpHandler, this));
             this.$el.on('keyup', '.option', $.proxy(this._optionKeyUpHandler, this));
 
+            //  effectively disable keydown and keypress
+            this.$el.on('keydown keypress', '.option', function () {
+                event.preventDefault();
+            })
+
         },
 
         _optionKeyUpHandler : function (event) {
@@ -43,8 +48,15 @@
                 case DOWN :
                     this._focusOnNextOption(option);
                     break;
+                case RETURN :
+                    this._selectValue(option);
+                    break;
+                case ESCAPE :
+                    this._closeOptionList();
+                    $('.selected-value', this.$el).focus();
+                    break;
                 default :
-                    console.log('something else');
+                    //  do nothing.
             }
         },
 
@@ -67,7 +79,7 @@
                 var $parent = $(option).parent('.option-group');
                 if($parent.next('.option-group').find('.option').length) {
                     $parent.next('.option-group').find('.option').first().focus();
-                    
+
                 }
             };
         },
@@ -75,12 +87,21 @@
         _optionClickHandler : function (event) {
 
             var optionEl = event.currentTarget;
+            this._selectValue(optionEl);
+
+        },
+
+        _selectValue : function(optionEl) {
+
             var value = $(optionEl).attr('data-value') || optionEl.innerHTML;
             this.select[0].value = value;
 
             _updateDisplayArea($('.selected-value', this.$el), $(optionEl));
 
-             $('.option-list', this.$el).addClass('hidden');
+            this._closeOptionList();
+
+            $('.selected-value', this.$el).focus();
+
         },
 
         _displayClickHandler : function () {
@@ -92,6 +113,10 @@
             //  focus on currently selected option
             var selectedIndex = this.$select[0].selectedIndex;
             $('.option-list .option', this.$el).eq(selectedIndex).focus();
+        },
+
+        _closeOptionList : function () {
+            $('.option-list', this.$el).addClass('hidden');
         },
 
         _displayKeyUpHandler : function (event) {
