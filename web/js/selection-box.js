@@ -4,16 +4,106 @@
 
     'use strict';
 
+
+    var RETURN = 13,
+        TAB    = 9,
+        ESCAPE = 27,
+        UP     = 38,
+        DOWN   = 40;
+
+
     function SelectionBox(selectEl){
 
         this.select = selectEl;
         this.$select = $(selectEl);
 
         this.render();
+        this.bindHandlers();
     }
 
     SelectionBox.prototype = {
 
+        bindHandlers : function () {
+
+
+            this.$el.on('click', '[data-role=option]', $.proxy(this._optionClickHandler, this))
+            this.$el.on('click', '[data-role=display-area]', $.proxy(this._displayClickHandler, this));
+            this.$el.on('keyup', '[data-role=display-area]', $.proxy(this._displayKeyUpHandler, this));
+            this.$el.on('keyup', '.option', $.proxy(this._optionKeyUpHandler, this));
+
+        },
+
+        _optionKeyUpHandler : function (event) {
+            var option = event.currentTarget;
+
+            switch(event.which) {
+                case  UP:
+                    this._focusOnPreviousOption(option);
+                    break;
+                case DOWN :
+                    this._focusOnNextOption(option);
+                    break;
+                default :
+                    console.log('something else');
+            }
+        },
+
+        _focusOnPreviousOption : function(option) {
+            if($(option).prev('.option').length) {
+                $(option).prev('.option').focus();
+            } else if($(option).parent('.option-group').length) {
+                var $parent = $(option).parent('.option-group');
+                if($parent.prev('.option-group').find('.option').length) {
+                    $parent.prev('.option-group').find('.option').last().focus();
+                    
+                }
+            };
+        },
+
+        _focusOnNextOption : function(option) {
+            if($(option).next('.option').length) {
+                $(option).next('.option').focus();
+            } else if($(option).parent('.option-group').length) {
+                var $parent = $(option).parent('.option-group');
+                if($parent.next('.option-group').find('.option').length) {
+                    $parent.next('.option-group').find('.option').first().focus();
+                    
+                }
+            };
+        },
+
+        _optionClickHandler : function (event) {
+
+            var optionEl = event.currentTarget;
+            var value = $(optionEl).attr('data-value') || optionEl.innerHTML;
+            this.select[0].value = value;
+
+            _updateDisplayArea($('.selected-value', this.$el), $(optionEl));
+
+             $('.option-list', this.$el).addClass('hidden');
+        },
+
+        _displayClickHandler : function () {
+            $('.option-list', this.$el).toggleClass('hidden');
+        },
+
+        _openOptionList : function () {
+            $('.option-list', this.$el).removeClass('hidden');
+            //  focus on currently selected option
+            var selectedIndex = this.$select[0].selectedIndex;
+            $('.option-list .option', this.$el).eq(selectedIndex).focus();
+        },
+
+        _displayKeyUpHandler : function (event) {
+            switch(event.which) {
+                case  UP:
+                case DOWN :
+                    this._openOptionList();
+                    break;
+                default :
+                    console.log('something else');
+            }
+        },
 
         render : function () {
             var self = this;
@@ -22,8 +112,8 @@
                 class : 'select-wrapper'
             });
 
-            var $displayArea = $('<div>', { class : 'selected-value' });
-            var $optionList = $('<div class="option-list">');
+            var $displayArea = _renderDisplayArea();
+            var $optionList = $('<div class="option-list hidden">');
 
             this.$el.append($displayArea);
             this.$el.append($optionList);
@@ -45,7 +135,7 @@
                 });
             }
 
-            this.$select.hide();
+           // this.$select.hide();
             this.$el.insertAfter(this.$select);
 
             this.$el.show();
@@ -67,12 +157,35 @@
         return $optionGroupRepresentation;
     }
 
+    function _renderDisplayArea () {
+
+        return $('<div>', { 
+            'class'     : 'selected-value', 
+            'data-role' : 'display-area',
+            'tabindex'  : 0
+             });
+
+
+    }
+
     function _renderOption(option) {
 
-        return $('<div>', {
-            class : 'option',
-            text : option.innerHTML
+        var $option =  $('<div>', {
+            'class'     : 'option',
+            'data-role' : 'option',
+            'tabindex'  : -1,
+            'text'      :  option.label || option.innerHTML
         });
+
+        if(option.value) {
+            $option.attr('data-value', option.value );
+        }
+
+        if(option.label) {
+            $option.attr('label', option.label);
+        }
+
+        return $option;
 
     }
 

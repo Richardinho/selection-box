@@ -35,6 +35,9 @@
   width : 100%;
   box-sizing : border-box;
 }
+.option-list.hidden {
+  visibility : hidden !important;
+}
 
 .option {
   font-family : arial;
