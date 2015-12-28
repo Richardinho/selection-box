@@ -14,7 +14,9 @@
   font-family: arial;
   line-height: 20px;
   background-color: yellow;
-  border: solid 1px red; }
+  border: solid 1px red;
+  height:  20px;
+  }
 
 .option-list {
   list-style: none;

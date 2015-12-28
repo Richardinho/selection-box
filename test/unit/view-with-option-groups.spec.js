@@ -21,10 +21,16 @@ describe('SelectWithOptionGroupsView' , function  () {
         beforeEach(function () {
             view.render();
         });
+        afterEach(function () {
+            $('.select-wrapper').remove();
+        });
 
         it('should add generated view into DOM', function () {
             expect($('.select-wrapper').length).toBe(1);
+        });
 
+        it('should have optgroup children', function () {
+            expect($('.select-wrapper').children().length).toBe(3);
         });
     });
 
@@ -32,6 +38,9 @@ describe('SelectWithOptionGroupsView' , function  () {
         return {
             getSelectEl : function () {
                 return $('#select-stub');
+            }, 
+            getOptionGroups : function() {
+                return [{}, {}, {}];
             }
         };
     }

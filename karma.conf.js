@@ -17,7 +17,7 @@ module.exports = function(config) {
     files: [
       'web/lib/jquery.js',
       'web/js/**/*.js',
-      'test/unit/*.js'
+      'test/unit/**/*spec.js'
     ],
 
 
