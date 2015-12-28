@@ -11,14 +11,24 @@
         UP     = 38,
         DOWN   = 40;
 
+    var desktop = true;
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        desktop = false;
+    }
+
 
     function SelectionBox(selectEl){
+        //  only work on desktop
+        //  use native for mobile devices
+        if(desktop) {
 
-        this.select = selectEl;
-        this.$select = $(selectEl);
+            this.select = selectEl;
+            this.$select = $(selectEl);
 
-        this.render();
-        this.bindHandlers();
+            this.render();
+            this.bindHandlers();
+        }
     }
 
     SelectionBox.prototype = {
@@ -105,6 +115,7 @@
         },
 
         _displayClickHandler : function () {
+           
             $('.option-list', this.$el).toggleClass('hidden');
         },
 
@@ -160,7 +171,7 @@
                 });
             }
 
-           // this.$select.hide();
+            this.$select.hide();
             this.$el.insertAfter(this.$select);
 
             this.$el.show();
@@ -221,7 +232,7 @@
 
     function _renderOptionGroupLabel(label) {
 
-        return $('<h2>', { class : 'option-group-label', text : label });
+        return $('<div>', { class : 'option-group-label', text : label });
     }
 
     function _hasOptionGroups($select) {
