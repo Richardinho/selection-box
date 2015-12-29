@@ -1,7 +1,6 @@
 {
   "name": "selection-box",
   "description": "Jquery plug in for custom select elements",
-  "main": "",
   "authors": [
     "Richard Hunter"
   ],
