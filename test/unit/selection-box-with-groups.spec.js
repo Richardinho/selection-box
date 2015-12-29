@@ -60,7 +60,7 @@ describe('selection box with groups', function () {
             expect($optGroup2.children().length).toBe(3);
         });
     });
-    describe('option groups', function () {
+    xdescribe('option groups', function () {
 
         describe('when optiongroup has a label', function () {
 

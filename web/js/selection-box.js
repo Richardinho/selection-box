@@ -206,7 +206,6 @@
             'tabindex'  : 0
              });
 
-
     }
 
     function _renderOption(option) {

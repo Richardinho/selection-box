@@ -36,7 +36,7 @@ describe('selection box', function () {
 
     });
 
-    describe('options', function () {
+    xdescribe('options', function () {
         describe('when label attribute is set on an option', function () {
             it('should use label value as display text', function () {
                 //  todo
