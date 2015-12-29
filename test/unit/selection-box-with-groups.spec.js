@@ -1,3 +1,12 @@
+/*
+
+    Original html select component is identified by it's various constituent part's element name,
+    e.g. the select box itself is the 'select element', 'option element' denotes each option element etc.
+
+    The new component which acts as a proxy for the html select box will be denoted as 'sb-select', 'sb-option' etc.
+    This terminology will be reflected in class, attribute names etc where appropriate.
+*/
+
 describe('selection box with groups', function () {
 
     var component;
@@ -50,5 +59,16 @@ describe('selection box with groups', function () {
             var $optGroup2 = $optList.children().eq(1);
             expect($optGroup2.children().length).toBe(3);
         });
+    });
+    describe('option groups', function () {
+
+        describe('when optiongroup has a label', function () {
+
+            it('should have a label', function() {
+                // todo
+            });
+
+        });
+
     });
 });

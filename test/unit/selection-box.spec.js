@@ -32,5 +32,20 @@ describe('selection box', function () {
             var $optList = $('.select-wrapper > .option-list');
             expect($optList.children().length).toBe(3);
         });
+
+
+    });
+
+    describe('options', function () {
+        describe('when label attribute is set on an option', function () {
+            it('should use label value as display text', function () {
+                //  todo
+            });
+        });
+        describe('when value attribute is set on option', function () {
+            it('should copy value onto option element', function () {
+                // todo
+            });
+        });
     });
 });

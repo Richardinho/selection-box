@@ -1,5 +1,5 @@
 {
-  "name": "styledSelect",
+  "name": "selection-box",
   "description": "Jquery plug in for custom select elements",
   "main": "",
   "authors": [
@@ -9,7 +9,7 @@
   "keywords": [
     "jquery", "select", "custom select"
   ],
-  "homepage": "https://github.com/Richardinho/styledSelect",
+  "homepage": "https://github.com/Richardinho/selection-box",
   "moduleType": [],
   "ignore": [
     "**/.*",

@@ -1,6 +1,6 @@
 
 
-+function() {
++function($) {
 
     'use strict';
 
@@ -23,7 +23,6 @@
         //  use native for mobile devices
         if(desktop) {
 
-            this.select = selectEl;
             this.$select = $(selectEl);
 
             this.render();
@@ -44,6 +43,12 @@
             //  effectively disable keydown and keypress
             this.$el.on('keydown keypress', '.option', function () {
                 event.preventDefault();
+            })
+            var self = this;
+            $(window).click(function (event) {
+                if(!$.contains(self.$el[0], event.target)) {
+                    self._closeOptionList();
+                }
             })
 
         },
@@ -104,7 +109,7 @@
         _selectValue : function(optionEl) {
 
             var value = $(optionEl).attr('data-value') || optionEl.innerHTML;
-            this.select[0].value = value;
+            this.$select[0].value = value;
 
             _updateDisplayArea($('.selected-value', this.$el), $(optionEl));
 
@@ -243,4 +248,4 @@
 
 
     window.SelectionBox = SelectionBox;
-}();
+}(jQuery);
