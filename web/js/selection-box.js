@@ -1,7 +1,5 @@
 
 
-+function($) {
-
     'use strict';
 
 
@@ -13,12 +11,67 @@
 
     var desktop = true;
 
+    function _hasOptGroups(selectEl) {
+        return !!$('optgroup', selectEl).length;
+    }
+
+    function createSelectModel(selectEl) {
+
+        var model = {
+            autofocus : selectEl.autofocus,
+            disabled : selectEl.disabled,
+            form : selectEl.form,
+            multiple : selectEl.multiple,
+            name : selectEl.name,
+            required : selectEl.required,
+            //  globals
+            accesskey: '',
+            dir : '',
+            lang : '',
+            tabindex : '',
+            translate : ''
+        };
+
+        if(_hasOptGroups(selectEl)) {
+
+            model.hasOptGroups = true;
+            model.groups = $.map($('optgroup', selectEl).get(), createGroupModel);
+
+        } else {
+            model.hasOptGroups = false;
+            model.options = $.map($('option', selectEl).get(), createOptionModel);
+        }
+        return model;
+    }
+
+    function createGroupModel(optionGroup) {
+
+        return {
+            label : optionGroup.label,
+            disabled : optionGroup.disabled,
+            options : $.map($('option', optionGroup).get(), createOptionModel)
+            
+        };
+    }
+
+    function createOptionModel(optionEl) {
+
+        return { 
+            label : optionEl.label,
+            value : optionEl.value,
+            text : $(optionEl).text(),
+            disabled : optionEl.disabled,
+            selected : optionEl.selected
+            };
+    }
+    
+
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         desktop = false;
     }
 
 
-    function SelectionBox(selectEl){
+    function SelectionBox(selectEl, dataSource){
         //  only work on desktop
         //  use native for mobile devices
         if(desktop) {
@@ -247,4 +300,3 @@
 
 
     window.SelectionBox = SelectionBox;
-}(jQuery);
