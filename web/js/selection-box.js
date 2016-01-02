@@ -76,9 +76,11 @@
         //  use native for mobile devices
         if(desktop) {
 
+            var model = createSelectModel(selectEl);
+
             this.$select = $(selectEl);
 
-            this.render();
+            this.render(model);
             this.bindHandlers();
         }
     }
@@ -199,7 +201,7 @@
             }
         },
 
-        render : function () {
+        render : function (model) {
             var self = this;
 
             this.$el = $('<div>', {
@@ -216,15 +218,13 @@
 
             _updateDisplayArea($displayArea, $selectedOption);
 
-            if(_hasOptionGroups(this.$select)) {
-
-                this.$select.children().each(function(index, optionGroup) {
+            if(model.hasOptGroups) {
+                model.groups.forEach(function(optionGroup) {
                     $optionList.append(_renderOptionGroup(optionGroup));
                 });
 
             } else {
-                
-                this.$select.children().each(function(index, option) {
+                model.options.forEach(function(option) {
                     $optionList.append(_renderOption(option));
                 });
             }
@@ -244,7 +244,8 @@
         if(optionGroup.label) {
             $optionGroupRepresentation.append(_renderOptionGroupLabel(optionGroup.label));
         }
-        $(optionGroup).children().each(function (index, option){
+        optionGroup.options.forEach(function (option){
+
             $optionGroupRepresentation.append(_renderOption(option));
         });
 
@@ -267,16 +268,9 @@
             'class'     : 'option',
             'data-role' : 'option',
             'tabindex'  : -1,
-            'text'      :  option.label || option.innerHTML
+            'text'      :  option.text,
+            'data-value': option.value 
         });
-
-        if(option.value) {
-            $option.attr('data-value', option.value );
-        }
-
-        if(option.label) {
-            $option.attr('label', option.label);
-        }
 
         return $option;
 
@@ -292,11 +286,7 @@
         return $('<div>', { class : 'option-group-label', text : label });
     }
 
-    function _hasOptionGroups($select) {
 
-        var childrenOfSelect = $select.children();
-        return childrenOfSelect[0] ? (childrenOfSelect[0].nodeName === 'OPTGROUP') : false;
-    }
 
 
     window.SelectionBox = SelectionBox;
