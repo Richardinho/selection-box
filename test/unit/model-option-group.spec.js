@@ -97,6 +97,7 @@ describe('model for select with optgroups', function () {
         it('should', function () {
             expect(select).toEqual({
                 hasOptGroups : true,
+                selectedValue : 'blah',
                 autofocus : false,
                 disabled : false,
                 form : null,

@@ -11,11 +11,41 @@
 
     var desktop = true;
 
+    function normalizeDataSource(dataSource) {
+        var hasSelected = false;
+        var normalized = dataSource.map(function(option) {
+            hasSelected |= !!option.selected;
+            return { 
+                label : option.label || option.text || option,
+                value : option.value || option.text || option,
+                text : option.text || option,
+                disabled : !!option.disabled,
+                selected : !!option.selected
+                };  
+
+        });
+        if(!hasSelected) {
+            normalized[0].selected = true;
+        }
+        return normalized;
+    }
+
     function _hasOptGroups(selectEl) {
         return !!$('optgroup', selectEl).length;
     }
 
-    function createSelectModel(selectEl) {
+    function getSelectedValue(dataSource) {
+        var selectedValue = dataSource[0].text; // defaultValue is first option
+        
+        dataSource.forEach(function(option) {
+            if(option.selected) {
+                selectedValue = option.text;
+            }   
+        });
+        return selectedValue;
+    }
+
+    function createSelectModel(selectEl, dataSource) {
 
         var model = {
             autofocus : selectEl.autofocus,
@@ -32,15 +62,26 @@
             translate : ''
         };
 
-        if(_hasOptGroups(selectEl)) {
-
-            model.hasOptGroups = true;
-            model.groups = $.map($('optgroup', selectEl).get(), createGroupModel);
+        if(dataSource) {
+            //  for the moment we don't support opt groups with datasources
+            model.hasOptGroups = false;
+            model.options = normalizeDataSource(dataSource);
+            model.selectedValue = getSelectedValue(dataSource);
 
         } else {
-            model.hasOptGroups = false;
-            model.options = $.map($('option', selectEl).get(), createOptionModel);
+            if(_hasOptGroups(selectEl)) {
+
+                model.hasOptGroups = true;
+                model.groups = $.map($('optgroup', selectEl).get(), createGroupModel);
+                model.selectedValue = 'blah';
+
+            } else {
+                model.hasOptGroups = false;
+                model.options = $.map($('option', selectEl).get(), createOptionModel);
+                model.selectedValue = 'blah';
+            }
         }
+
         return model;
     }
 
@@ -76,7 +117,7 @@
         //  use native for mobile devices
         if(desktop) {
 
-            var model = createSelectModel(selectEl);
+            var model = createSelectModel(selectEl, dataSource);
 
             this.$select = $(selectEl);
 
@@ -166,7 +207,7 @@
             var value = $(optionEl).attr('data-value') || optionEl.innerHTML;
             this.$select[0].value = value;
 
-            _updateDisplayArea($('.selected-value', this.$el), $(optionEl));
+            $('.selected-value', this.$el).text(optionEl.innerHTML);
 
             this._closeOptionList();
 
@@ -201,6 +242,7 @@
             }
         },
 
+
         render : function (model) {
             var self = this;
 
@@ -214,9 +256,8 @@
             this.$el.append($displayArea);
             this.$el.append($optionList);
 
-            var $selectedOption = this.$select.find('option:selected');
 
-            _updateDisplayArea($displayArea, $selectedOption);
+            $displayArea.text(model.selectedValue);
 
             if(model.hasOptGroups) {
                 model.groups.forEach(function(optionGroup) {
@@ -274,11 +315,6 @@
 
         return $option;
 
-    }
-
-    function _updateDisplayArea ($displayArea, $option) {
-        var text = $option.attr('label') || $option.text();
-        $displayArea.text(text);
     }
 
     function _renderOptionGroupLabel(label) {

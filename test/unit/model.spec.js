@@ -29,6 +29,7 @@ describe('model for select', function () {
                 hasOptGroups : false,
                 autofocus : false,
                 disabled : false,
+                selectedValue : 'blah',
                 form : null,
                 multiple : false,
                 name : 'my-select',
