@@ -4,6 +4,7 @@
   "authors": [
     "Richard Hunter"
   ],
+	"version" : "v0.0.1-epsilon",
   "license": "MIT",
   "keywords": [
     "jquery", "select", "custom select"
