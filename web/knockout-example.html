@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="../css/main.css"/>
+    <script src="/lib/jquery.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js'></script>
+    <script src="/js/selection-box.js"></script>
+</head>
+<body>
+<h1>Knockout Example</h1>
+<h2 data-bind="text: country"></h2>
+
+<select data-bind="options: countries, value: country" id='my-ko-select'></select>
+<select data-bind='value: newCountry'>
+    <optgroup label='europe'>
+        <option>France</option>
+        <option>Germany</option>
+        <option>Italy</option>
+    </optgroup>
+    <optgroup label='africa'>
+        <option>Egypt</option>
+        <option>Ethiopia</option>
+        <option>South Africa</option>
+    </optgroup>
+
+    <optgroup label='america'>
+        <option>USA</option>
+        <option>Argentina</option>
+        <option>Brazil</option>
+    </optgroup>
+
+</select>
+<script>
+    var vm = {
+        countries : ko.observableArray([
+            'Scotland', 'England', 'Ireland', 'Wales'
+        ]),
+        country : ko.observable(),
+        newCountry : ko.observable()
+    };
+
+
+
+    ko.applyBindings(vm);
+
+    var selectionBox = new SelectionBox(document.querySelector('#my-ko-select'));
+
+    vm.newCountry.subscribe(function (country) {
+
+
+        vm.countries.push(country);
+        selectionBox.update();
+
+    });
+
+</script>
+
+
+</body>
+</html>

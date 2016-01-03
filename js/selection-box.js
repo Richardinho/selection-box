@@ -153,10 +153,7 @@
 
             //  set value back on original select
             this.$select[0].value = value;
-
-            var $currentSelected = this._getCurrentSelected();
-            
-            this._changeSelected($currentSelected, $newSelected);
+            this.$select.change();
 
         },
 
@@ -178,7 +175,7 @@
         },
 
         _displayKeyUpHandler : function (event) {
-            if(!this.model.disabled) {
+            if(!this.select.disabled) {
                 switch(event.which) {
                     case  UP:
                     case DOWN :
