@@ -24,7 +24,7 @@ describe('model for select', function () {
         beforeEach(function () {
             select = createSelectModel($('#select')[0]);
         });
-        it('should', function () {
+        it('should return a model representing the select element', function () {
             expect(select).toEqual({
                 hasOptGroups : false,
                 autofocus : false,
@@ -42,19 +42,16 @@ describe('model for select', function () {
                 translate : '',
                 //  options
                 options : [{
-                    label : 'Big Banana',
                     value : 'banana',
-                    text : 'banana',
+                    text : 'Big Banana',
                     disabled : false,
                     selected : true
                 },{
-                    label : '',
                     value : 'apple-mac',
                     text : 'apple',
                     disabled : false,
                     selected : false
                 },{
-                    label : '',
                     value : 'tomato',
                     text : 'tomato',
                     disabled : true,

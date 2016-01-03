@@ -1,3 +1,4 @@
+$disabled-color : #bbb;
 
 .select-wrapper {
   font-size : 12px;
@@ -9,6 +10,16 @@
   box-sizing : border-box;
   font-family : arial;
 
+}
+.select-wrapper.disabled .selected-value {
+  color : $disabled-color;
+  border-color : $disabled-color;
+
+}
+
+.option-group.disabled {
+
+  color : $disabled-color;
 }
 
 .option-group-label {
@@ -31,6 +42,8 @@
 
 
 }
+
+
 
 .option-group .option {
   padding-left : 12px;
@@ -62,11 +75,17 @@
 
 .option {
   padding : 4px 5px;
+  display : block;
 }
 .option:focus, .option:hover {
   background : #ccc;
   color : black;
 }
+.option.disabled, .option.disabled:focus,  .option.disabled:hover {
+
+  background : white;
+  color : $disabled-color;
+} 
 
 
 .option:first-child {

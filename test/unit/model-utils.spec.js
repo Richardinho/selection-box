@@ -21,15 +21,13 @@ describe('model-utils', function () {
         describe('data source is fully defined', function () {
             beforeEach(function () {
                 dataSource = [{
-                    label : 'apple',
                     value : 'app',
-                    text : 'Apple',
+                    text : 'apple',
                     disabled : false,
                     selected : false
                 },{
-                    label : 'banana',
                     value : 'ban',
-                    text : 'Banana',
+                    text : 'banana',
                     disabled : false,
                     selected : true
                 }];
@@ -37,15 +35,13 @@ describe('model-utils', function () {
             });
             it('should pass through options', function () {
                 expect(normalized).toEqual([{
-                    label : 'apple',
                     value : 'app',
-                    text : 'Apple',
+                    text : 'apple',
                     disabled : false,
                     selected : false
                 },{
-                    label : 'banana',
                     value : 'ban',
-                    text : 'Banana',
+                    text : 'banana',
                     disabled : false,
                     selected : true
                 }
@@ -55,30 +51,26 @@ describe('model-utils', function () {
         describe('When selected property is not present', function() {
             beforeEach(function () {
                 dataSource = [{
-                    label : 'apple',
                     value : 'app',
-                    text : 'Apple',
+                    text : 'apple',
                     disabled : false
                 },{
-                    label : 'banana',
                     value : 'ban',
-                    text : 'Banana',
+                    text : 'banana',
                     disabled : false
                 }];
                 normalized = normalizeDataSource(dataSource)
             });
 
-            it('first options should be selected', function () {
+            it('first option should be selected', function () {
                 expect(normalized).toEqual([{
-                    label : 'apple',
                     value : 'app',
-                    text : 'Apple',
+                    text : 'apple',
                     disabled : false,
                     selected : true
                 },{
-                    label : 'banana',
                     value : 'ban',
-                    text : 'Banana',
+                    text : 'banana',
                     disabled : false,
                     selected : false
                 }
@@ -93,19 +85,16 @@ describe('model-utils', function () {
 
             it('should produce normalized options', function () {
                 expect(normalized).toEqual([{
-                    label : 'apple',
                     value : 'apple',
                     text : 'apple',
                     disabled : false,
                     selected : true
                 },{
-                    label : 'banana',
                     value : 'banana',
                     text : 'banana',
                     disabled : false,
                     selected : false
                 },{
-                    label : 'tomato',
                     value : 'tomato',
                     text : 'tomato',
                     disabled : false,

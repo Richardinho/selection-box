@@ -9,13 +9,31 @@
         <optgroup label='fruit'>
             <option value='apple-macintosh' label='apple mac'>apple</option>
             <option selected label='big banana'>banana</option>
+            <option disabled>tomato</option>
         </optgroup>
-        <optgroup label='vegetable'>
+        <optgroup disabled label='vegetable'>
             <option>cucumber</option>
         </optgroup>
     </select>
 
-    <select id='foo'>
+    <select>
+        <optgroup label='fruit'>
+            <option value='apple-macintosh' label='apple mac'>apple</option>
+            <option selected label='big banana'>banana</option>
+            <option disabled>tomato</option>
+        </optgroup>
+        <optgroup disabled label='vegetable'>
+            <option>cucumber</option>
+        </optgroup>
+    </select>
+
+    <select id='foo' disabled>
+        <option>apple</option>
+        <option selected label='big banana'>banana</option>
+        <option>cucumber</option>
+    </select>
+
+    <select id=''>
         <option>apple</option>
         <option selected label='big banana'>banana</option>
         <option>cucumber</option>
@@ -34,10 +52,7 @@
         var selectionBox2 = new SelectionBox(selectWithOptions2);
 
         var options = [
-            {  text : 'Celtic' },
-            {  text : 'Aberdeen', selected : true },
-            {  text : 'Dundee' },
-            {  text : 'Motherwell' }
+           'alpha', 'beta', 'gamma', 'delta'
         ];
         var selectWithDataSource = $('#moo');
         new SelectionBox(selectWithDataSource, options);

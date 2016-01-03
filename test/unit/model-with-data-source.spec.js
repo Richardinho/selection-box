@@ -31,9 +31,6 @@ describe('model with data source', function () {
         });
         it('should...', function () {
             expect(model.selectedValue).toBe('Aberdeen');
-
         });
-
-        
     });
 });

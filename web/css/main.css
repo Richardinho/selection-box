@@ -8,6 +8,13 @@
   box-sizing: border-box;
   font-family: arial; }
 
+.select-wrapper.disabled .selected-value {
+  color: #bbb;
+  border-color: #bbb; }
+
+.option-group.disabled {
+  color: #bbb; }
+
 .option-group-label {
   font-size: 12px;
   font-style: italic;
@@ -49,11 +56,16 @@
   visibility: hidden !important; }
 
 .option {
-  padding: 4px 5px; }
+  padding: 4px 5px;
+  display: block; }
 
 .option:focus, .option:hover {
   background: #ccc;
   color: black; }
+
+.option.disabled, .option.disabled:focus, .option.disabled:hover {
+  background: white;
+  color: #bbb; }
 
 .option:first-child {
   border-top: none; }

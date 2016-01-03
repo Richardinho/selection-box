@@ -32,23 +32,20 @@ describe('model for select with optgroups', function () {
            option2 = createOptionModel($('#second-option')[0]); 
            option3 = createOptionModel($('#third-option')[0]); 
         });
-        it('should..', function () {
+        it('should return a model representing the option element', function () {
             expect(option1).toEqual({
-                label : 'Big Banana',
                 value : 'banana',
-                text : 'banana',
+                text : 'Big Banana',
                 disabled : false,
                 selected : true
             });
             expect(option2).toEqual({
-                label : '',
                 value : 'apple-mac',
                 text : 'apple',
                 disabled : false,
                 selected : false
             });
             expect(option3).toEqual({
-                label : '',
                 value : 'tomato',
                 text : 'tomato',
                 disabled : true,
@@ -62,24 +59,21 @@ describe('model for select with optgroups', function () {
         beforeEach(function () {
             group = createGroupModel($('#opt-group-a')[0]);
         });
-        it('should..', function () {
+        it('should return a model representing the optgroup element', function () {
             expect(group).toEqual({
                 label : 'fruit',
                 disabled : false,
                 options : [{
-                    label : 'Big Banana',
                     value : 'banana',
-                    text : 'banana',
+                    text : 'Big Banana',
                     disabled : false,
                     selected : true
                 },{
-                    label : '',
                     value : 'apple-mac',
                     text : 'apple',
                     disabled : false,
                     selected : false
                 },{
-                    label : '',
                     value : 'tomato',
                     text : 'tomato',
                     disabled : true,
@@ -94,7 +88,7 @@ describe('model for select with optgroups', function () {
         beforeEach(function () {
             select = createSelectModel($('#select-with-groups')[0]);
         });
-        it('should', function () {
+        it('should return a model representing the select element', function () {
             expect(select).toEqual({
                 hasOptGroups : true,
                 selectedValue : 'blah',
@@ -114,19 +108,16 @@ describe('model for select with optgroups', function () {
                     label : 'fruit',
                     disabled : false,
                     options : [{
-                        label : 'Big Banana',
                         value : 'banana',
-                        text : 'banana',
+                        text : 'Big Banana',
                         disabled : false,
                         selected : true
                     },{
-                        label : '',
                         value : 'apple-mac',
                         text : 'apple',
                         disabled : false,
                         selected : false
                     },{
-                        label : '',
                         value : 'tomato',
                         text : 'tomato',
                         disabled : true,
@@ -136,13 +127,11 @@ describe('model for select with optgroups', function () {
                     label : 'vegetables',
                     disabled : true,
                     options : [{
-                        label : '',
                         value : 'carrot',
                         text : 'carrot',
                         disabled : false,
                         selected : false
                     },{
-                        label : '',
                         value : 'lettuce',
                         text : 'lettuce',
                         disabled : false,

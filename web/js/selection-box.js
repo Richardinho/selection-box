@@ -16,7 +16,6 @@
         var normalized = dataSource.map(function(option) {
             hasSelected |= !!option.selected;
             return { 
-                label : option.label || option.text || option,
                 value : option.value || option.text || option,
                 text : option.text || option,
                 disabled : !!option.disabled,
@@ -35,7 +34,7 @@
     }
 
     function getSelectedValue(dataSource) {
-        var selectedValue = dataSource[0].text; // defaultValue is first option
+        var selectedValue = dataSource[0].text || dataSource[0]; // defaultValue is first option
         
         dataSource.forEach(function(option) {
             if(option.selected) {
@@ -98,9 +97,8 @@
     function createOptionModel(optionEl) {
 
         return { 
-            label : optionEl.label,
             value : optionEl.value,
-            text : $(optionEl).text(),
+            text : optionEl.label || $(optionEl).text(),
             disabled : optionEl.disabled,
             selected : optionEl.selected
             };
@@ -117,7 +115,8 @@
         //  use native for mobile devices
         if(desktop) {
 
-            var model = createSelectModel(selectEl, dataSource);
+            var model = createSelectModel(selectEl[0], dataSource);
+            this.model = model;
 
             this.$select = $(selectEl);
 
@@ -196,10 +195,10 @@
         },
 
         _optionClickHandler : function (event) {
-
             var optionEl = event.currentTarget;
-            this._selectValue(optionEl);
-
+            if(!$(optionEl).hasClass('disabled') && !$(optionEl).parent().hasClass('disabled')) {
+                this._selectValue(optionEl);
+            }
         },
 
         _selectValue : function(optionEl) {
@@ -216,8 +215,9 @@
         },
 
         _displayClickHandler : function () {
-           
-            $('.option-list', this.$el).toggleClass('hidden');
+            if(!this.model.disabled) {
+                $('.option-list', this.$el).toggleClass('hidden');
+            }
         },
 
         _openOptionList : function () {
@@ -232,14 +232,22 @@
         },
 
         _displayKeyUpHandler : function (event) {
-            switch(event.which) {
-                case  UP:
-                case DOWN :
-                    this._openOptionList();
-                    break;
-                default :
-                    console.log('something else');
+            if(!this.model.disabled) {
+                switch(event.which) {
+                    case  UP:
+                    case DOWN :
+                        this._openOptionList();
+                        break;
+                    default :
+                        console.log('something else');
+                }
             }
+        },
+
+        update : function (dataSource) {
+
+
+
         },
 
 
@@ -250,8 +258,13 @@
                 class : 'select-wrapper'
             });
 
-            var $displayArea = _renderDisplayArea();
+            if(model.disabled) {
+                this.$el.addClass('disabled');
+            }
+
+            var $displayArea = this._renderDisplayArea();
             var $optionList = $('<div class="option-list hidden">');
+
 
             this.$el.append($displayArea);
             this.$el.append($optionList);
@@ -266,7 +279,7 @@
 
             } else {
                 model.options.forEach(function(option) {
-                    $optionList.append(_renderOption(option));
+                    $optionList.append(_renderOption(option, model.disabled));
                 });
             }
 
@@ -276,6 +289,16 @@
             this.$el.show();
 
         },
+
+        _renderDisplayArea : function () {
+
+            return $('<div>', { 
+                'class'     : 'selected-value', 
+                'data-role' : 'display-area',
+                'tabindex'  : this.model.disabled ? null : 0 
+                 });
+
+        }
     };
 
     function _renderOptionGroup (optionGroup) {
@@ -285,33 +308,33 @@
         if(optionGroup.label) {
             $optionGroupRepresentation.append(_renderOptionGroupLabel(optionGroup.label));
         }
+        if(optionGroup.disabled) {
+            $optionGroupRepresentation.addClass('disabled');
+        }
         optionGroup.options.forEach(function (option){
 
-            $optionGroupRepresentation.append(_renderOption(option));
+            $optionGroupRepresentation.append(_renderOption(option, optionGroup.disabled));
         });
 
         return $optionGroupRepresentation;
     }
 
-    function _renderDisplayArea () {
 
-        return $('<div>', { 
-            'class'     : 'selected-value', 
-            'data-role' : 'display-area',
-            'tabindex'  : 0
-             });
+    function _renderOption(option, parentDisabled) {
 
-    }
-
-    function _renderOption(option) {
-
-        var $option =  $('<div>', {
+        var $option =  $('<a>', {
             'class'     : 'option',
             'data-role' : 'option',
-            'tabindex'  : -1,
+            'tabindex'  : (option.disabled || parentDisabled) ? null : -1,
             'text'      :  option.text,
             'data-value': option.value 
         });
+
+        if(option.disabled || parentDisabled) {
+            $option.addClass('disabled');
+        }
+
+
 
         return $option;
 
