@@ -305,9 +305,9 @@
         var $optionGroupRepresentation = $('<div>', {
             class : 'option-group'
         });
-        if(optionGroup.label) {
-            $optionGroupRepresentation.append(_renderOptionGroupLabel(optionGroup.label));
-        }
+        
+        $optionGroupRepresentation.append(_renderOptionGroupLabel(optionGroup.label));
+
         if(optionGroup.disabled) {
             $optionGroupRepresentation.addClass('disabled');
         }
