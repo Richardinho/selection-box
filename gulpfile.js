@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
+var wrap = require('gulp-wrap');
 var sass = require('gulp-sass');
 var Server = require('karma').Server;
 
@@ -31,6 +32,12 @@ gulp.task('sass', function () {
 	gulp.src('./scss/**/*.scss')
 		.pipe(sass().on('error', sass.logError))
 		.pipe(gulp.dest('./web/css'));
+});
+
+gulp.task('wrap', function () {
+	gulp.src('./js/*.js')
+		.pipe(wrap('+function($, global){\n<%= contents %>\n\tglobal.SelectionBox = SelectionBox;\n\n}(jQuery, window);'))
+		.pipe(gulp.dest("./web/js"));
 });
 
 // watchers

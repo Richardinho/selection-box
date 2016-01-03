@@ -1,4 +1,3 @@
-+function($, global){
 
 
     'use strict';
@@ -345,7 +344,3 @@
     }
 
     
-
-	global.SelectionBox = SelectionBox;
-
-}(jQuery, window);
