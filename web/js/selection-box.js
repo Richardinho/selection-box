@@ -11,6 +11,11 @@
         DOWN   = 40,
         SPACE  = 32;
 
+    var optionSelector = '[data-role=option]',
+        displayAreaSelector = '[data-role=display-area]',
+        optionListSelector = '[data-role=option-list]',
+        optionGroupSelector = '[data-role=option-group]';
+
 
     function SelectionBox(selectEl, options){
 
@@ -41,60 +46,67 @@
 
     SelectionBox.prototype = {
 
+        //  only function that is intended to be called from outside
+        //  re-renders option list
+        update : function() {
+            var $optionList = $(optionListSelector, this.$el);
+            //  clear out contents
+            $optionList[0].innerHTML = '';
+            this._renderOptions($optionList);
+        },
 
         bindHandlers : function () {
 
             var self = this;
-            this.$el.on('click', '[data-role=option]', $.proxy(this._optionClickHandler, this))
-            this.$el.on('click', '[data-role=display-area]', $.proxy(this._displayClickHandler, this));
-            this.$el.on('keyup', '[data-role=display-area]', $.proxy(this._displayKeyUpHandler, this));
-            this.$el.on('keyup', '.option', $.proxy(this._optionKeyUpHandler, this));
+
+            // handle events on display area
+            this.$el.on('click', displayAreaSelector, $.proxy(this._displayClickHandler, this));
+            this.$el.on('keyup', displayAreaSelector, $.proxy(this._displayKeyUpHandler, this));
+
+            //  handle events on options
+            this.$el.on('click', optionSelector, $.proxy(this._optionClickHandler, this))
+            this.$el.on('keyup', optionSelector, $.proxy(this._optionKeyUpHandler, this));
 
             //  effectively disable keydown and keypress
-            this.$el.on('keydown keypress', '.option', function () {
+            this.$el.on('keydown keypress', optionSelector, function () {
                 event.preventDefault();
             })
-            var self = this;
+            // attach window event handler
             $(window).click(function (event) {
                 if(!$.contains(self.$el[0], event.target)) {
                     self._closeOptionList();
                 }
             })
-
-            this.$select.on('change', this._handleSelectElementChange.bind(this));
+            //  handle change events on foundation select
+            this.$select.on('change', this._handleFoundationSelectChange.bind(this));
         },
 
-        _handleSelectElementChange : function(event) {
-            this._changeSelected(this._getCurrentSelected(), this._getOptionByIndex(event.target.selectedIndex));
-        },
+        //  handlers
 
-        _changeSelected : function($currentSelected, $newSelected) {
-
-            if(this.config.showAria) {
-                $currentSelected.attr('aria-selected', false);
-                $newSelected.attr('aria-selected', true)
+        _displayClickHandler : function () {
+            if(!this.select.disabled) {
+                $(optionListSelector, this.$el).toggleClass('hidden');
             }
-
-            $currentSelected.removeClass('selected');
-            $newSelected.addClass('selected');
-        
-            var $displayArea = $('.selected-value', this.$el);
-
-            $displayArea.text($newSelected.text()).focus();
-
-            this._closeOptionList();
-
         },
 
-        _getOptionByIndex : function (index) {
-
-            return this.$el.find('.option').eq(index);
-
+        _displayKeyUpHandler : function (event) {
+            if(!this.select.disabled) {
+                switch(event.which) {
+                    case  UP:
+                    case DOWN :
+                        this._openOptionList();
+                        break;
+                    default :
+                        //  do something else
+                }
+            }
         },
 
-        _getCurrentSelected : function () {
-
-            return $('.option.selected', this.$el);
+        _optionClickHandler : function (event) {
+            var optionEl = event.currentTarget;
+            if(!$(optionEl).hasClass('disabled') && !$(optionEl).parent().hasClass('disabled')) {
+                this._selectValue(optionEl);
+            }
         },
 
         _optionKeyUpHandler : function (event) {
@@ -113,45 +125,21 @@
                     break;
                 case ESCAPE :
                     this._closeOptionList();
-                    $('.selected-value', this.$el).focus();
+                    $(displayAreaSelector, this.$el).focus();
                     break;
                 default :
                     //  do nothing.
             }
         },
 
-        _focusOnPreviousOption : function(option) {
-            if($(option).prev('.option').length) {
-                $(option).prev('.option').focus();
-            } else if($(option).parent('.option-group').length) {
-                var $parent = $(option).parent('.option-group');
-                if($parent.prev('.option-group').find('.option').length) {
-                    $parent.prev('.option-group').find('.option').last().focus();
-                    
-                }
-            };
+        _handleFoundationSelectChange : function(event) {
+            this._changeSelected(this._getCurrentSelected(), this._getOptionByIndex(event.target.selectedIndex));
         },
 
-        _focusOnNextOption : function(option) {
-            if($(option).next('.option').length) {
-                $(option).next('.option').focus();
-            } else if($(option).parent('.option-group').length) {
-                var $parent = $(option).parent('.option-group');
-                if($parent.next('.option-group').find('.option').length) {
-                    $parent.next('.option-group').find('.option').first().focus();
+        //  end of handlers
 
-                }
-            };
-        },
-
-        _optionClickHandler : function (event) {
-            var optionEl = event.currentTarget;
-            if(!$(optionEl).hasClass('disabled') && !$(optionEl).parent().hasClass('disabled')) {
-                this._selectValue(optionEl);
-                
-            }
-        },
-
+        //  set value on foundation select
+        //  this component will update via it's listener on the foundation select.
         _selectValue : function(optionEl) {
 
             var $newSelected = $(optionEl);
@@ -163,52 +151,62 @@
 
         },
 
-        _displayClickHandler : function () {
-            if(!this.select.disabled) {
-                $('.option-list', this.$el).toggleClass('hidden');
+        //  performs actual change on this component, e.g changing aria values etc.
+        _changeSelected : function($currentSelected, $newSelected) {
+
+            if(this.config.showAria) {
+                $currentSelected.attr('aria-selected', false);
+                $newSelected.attr('aria-selected', true)
             }
+
+            $currentSelected.removeClass('selected');
+            $newSelected.addClass('selected');
+        
+            var $displayArea = $(displayAreaSelector, this.$el);
+
+            $displayArea.text($newSelected.text()).focus();
+
+            this._closeOptionList();
+
         },
 
         _openOptionList : function () {
-            $('.option-list', this.$el).removeClass('hidden');
+            $(optionListSelector, this.$el).removeClass('hidden');
+
             //  focus on currently selected option
-            var selectedIndex = this.$select[0].selectedIndex;
-            $('.option-list .option', this.$el).eq(selectedIndex).focus();
+            var selectedIndex = this.select.selectedIndex;
+            $(optionSelector, this.$el).eq(selectedIndex).focus();
         },
 
         _closeOptionList : function () {
-            $('.option-list', this.$el).addClass('hidden');
+            $(optionListSelector, this.$el).addClass('hidden');
         },
 
-        _displayKeyUpHandler : function (event) {
-            if(!this.select.disabled) {
-                switch(event.which) {
-                    case  UP:
-                    case DOWN :
-                        this._openOptionList();
-                        break;
-                    default :
-                        console.log('something else');
+        _focusOnPreviousOption : function(option) {
+            if($(option).prev(optionSelector).length) {
+                $(option).prev(optionSelector).focus();
+            } else if($(option).parent(optionGroupSelector).length) {
+                var $parent = $(option).parent(optionGroupSelector);
+                if($parent.prev(optionGroupSelector).find(optionSelector).length) {
+                    $parent.prev(optionGroupSelector).find(optionSelector).last().focus();
+                    
                 }
-            }
+            };
         },
 
+        _focusOnNextOption : function(option) {
+            if($(option).next(optionSelector).length) {
+                $(option).next(optionSelector).focus();
+            } else if($(option).parent(optionGroupSelector).length) {
+                var $parent = $(option).parent(optionGroupSelector);
+                if($parent.next(optionGroupSelector).find(optionSelector).length) {
+                    $parent.next(optionGroupSelector).find(optionSelector).first().focus();
 
-        _generateId : function (suffix) {
-
-            return this.id + '-' + suffix;
+                }
+            };
         },
 
-        update : function() {
-           
-            var $optionList = this.$el.find('.option-list');
-            //  clear out contents
-            $optionList[0].innerHTML = '';
-            this._renderOptions($optionList);
-
-        },
-
-
+        //  render functions
         render : function (select) {
             var self = this;
 
@@ -225,14 +223,17 @@
 
             var $displayArea = this._renderDisplayArea(select.disabled);
 
-            var $selectedOption = $('option:selected', select);
-            var selectedText = $selectedOption.attr('label') || $selectedOption.text();
-            
-            $displayArea.text(selectedText);
+            var $selectedOption = this._getSelectedOptionFromFoundationSelect();
+
+            $displayArea.text(_getSelectedTextFromOption($selectedOption[0]));
 
             var $optionList = $('<div>', {
-                class : 'option-list hidden',
-                id : this._generateId('option-list')
+                          'class' : 'option-list hidden',
+                      'data-role' : 'option-list',
+                             'id' : this._generateId('option-list'),
+                            'role': 'listbox',
+                    'aria-hidden' : true, //todo make dynamic
+                'aria-labelledby' : this._generateId('display-area')
             });
 
 
@@ -270,17 +271,18 @@
         _renderDisplayArea : function (disabled) {
 
             var $displayArea = $('<div>', { 
-                'class'     : 'selected-value', 
+                    'class' : 'selected-value', 
                 'data-role' : 'display-area',
-                'tabindex'  : disabled ? null : 0 
+                 'tabindex' : disabled ? null : 0,
+                       'id' : this._generateId('display-area')
              });
 
              if(this.config.showAria) {
 
                 $displayArea.attr({
-                    'role'        : 'button',
+                             'role' : 'button',
                     'aria-haspopup' : true,
-                    'aria-owns'   : this._generateId('option-list')
+                        'aria-owns' : this._generateId('option-list')
                 });  
 
              }
@@ -290,37 +292,40 @@
         },
 
         _renderOptionGroup : function (optionGroup, ariaEnabled) {
-            var $optionGroupRepresentation = $('<div>', {
-                class : 'option-group'
-            });
             var self = this;
 
-            $optionGroupRepresentation.append(_renderOptionGroupLabel(optionGroup.label));
+            var $optionGroup = $('<div>', {
+                      class : 'option-group',
+                'data-role' : 'option-group'
+            });
+            
+
+            $optionGroup.append(_renderOptionGroupLabel(optionGroup.label));
 
             if(optionGroup.disabled) {
-                $optionGroupRepresentation.addClass('disabled');
+                $optionGroup.addClass('disabled');
             }
             _toArray(optionGroup.querySelectorAll('option')).forEach(function (option){
 
-                $optionGroupRepresentation.append(self._renderOption(option, optionGroup.disabled, ariaEnabled));
+                $optionGroup.append(self._renderOption(option, optionGroup.disabled, ariaEnabled));
             });
 
-            return $optionGroupRepresentation;
+            return $optionGroup;
         },
 
         _renderOption : function(option, parentDisabled, ariaEnabled) {
 
             var $option =  $('<a>', {
-                'class'     : 'option',
-                'data-role' : 'option',
-                'tabindex'  : (option.disabled || parentDisabled) ? null : -1,
-                'text'      :  option.label || option.innerHTML,
-                'data-value': option.value || option.innerHTML
+                     'class' : 'option',
+                 'data-role' : 'option',
+                  'tabindex' : (option.disabled || parentDisabled) ? null : -1,
+                      'text' :  option.label || option.innerHTML,
+                'data-value' : option.value || option.innerHTML
             });
 
             if(ariaEnabled) {
                 $option.attr({
-                    'role' : 'option',
+                             'role' : 'option',
                     'aria-selected' : option.selected 
                 });
             }
@@ -333,15 +338,37 @@
                 $option.addClass('disabled');
             }
             return $option;
+        },
+
+        _getOptionByIndex : function (index) {
+            return this.$el.find(optionSelector).eq(index);
+        },
+
+        _getCurrentSelected : function () {
+            return $('.selected', this.$el);
+        },
+
+        _generateId : function (suffix) {
+            return this.id + '-' + suffix;
+        },
+
+        // foundation select functions
+
+        _getSelectedOptionFromFoundationSelect : function () {
+            return $('option:selected', this.select);
         }
     };
 
-    function _toArray(arrayLike){
-        return Array.prototype.slice.call(arrayLike);
-    }
+    //  stateless functions
 
     function _renderOptionGroupLabel(label) {
         return $('<div>', { class : 'option-group-label', text : label });
+    }
+
+    //  foundation select utility functions
+
+    function _getSelectedTextFromOption(option) {
+        return option.label || option.innerHTML;
     }
 
     function _hasGroups(select) {
@@ -350,6 +377,11 @@
 
     function _hasOptGroups(selectEl) {
         return !!$('optgroup', selectEl).length;
+    }
+
+    // other utils
+    function _toArray(arrayLike){
+        return Array.prototype.slice.call(arrayLike);
     }
 
     
