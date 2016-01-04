@@ -19,7 +19,8 @@
             //  use native for mobile devices
 
             this.defaults = {
-                showAria : true
+                showAria : true,
+                prefix   : 'sb'
             };
 
             this.config = $.extend({}, this.defaults, options || {});
@@ -213,7 +214,8 @@
             var ariaEnabled = this.config.showAria;
 
             var $el = $('<div>', {
-                class : 'select-wrapper'
+                class : 'select-wrapper',
+                id : this.config.prefix + '-' + this.select.id
             });
 
             if(select.disabled) {
@@ -221,7 +223,11 @@
             }
 
             var $displayArea = this._renderDisplayArea(select.disabled);
-            $displayArea.text(select.value);
+
+            var $selectedOption = $('option:selected', select);
+            var selectedText = $selectedOption.attr('label') || $selectedOption.text();
+            
+            $displayArea.text(selectedText);
 
             var $optionList = $('<div>', {
                 class : 'option-list hidden',
@@ -242,20 +248,20 @@
         },
 
         _renderOptions : function($optionList) {
-
+            var self = this;
             var select = this.select;
             var ariaEnabled = this.config.showAria;
 
             if(_hasGroups(select)) {
                 var groups = _toArray(select.querySelectorAll('optgroup'));
                 groups.forEach(function(optionGroup) {
-                    $optionList.append(_renderOptionGroup(optionGroup, ariaEnabled));
+                    $optionList.append(self._renderOptionGroup(optionGroup, ariaEnabled));
                 });
 
             } else {
                 var options = _toArray(select.querySelectorAll('option'));
                 options.forEach(function(option) {
-                    $optionList.append(_renderOption(option, select.disabled, ariaEnabled));
+                    $optionList.append(self._renderOption(option, select.disabled, ariaEnabled));
                 });
             }
         },
@@ -280,64 +286,65 @@
 
              return $displayArea;
 
+        },
+
+        _renderOptionGroup : function (optionGroup, ariaEnabled) {
+            var $optionGroupRepresentation = $('<div>', {
+                class : 'option-group'
+            });
+            var self = this;
+
+            $optionGroupRepresentation.append(_renderOptionGroupLabel(optionGroup.label));
+
+            if(optionGroup.disabled) {
+                $optionGroupRepresentation.addClass('disabled');
+            }
+            _toArray(optionGroup.querySelectorAll('option')).forEach(function (option){
+
+                $optionGroupRepresentation.append(self._renderOption(option, optionGroup.disabled, ariaEnabled));
+            });
+
+            return $optionGroupRepresentation;
+        },
+
+        _renderOption : function(option, parentDisabled, ariaEnabled) {
+
+            var $option =  $('<a>', {
+                'class'     : 'option',
+                'data-role' : 'option',
+                'tabindex'  : (option.disabled || parentDisabled) ? null : -1,
+                'text'      :  option.label || option.innerHTML,
+                'data-value': option.value || option.innerHTML
+            });
+
+            if(ariaEnabled) {
+                $option.attr({
+                    'role' : 'option',
+                    'aria-selected' : option.selected 
+                });
+            }
+
+            if(option.selected) {
+                $option.addClass('selected');
+            }
+
+            if(option.disabled || parentDisabled) {
+                $option.addClass('disabled');
+            }
+            return $option;
         }
     };
 
-    function _toArray(nodeList){
-        return Array.prototype.slice.call(nodeList);
-    }
-
-    function _renderOptionGroup (optionGroup, ariaEnabled) {
-        var $optionGroupRepresentation = $('<div>', {
-            class : 'option-group'
-        });
-        
-        $optionGroupRepresentation.append(_renderOptionGroupLabel(optionGroup.label));
-
-        if(optionGroup.disabled) {
-            $optionGroupRepresentation.addClass('disabled');
-        }
-        _toArray(optionGroup.querySelectorAll('option')).forEach(function (option){
-
-            $optionGroupRepresentation.append(_renderOption(option, optionGroup.disabled, ariaEnabled));
-        });
-
-        return $optionGroupRepresentation;
-    }
-
-    function _hasGroups(select) {
-        return select.querySelectorAll('optgroup').length > 0;
-    }
-
-    function _renderOption(option, parentDisabled, ariaEnabled) {
-
-        var $option =  $('<a>', {
-            'class'     : 'option',
-            'data-role' : 'option',
-            'tabindex'  : (option.disabled || parentDisabled) ? null : -1,
-            'text'      :  option.label || option.innerHTML,
-            'data-value': option.value || option.innerHTML
-        });
-
-        if(ariaEnabled) {
-            $option.attr({
-                'role' : 'option',
-                'aria-selected' : option.selected 
-            });
-        }
-
-        if(option.selected) {
-            $option.addClass('selected');
-        }
-
-        if(option.disabled || parentDisabled) {
-            $option.addClass('disabled');
-        }
-        return $option;
+    function _toArray(arrayLike){
+        return Array.prototype.slice.call(arrayLike);
     }
 
     function _renderOptionGroupLabel(label) {
         return $('<div>', { class : 'option-group-label', text : label });
+    }
+
+    function _hasGroups(select) {
+        return select.querySelectorAll('optgroup').length > 0;
     }
 
     function _hasOptGroups(selectEl) {
