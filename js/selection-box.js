@@ -24,7 +24,7 @@
             //  use native for mobile devices
 
             this.defaults = {
-                showAria : true,
+                ariaEnabled : true,
                 prefix   : 'sb'
             };
 
@@ -84,7 +84,12 @@
 
         _displayClickHandler : function () {
             if(!this.select.disabled) {
-                $(optionListSelector, this.$el).toggleClass('hidden');
+                var $optionList = $(optionListSelector, this.$el);
+                if($optionList.hasClass('hidden')) {
+                    this._openOptionList();
+                } else {
+                    this._closeOptionList();
+                }
             }
         },
 
@@ -153,7 +158,7 @@
         //  performs actual change on this component, e.g changing aria values etc.
         _changeSelected : function($currentSelected, $newSelected) {
 
-            if(this.config.showAria) {
+            if(this.config.ariaEnabled) {
                 $currentSelected.attr('aria-selected', false);
                 $newSelected.attr('aria-selected', true)
             }
@@ -170,7 +175,13 @@
         },
 
         _openOptionList : function () {
-            $(optionListSelector, this.$el).removeClass('hidden');
+            var $optionList = $(optionListSelector, this.$el);
+
+            $optionList.removeClass('hidden');
+               
+            if(this.config.ariaEnabled) {
+                $optionList.attr('aria-hidden', false);
+            }
 
             //  focus on currently selected option
             var selectedIndex = this.select.selectedIndex;
@@ -178,7 +189,11 @@
         },
 
         _closeOptionList : function () {
-            $(optionListSelector, this.$el).addClass('hidden');
+            var $optionList = $(optionListSelector, this.$el);
+            if(this.config.ariaEnabled) {
+                $optionList.attr('aria-hidden', true);
+            }
+            $optionList.addClass('hidden');
         },
 
         _focusOnPreviousOption : function(option) {
@@ -209,7 +224,7 @@
         render : function (select) {
             var self = this;
 
-            var ariaEnabled = this.config.showAria;
+            var ariaEnabled = this.config.ariaEnabled;
 
             var $el = $('<div>', {
                 class : 'select-wrapper',
@@ -251,7 +266,7 @@
         _renderOptions : function($optionList) {
             var self = this;
             var select = this.select;
-            var ariaEnabled = this.config.showAria;
+            var ariaEnabled = this.config.ariaEnabled;
 
             if(_hasGroups(select)) {
                 var groups = _toArray(select.querySelectorAll('optgroup'));
@@ -276,7 +291,7 @@
                        'id' : this._generateId('display-area')
              });
 
-             if(this.config.showAria) {
+             if(this.config.ariaEnabled) {
 
                 $displayArea.attr({
                              'role' : 'button',
