@@ -1,6 +1,6 @@
 $disabled-color : #bbb;
 
-.select-wrapper {
+.sb-select-wrapper {
   font-size : 12px;
   position : relative;
   outline : none;
@@ -11,50 +11,42 @@ $disabled-color : #bbb;
   font-family : arial;
 
 }
-.select-wrapper.disabled .selected-value {
+.sb-select-wrapper.__disabled .sb-selected-value {
   color : $disabled-color;
   border-color : $disabled-color;
 
 }
 
-.option-group.disabled {
+.sb-option-group.__disabled {
 
   color : $disabled-color;
 }
 
-.option-group-label {
+.sb-option-group-label {
   font-size : 12px;
   font-style : italic;
   padding : 4px 5px;
   font-weight : 900;
-
 }
 
-.hide {
-  display : none !important;
-}
 
-.selected-value {
+.sb-selected-value {
   padding : 4px 5px;
   line-height : 20px;
   background-color : white;
   border : solid 1px #777;
-
-
 }
 
-
-
-.option-group .option {
+.sb-option-group .sb-option {
   padding-left : 12px;
 }
-.selected-value:focus, .option:focus {
+.sb-selected-value:focus, .sb-option:focus {
   outline-width : 2px;
   outline-color : lightblue;
   outline-style : solid;
 }
 
-.option-list{
+.sb-option-list{
   list-style : none;
   border : solid 1px #777;
   z-index : 4;
@@ -69,32 +61,25 @@ $disabled-color : #bbb;
   box-shadow : 2px 2px 6px 1px rgba(0, 0, 0, 0.3);
 
 }
-.option-list.hidden {
+.sb-option-list.__hidden {
   visibility : hidden !important;
 }
 
-.option {
+.sb-option {
   padding : 4px 5px;
   display : block;
 }
-.option:focus, .option:hover {
+.sb-option:focus, .sb-option:hover {
   background : #ccc;
   color : black;
 }
-.option.disabled, .option.disabled:focus,  .option.disabled:hover {
-
+.sb-option.__disabled, .sb-option.__disabled:focus,  .sb-option.__disabled:hover {
   background : white;
   color : $disabled-color;
 } 
 
-
-.option:first-child {
+.sb-option:first-child {
   border-top : none;
-}
-
-.active {
-  background : #666;
-  color : white;
 }
 
 

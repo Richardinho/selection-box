@@ -85,7 +85,7 @@
         _displayClickHandler : function () {
             if(!this.select.disabled) {
                 var $optionList = $(optionListSelector, this.$el);
-                if($optionList.hasClass('hidden')) {
+                if($optionList.hasClass('__hidden')) {
                     this._openOptionList();
                 } else {
                     this._closeOptionList();
@@ -108,7 +108,7 @@
 
         _optionClickHandler : function (event) {
             var optionEl = event.currentTarget;
-            if(!$(optionEl).hasClass('disabled') && !$(optionEl).parent().hasClass('disabled')) {
+            if(!$(optionEl).hasClass('__disabled') && !$(optionEl).parent().hasClass('__disabled')) {
                 this._selectValue(optionEl);
             }
         },
@@ -163,8 +163,8 @@
                 $newSelected.attr('aria-selected', true)
             }
 
-            $currentSelected.removeClass('selected');
-            $newSelected.addClass('selected');
+            $currentSelected.removeClass('__selected');
+            $newSelected.addClass('__selected');
         
             var $displayArea = $(displayAreaSelector, this.$el);
 
@@ -177,7 +177,7 @@
         _openOptionList : function () {
             var $optionList = $(optionListSelector, this.$el);
 
-            $optionList.removeClass('hidden');
+            $optionList.removeClass('__hidden');
                
             if(this.config.ariaEnabled) {
                 $optionList.attr('aria-hidden', false);
@@ -193,7 +193,7 @@
             if(this.config.ariaEnabled) {
                 $optionList.attr('aria-hidden', true);
             }
-            $optionList.addClass('hidden');
+            $optionList.addClass('__hidden');
         },
 
         _focusOnPreviousOption : function(option) {
@@ -227,12 +227,12 @@
             var ariaEnabled = this.config.ariaEnabled;
 
             var $el = $('<div>', {
-                class : 'select-wrapper',
+                class : _createClassName(this.config.prefix, 'select-wrapper'),
                 id : this.config.prefix + '-' + this.select.id
             });
 
             if(select.disabled) {
-                $el.addClass('disabled');
+                $el.addClass('__disabled');
             }
 
             var $displayArea = this._renderDisplayArea(select.disabled);
@@ -242,7 +242,7 @@
             $displayArea.text(_getSelectedTextFromOption($selectedOption[0]));
 
             var $optionList = $('<div>', {
-                          'class' : 'option-list hidden',
+                          'class' : _createClassName(this.config.prefix, 'option-list') + ' __hidden',
                       'data-role' : 'option-list',
                              'id' : this._generateId('option-list'),
                             'role': 'listbox',
@@ -285,7 +285,7 @@
         _renderDisplayArea : function (disabled) {
 
             var $displayArea = $('<div>', { 
-                    'class' : 'selected-value', 
+                    'class' : _createClassName(this.config.prefix, 'selected-value'), 
                 'data-role' : 'display-area',
                  'tabindex' : disabled ? null : 0,
                        'id' : this._generateId('display-area')
@@ -309,15 +309,15 @@
             var self = this;
 
             var $optionGroup = $('<div>', {
-                      class : 'option-group',
+                      class : _createClassName(this.config.prefix, 'option-group'),
                 'data-role' : 'option-group'
             });
             
 
-            $optionGroup.append(_renderOptionGroupLabel(optionGroup.label));
+            $optionGroup.append(_renderOptionGroupLabel(optionGroup.label, this.config.prefix));
 
             if(optionGroup.disabled) {
-                $optionGroup.addClass('disabled');
+                $optionGroup.addClass('__disabled');
             }
             _toArray(optionGroup.querySelectorAll('option')).forEach(function (option){
 
@@ -330,7 +330,7 @@
         _renderOption : function(option, parentDisabled, ariaEnabled) {
 
             var $option =  $('<a>', {
-                     'class' : 'option',
+                     'class' : _createClassName(this.config.prefix, 'option'),
                  'data-role' : 'option',
                   'tabindex' : (option.disabled || parentDisabled) ? null : -1,
                       'text' :  option.label || option.innerHTML,
@@ -345,11 +345,11 @@
             }
 
             if(option.selected) {
-                $option.addClass('selected');
+                $option.addClass('__selected');
             }
 
             if(option.disabled || parentDisabled) {
-                $option.addClass('disabled');
+                $option.addClass('__disabled');
             }
             return $option;
         },
@@ -359,7 +359,7 @@
         },
 
         _getCurrentSelected : function () {
-            return $('.selected', this.$el);
+            return $('.__selected', this.$el);
         },
 
         _generateId : function (suffix) {
@@ -375,8 +375,15 @@
 
     //  stateless functions
 
-    function _renderOptionGroupLabel(label) {
-        return $('<div>', { class : 'option-group-label', text : label });
+    function _renderOptionGroupLabel(label, prefix) {
+        return $('<div>', { 
+            class : _createClassName(prefix, 'option-group-label'), 
+             text : label 
+             });
+    }
+
+    function _createClassName(prefix, suffix) {
+        return prefix ? prefix + '-' + suffix : suffix;
     }
 
     //  foundation select utility functions
