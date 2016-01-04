@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../css/main.css"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Vanilla</h1>
+    <p>
+        
+    </p>
+
+    <select id='bar'>
+        <optgroup label='fruit'>
+            <option value='apple-macintosh' label='apple mac'>apple</option>
+            <option selected label='big banana'>banana</option>
+            <option disabled>tomato</option>
+        </optgroup>
+        <optgroup disabled >
+            <option>cucumber</option>
+        </optgroup>
+    </select>
+
+    <select>
+        <optgroup label='fruit'>
+            <option value='apple-macintosh' label='apple mac'>apple</option>
+            <option selected label='big banana'>banana</option>
+            <option disabled>tomato</option>
+        </optgroup>
+        <optgroup disabled label='vegetable'>
+            <option>cucumber</option>
+        </optgroup>
+    </select>
+
+    <select id='foo' disabled>
+        <option>apple</option>
+        <option selected label='big banana'>banana</option>
+        <option>cucumber</option>
+    </select>
+
+    <select id=''>
+        <option>apple</option>
+        <option selected label='big banana'>banana</option>
+        <option>cucumber</option>
+    </select>
+
+
+
+    <script src="/lib/jquery.js"></script>
+    <script type="text/javascript" src="/js/selection-box.js"></script>
+    <script>
+
+        var selectWithOptions = $('#bar');
+        var selectionBox = new SelectionBox(selectWithOptions);
+
+        var selectWithOptions2 = $('#foo');
+        var selectionBox2 = new SelectionBox(selectWithOptions2);
+
+        
+
+
+    </script>
+
+
+</body>
+</html>

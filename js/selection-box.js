@@ -7,7 +7,8 @@
         TAB    = 9,
         ESCAPE = 27,
         UP     = 38,
-        DOWN   = 40;
+        DOWN   = 40,
+        SPACE  = 32;
 
 
     function SelectionBox(selectEl){
@@ -102,6 +103,7 @@
                 case DOWN :
                     this._focusOnNextOption(option);
                     break;
+                case SPACE :
                 case RETURN :
                     this._selectValue(option);
                     break;
