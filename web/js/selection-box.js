@@ -12,16 +12,18 @@
         SPACE  = 32;
 
 
-    function SelectionBox(selectEl){
+    function SelectionBox(selectEl, options){
 
         if( !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ) {
         
             //  only work on desktop
             //  use native for mobile devices
 
-            this.config = {
+            this.defaults = {
                 showAria : true
             };
+
+            this.config = $.extend({}, this.defaults, options || {});
 
             this.$select = $(selectEl);
             this.select = this.$select[0];
