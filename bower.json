@@ -17,7 +17,7 @@
     "test",
     "tests"
   ],
-  "version" : "v0.2.1",
+  "version" : "v0.2.2",
   "dependencies": {
     "jquery": "~2.1.4"
   }
