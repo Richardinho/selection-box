@@ -25,8 +25,9 @@
 			//  use native for mobile devices
 
 			this.defaults = {
-				ariaEnabled : true,
-				   prefix   : 'sb'
+				    ariaEnabled : true,
+				       prefix   : 'sb',
+				   renderOption : function (text) { return text; }
 			};
 
 			this.config = $.extend({}, this.defaults, options || {});
@@ -196,10 +197,28 @@
 		},
 
 		_focusOnPreviousOption : function(option) {
-			if($(option).prev(optionSelector).length) {
-				$(option).prev(optionSelector).focus();
+			var $option = $(option);
+			var $prevOption = $(option).prev(optionSelector);
+			if($prevOption.length) {
+				if($prevOption.hasClass('__disabled')) {
+					this._focusOnPreviousOption($prevOption);
+				} else {
+					$prevOption.focus();
+				}
 			} else if($(option).parent(optionGroupSelector).length) {
 				var $parent = $(option).parent(optionGroupSelector);
+				var $prevGroup = this._getPrevGroup($parent);
+				if($prevGroup) {
+					$prevOption = $prevGroup.find(optionSelector).last();
+					if($prevOption.length){
+
+						if(!$prevOption.hasClass('__disabled')) {
+							$prevOption.focus();
+						} else {
+							this._focusOnPreviousOption($prevOption);
+						}
+					}
+				}
 				if($parent.prev(optionGroupSelector).find(optionSelector).length) {
 					$parent.prev(optionGroupSelector).find(optionSelector).last().focus();
 				}
@@ -207,14 +226,60 @@
 		},
 
 		_focusOnNextOption : function(option) {
-			if($(option).next(optionSelector).length) {
-				$(option).next(optionSelector).focus();
-			} else if($(option).parent(optionGroupSelector).length) {
-				var $parent = $(option).parent(optionGroupSelector);
-				if($parent.next(optionGroupSelector).find(optionSelector).length) {
-					$parent.next(optionGroupSelector).find(optionSelector).first().focus();
+			var $option = $(option); // wrap option in $
+			var $nextOption = $option.next(optionSelector);
+			if($nextOption.length) {
+				if($nextOption.hasClass('__disabled')) {
+					this._focusOnNextOption($nextOption);
+				} else {
+					$nextOption.focus();
+				}
+			} else if($option.parent(optionGroupSelector).length) {
+				var $parent = $option.parent(optionGroupSelector);
+				var $nextGroup = this._getNextGroup($parent);
+				if($nextGroup) {
+					$nextOption = $nextGroup.find(optionSelector).first();
+					if($nextOption.length) {
+						if(!$nextOption.hasClass('__disabled')) {
+							$nextOption.focus();
+						} else {
+							this._focusOnNextOption($nextOption);
+						}
+					} // no
 				}
 			};
+		},
+
+		_getPrevGroup : function(group) {
+			var $group = $(group);
+			var $prevGroup = $group.prev(optionGroupSelector);
+			if($prevGroup.length) {
+				if($prevGroup.hasClass('__disabled')) {
+					// skip this group
+					return this._getPrevGroup($prevGroup);
+				} else {
+					return $prevGroup;
+				}
+
+			} else {
+				return false;
+			}
+		},
+
+		_getNextGroup : function(group) {
+			var $group = $(group);
+			var $nextGroup = $group.next(optionGroupSelector);
+			if($nextGroup.length) {
+				if($nextGroup.hasClass('__disabled')) {
+					// skip this group
+					return this._getNextGroup($nextGroup);
+				} else {
+					return $nextGroup;
+				}
+
+			} else {
+				return false;
+			}
 		},
 
 		//  render functions
@@ -317,9 +382,12 @@
 				     'class' : _createClassName(this.config.prefix, 'option'),
 				 'data-role' : 'option',
 				  'tabindex' : (option.disabled || parentDisabled) ? null : -1,
-				      'text' :  option.label || option.innerHTML,
 				'data-value' : option.value || option.innerHTML
 			});
+
+			var text = option.label || option.innerHTML;
+
+			$option.html(this.config.renderOption(text));
 
 			if(ariaEnabled) {
 				$option.attr({

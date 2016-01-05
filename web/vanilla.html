@@ -4,6 +4,77 @@
 <title>Vanilla Example</title>
 <link rel="stylesheet" href="../css/main.css"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+    [data-value=UK] .country-flag {
+        background-image : url(img/uk-flag.png);
+    }
+
+    [data-value=France] .country-flag {
+        background-image : url(img/france-flag.png);
+    }
+
+    
+    [data-value=Germany] .country-flag {
+        background-image : url(img/germany-flag.png);
+    }
+
+    [data-value=Spain] .country-flag {
+        background-image : url(img/spain-flag.png);
+    }
+
+    [data-value=Italy] .country-flag {
+        background-image : url(img/italy-flag.png);
+    }
+
+    [data-value=Egypt] .country-flag {
+        background-image : url(img/egypt-flag.png);
+    }
+
+    [data-value=Sudan] .country-flag {
+        background-image : url(img/sudan-flag.png);
+    }
+
+    [data-value=USA] .country-flag {
+        background-image : url(img/usa-flag.png);
+    }
+
+    #sb-foo {
+        width : 300px;
+    }
+
+    #sb-foo .sb-option-group-label {
+        padding : 12px 12px 6px;
+    }
+
+    #sb-foo .sb-option:focus, #sb-foo .sb-option:hover {
+        background : none;
+        outline : none;
+    } 
+
+    #sb-foo .sb-option:focus .country-name, #sb-foo .sb-option:hover .country-name {
+
+        background : green;
+    }
+    .country-option {
+        overflow : hidden;
+        padding-bottom : 4px;
+        border-bottom : solid 1px grey;
+    }
+    .country-name {
+        line-height : 30px;
+    }
+    .country-flag {
+        width : 40px;
+        padding : 0;
+        height : 30px;
+        float : right;
+        background : blue;
+        background-size : 100% 100%;
+        display : inline-block;
+    }
+</style>
 </head>
 <body>
     <h1>Vanilla</h1>
@@ -22,28 +93,29 @@
         </optgroup>
     </select>
 
-    <select>
-        <optgroup label='fruit'>
-            <option value='apple-macintosh' label='apple mac'>apple</option>
-            <option selected label='big banana'>banana</option>
-            <option disabled>tomato</option>
+    <select id='foo'>
+        <optgroup label='Europe'>
+            <option value='UK' label='United Kingdom'>apple</option>
+            <option selected label='France'>France</option>
+            <option disabled>Germany</option>
+            <option>Spain</option>
+            <option>Italy</option>
         </optgroup>
-        <optgroup disabled label='vegetable'>
-            <option>cucumber</option>
+        <optgroup disabled label='Africa'>
+            <option>South Africa</option>
+            <option>Egypt</option>
+            <option>Libya</option>
+            <option>Sudan</option>
+        </optgroup>
+        <optgroup label='Americas'>
+            <option>USA</option>
+            <option>Brazil</option>
+            <option>Argentina</option>
+            <option>Columbia</option>
         </optgroup>
     </select>
 
-    <select id='foo' disabled>
-        <option>apple</option>
-        <option selected label='big banana'>banana</option>
-        <option>cucumber</option>
-    </select>
 
-    <select id=''>
-        <option>apple</option>
-        <option selected label='big banana'>banana</option>
-        <option>cucumber</option>
-    </select>
 
 
 
@@ -55,7 +127,17 @@
         var selectionBox = new SelectionBox(selectWithOptions);
 
         var selectWithOptions2 = $('#foo');
-        var selectionBox2 = new SelectionBox(selectWithOptions2);
+        var selectionBox2 = new SelectionBox(selectWithOptions2, {
+            renderOption : function(text) {
+
+                return [
+                    '<div class="country-option">',
+                        '<span class="country-name">' + text + '</span>',
+                        '<span class="country-flag"></span>',
+                    '</div>'
+                ].join('');
+            }
+        });
 
         
 
