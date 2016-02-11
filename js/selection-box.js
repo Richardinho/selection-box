@@ -36,7 +36,7 @@
 			this.id = this.$select.attr('id');
 			this.$el = this.render(this.select);
 
-			//this.$select.hide();
+			this.$select.hide();
 			this.$el.insertAfter(this.$select);
 			this.$el.show();
 
@@ -68,7 +68,7 @@
 			this.$el.on('keyup', optionSelector, $.proxy(this._optionKeyUpHandler, this));
 
 			//  effectively disable keydown and keypress
-			this.$el.on('keydown keypress', optionSelector, function () {
+			this.$el.on('keydown keypress', optionSelector, function (event) {
 				event.preventDefault();
 			});
 			// attach window event handler

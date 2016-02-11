@@ -37,7 +37,7 @@
 			this.id = this.$select.attr('id');
 			this.$el = this.render(this.select);
 
-			//this.$select.hide();
+			this.$select.hide();
 			this.$el.insertAfter(this.$select);
 			this.$el.show();
 

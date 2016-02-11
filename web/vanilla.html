@@ -18,6 +18,7 @@
     
     [data-value=Germany] .country-flag {
         background-image : url(img/germany-flag.png);
+
     }
 
     [data-value=Spain] .country-flag {
@@ -36,12 +37,35 @@
         background-image : url(img/sudan-flag.png);
     }
 
+    [data-value=Libya] .country-flag {
+        background-image : url(img/libya-flag.png);
+    }
+
     [data-value=USA] .country-flag {
         background-image : url(img/usa-flag.png);
     }
 
     #sb-foo {
         width : 300px;
+    }
+
+    #sb-foo .sb-option {
+        padding : 0 12px;
+        position : relative;
+    }
+
+    #sb-foo .sb-option.__disabled {
+        background-color : none;
+    }
+
+    .__disabled .country-flag {
+        -webkit-filter: opacity(0.2); 
+    }
+
+    #sb-foo .sb-option-list {
+
+        max-height : 200px;
+        overflow-y : auto;
     }
 
     #sb-foo .sb-option-group-label {
@@ -53,17 +77,31 @@
         outline : none;
     } 
 
-    #sb-foo .sb-option:focus .country-name, #sb-foo .sb-option:hover .country-name {
+    #sb-foo .sb-option:focus:after, #sb-foo .sb-option:hover:after {
 
-        background : green;
+        content : '';
+        position : absolute;
+        z-index : -1;
+        width : 100%;
+        left : 0;
+        top : 0;
+        background-color : #eee;
+        height : calc(100% + 1px);
     }
+
+    #sb-foo .sb-option.__disabled:after {
+        background-color : transparent;
+
+    }
+
     .country-option {
         overflow : hidden;
-        padding-bottom : 4px;
-        border-bottom : solid 1px grey;
+        border-top : solid 1px grey;
     }
     .country-name {
-        line-height : 30px;
+        display : inline-block;
+        line-height : 54px;
+        font-weight : 14px;
     }
     .country-flag {
         width : 40px;
@@ -73,6 +111,7 @@
         background : blue;
         background-size : 100% 100%;
         display : inline-block;
+        margin : 12px 0;
     }
 </style>
 </head>
