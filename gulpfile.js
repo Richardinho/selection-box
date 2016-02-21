@@ -4,9 +4,8 @@ var wrap = require('gulp-wrap');
 var sass = require('gulp-sass');
 var Server = require('karma').Server;
 
-gulp.task('default', ['test'],  function () {
-	console.log('this is the gulp default task');
-});
+
+
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
@@ -18,7 +17,6 @@ gulp.task('browser-sync', function() {
 gulp.task('build', function () {
 	gulp.src('bower_components/jquery/dist/jquery.js')
 		.pipe(gulp.dest('./web/lib'));
-
 });
 
 gulp.task('test', function (done) {

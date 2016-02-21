@@ -39,18 +39,12 @@
         newCountry : ko.observable()
     };
 
-
-
     ko.applyBindings(vm);
 
     var selectionBox = new SelectionBox(document.querySelector('#my-ko-select'));
 
     vm.newCountry.subscribe(function (country) {
-
-
         vm.countries.push(country);
-        selectionBox.update();
-
     });
 
 </script>

@@ -1,0 +1,40 @@
+body {
+	background: hsl(106, 4%, 92%);
+}
+.banner {
+	background : hsl(0,0%,0%);
+}
+.banner h1 {
+	font-size : 2rem;
+	font-family : helvetica;
+	line-height : 2;
+	color : hsl(5, 6%, 95%);
+	display: block;
+	width : 800px;
+	margin : auto;
+}
+.main {
+	width : 800px;
+	margin : auto;
+	background : hsl(0, 100%, 100%);
+	padding : 20px;
+}
+
+h2 {
+	font-family : helvetica;
+	font-size : 1.6rem;
+	line-height : 2;
+}
+h3 {
+	font-family : helvetica;
+	font-size : 1.2rem;
+	line-height : 2;
+}
+p {
+	margin-bottom : 1rem;
+}
+.example {
+	margin-bottom : 12px;
+	border : solid 1px #ddd;
+	padding : 12px;
+}

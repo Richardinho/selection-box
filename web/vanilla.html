@@ -1,187 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Vanilla Example</title>
-<link rel="stylesheet" href="../css/main.css"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="description" content="Javascript plugin for creating easily stylable select boxes with accessibility support">
+	<title>Selection Box: Vanilla examples</title>
+	<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<style>
+	<link rel="stylesheet" href="css/reset.css"/>
+	<link rel="stylesheet" href="css/website.css"/>
+	<link rel="stylesheet" href="css/main.css"/>
+	<link rel="stylesheet" href="css/countries.css"/>
+	<link rel="stylesheet" href="css/tranquility.css"/>
+	<link rel="stylesheet" href="css/simple.css"/>
+	<style>
 
-    [data-value=UK] .country-flag {
-        background-image : url(img/uk-flag.png);
-    }
-
-    [data-value=France] .country-flag {
-        background-image : url(img/france-flag.png);
-    }
-
-    
-    [data-value=Germany] .country-flag {
-        background-image : url(img/germany-flag.png);
-
-    }
-
-    [data-value=Spain] .country-flag {
-        background-image : url(img/spain-flag.png);
-    }
-
-    [data-value=Italy] .country-flag {
-        background-image : url(img/italy-flag.png);
-    }
-
-    [data-value=Egypt] .country-flag {
-        background-image : url(img/egypt-flag.png);
-    }
-
-    [data-value=Sudan] .country-flag {
-        background-image : url(img/sudan-flag.png);
-    }
-
-    [data-value=Libya] .country-flag {
-        background-image : url(img/libya-flag.png);
-    }
-
-    [data-value=USA] .country-flag {
-        background-image : url(img/usa-flag.png);
-    }
-
-    #sb-foo {
-        width : 300px;
-    }
-
-    #sb-foo .sb-option {
-        padding : 0 12px;
-        position : relative;
-    }
-
-    #sb-foo .sb-option.__disabled {
-        background-color : none;
-    }
-
-    .__disabled .country-flag {
-        -webkit-filter: opacity(0.2); 
-    }
-
-    #sb-foo .sb-option-list {
-
-        max-height : 200px;
-        overflow-y : auto;
-    }
-
-    #sb-foo .sb-option-group-label {
-        padding : 12px 12px 6px;
-    }
-
-    #sb-foo .sb-option:focus, #sb-foo .sb-option:hover {
-        background : none;
-        outline : none;
-    } 
-
-    #sb-foo .sb-option:focus:after, #sb-foo .sb-option:hover:after {
-
-        content : '';
-        position : absolute;
-        z-index : -1;
-        width : 100%;
-        left : 0;
-        top : 0;
-        background-color : #eee;
-        height : calc(100% + 1px);
-    }
-
-    #sb-foo .sb-option.__disabled:after {
-        background-color : transparent;
-
-    }
-
-    .country-option {
-        overflow : hidden;
-        border-top : solid 1px grey;
-    }
-    .country-name {
-        display : inline-block;
-        line-height : 54px;
-        font-weight : 14px;
-    }
-    .country-flag {
-        width : 40px;
-        padding : 0;
-        height : 30px;
-        float : right;
-        background : blue;
-        background-size : 100% 100%;
-        display : inline-block;
-        margin : 12px 0;
-    }
-</style>
+	</style>
 </head>
 <body>
-    <h1>Vanilla</h1>
-    <p>
-        
-    </p>
+<div class='banner' role='banner'>
+	<h1>Selection Box</h1>
+</div>
+<div role='main' class='main'>
+	<h2>Vanilla</h2>
+	<p>
+		Some dog-fooding examples..
+	</p>
+	<div class='example'>
+		<h3>Vanilla with default styling</h3>
+		<select id='vanilla'>
+			<option>alpha</option>
+			<option>beta</option>
+			<option>gamma</option>
+			<option>delta</option>
+			<option>epsilon</option>
+		</select>
+	</div>
+	<div class='example'>
+		<h3>Some simple styling</h3>
+		<select id='simple-styling'>
+			<option>alpha</option>
+			<option>beta</option>
+			<option>gamma</option>
+			<option>delta</option>
+			<option>epsilon</option>
+		</select>
+	</div>
 
-    <select id='bar'>
-        <optgroup label='fruit'>
-            <option value='apple-macintosh' label='apple mac'>apple</option>
-            <option selected label='big banana'>banana</option>
-            <option disabled>tomato</option>
-        </optgroup>
-        <optgroup disabled label='vegetables' >
-            <option>cucumber</option>
-        </optgroup>
-    </select>
+	<div class='example'>
+		<h2>Tranquility</h2>
+		<p>Selection Box component is completely stylable with custom themes</p>
+		<select id='tranquility'>
+			<option>alpha</option>
+			<option>beta</option>
+			<option>gamma</option>
+			<option>delta</option>
+			<option>epsilon</option>
+			<option>zeta</option>
+			<option>iota</option>
+		</select>
+	</div>
 
-    <select id='foo'>
-        <optgroup label='Europe'>
-            <option value='UK' label='United Kingdom'>apple</option>
-            <option selected label='France'>France</option>
-            <option disabled>Germany</option>
-            <option>Spain</option>
-            <option>Italy</option>
-        </optgroup>
-        <optgroup disabled label='Africa'>
-            <option>South Africa</option>
-            <option>Egypt</option>
-            <option>Libya</option>
-            <option>Sudan</option>
-        </optgroup>
-        <optgroup label='Americas'>
-            <option>USA</option>
-            <option>Brazil</option>
-            <option>Argentina</option>
-            <option>Columbia</option>
-        </optgroup>
-    </select>
+	<div class='example'>
+		<h2>Flags</h2>
+		<p>Shows how you can include images on options and in the display area reflecting the current selection</p>
+		<select id='flags'>
+			<optgroup label='Europe'>
+				<option value='UK' label='United Kingdom'>apple</option>
+				<option selected label='France'>France</option>
+				<option disabled>Germany</option>
+				<option>Spain</option>
+				<option>Italy</option>
+			</optgroup>
+			<optgroup disabled label='Africa'>
+				<option>South Africa</option>
+				<option>Egypt</option>
+				<option>Libya</option>
+				<option>Sudan</option>
+			</optgroup>
+			<optgroup label='Americas'>
+				<option>USA</option>
+				<option>Brazil</option>
+				<option>Argentina</option>
+				<option>Columbia</option>
+			</optgroup>
+		</select>
+	</div>
+</div>
+
+<script src="/lib/jquery.js"></script>
+<script type="text/javascript" src="/js/selection-box.js"></script>
+<script>
+
+	var vanilla = new SelectionBox($('#vanilla'));
+	var simple = new SelectionBox($('#simple-styling'));
+	var tranquility = new SelectionBox($('#tranquility'), {});
+
+	var selectWithOptions2 = $('#flags');
+	var selectionBox2 = new SelectionBox(selectWithOptions2, {
+		renderDisplayArea(text, value) {
+			return [
+				'<div data-country="' + value + '">' + text + '</div>'
+			].join();
+		},
+		renderOption : function(text) {
+
+				return [
+						'<div class="country-option">',
+								'<span class="country-name">' + text + '</span>',
+								'<span class="country-flag"></span>',
+						'</div>'
+				].join('');
+		}
+	});
 
 
 
-
-
-    <script src="/lib/jquery.js"></script>
-    <script type="text/javascript" src="/js/selection-box.js"></script>
-    <script>
-
-        var selectWithOptions = $('#bar');
-        var selectionBox = new SelectionBox(selectWithOptions);
-
-        var selectWithOptions2 = $('#foo');
-        var selectionBox2 = new SelectionBox(selectWithOptions2, {
-            renderOption : function(text) {
-
-                return [
-                    '<div class="country-option">',
-                        '<span class="country-name">' + text + '</span>',
-                        '<span class="country-flag"></span>',
-                    '</div>'
-                ].join('');
-            }
-        });
-
-        
-
-
-    </script>
+</script>
 
 
 </body>
