@@ -26,7 +26,8 @@
 			this.defaults = {
 				      ariaEnabled : true,
 				     renderOption : function (text) { return text; },
-				renderDisplayArea : function(text, value) { return text; }
+				renderDisplayArea : function(text, value) { return text; },
+				   hideFoundation : true
 			};
 
 			this.config = $.extend({}, this.defaults, options || {});
@@ -43,7 +44,9 @@
 			this.id = this.$select.attr('id');
 			this.$el = this.render(this.select);
 
-			this.$select.hide();
+			if(this.config.hideFoundation) {
+				this.$select.hide();
+			}
 			this.$el.insertAfter(this.$select);
 			this.$el.show();
 

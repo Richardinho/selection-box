@@ -32,9 +32,27 @@ h3 {
 }
 p {
 	margin-bottom : 1rem;
+	line-height:  1.2;
 }
 .example {
 	margin-bottom : 12px;
 	border : solid 1px #ddd;
 	padding : 12px;
+}
+pre {
+	background: lightgrey;
+	background-origin: content-box;
+	line-height:  1.5em;
+	background-image: linear-gradient(rgba(0, 0, 0, .2) 50%, transparent 0);
+	background-size: auto 3em;
+	color : black;
+	border : solid 1px #666;
+	font-family : courier;
+	margin-bottom : 12px;
+	padding : 12px;
+	tab-size : 2;
+}
+
+.knockout-example-select-element {
+	margin-bottom : 20px;
 }

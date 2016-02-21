@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class='banner' role='banner'>
-	<h1>Selection Box</h1>
+	<h1><a href='/'>Selection Box</a></h1>
 </div>
 <div role='main' class='main'>
 	<h2>Vanilla</h2>
@@ -64,7 +64,34 @@
 
 	<div class='example'>
 		<h2>Flags</h2>
-		<p>Shows how you can include images on options and in the display area reflecting the current selection</p>
+		<p>Shows how you can include images on options and in the display area reflecting the current selection.
+		Both the display area and the options are customisable by passing rendering functions in the configuration
+			object. The renderDisplayArea() function takes two arguments: the first argument is the text of the currently
+			selected option, the second argument
+			is the value of the option. These can be used to create class names for styling the component. Here we use the value
+			to show the currently selected flag in the display area.
+		</p>
+
+		<code>
+<pre>
+var flags = $('#flags');
+var flagsselectionBox = new SelectionBox(flags, {
+	renderDisplayArea(text, value) {
+		return [
+			'&lt;div data-country="' + value + '"&gt;' + text + '&lt;/div&gt;'
+		].join();
+	},
+	renderOption : function(text) {
+		return [
+			'&lt;div class="country-option"&gt;',
+			'&lt;span class="country-name"&gt;' + text + '&lt;/span&gt;',
+			'&lt;span class="country-flag"&gt;&lt;/span&gt;',
+			'&lt;/div&gt;'
+		].join('');
+	}
+});
+</pre>
+		</code>
 		<select id='flags'>
 			<optgroup label='Europe'>
 				<option value='UK' label='United Kingdom'>apple</option>
@@ -97,8 +124,8 @@
 	var simple = new SelectionBox($('#simple-styling'));
 	var tranquility = new SelectionBox($('#tranquility'), {});
 
-	var selectWithOptions2 = $('#flags');
-	var selectionBox2 = new SelectionBox(selectWithOptions2, {
+	var flags = $('#flags');
+	var flagsselectionBox = new SelectionBox(flags, {
 		renderDisplayArea(text, value) {
 			return [
 				'<div data-country="' + value + '">' + text + '</div>'
