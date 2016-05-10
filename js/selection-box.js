@@ -10,9 +10,9 @@
 	    DOWN   = 40,
 	    SPACE  = 32;
 
-	var optionSelector = '.option',
+	var optionSelector      = '.option',
 	    displayAreaSelector = '.display-area',
-	    optionListSelector = '.option-list',
+	    optionListSelector  = '.option-list',
 	    optionGroupSelector = '.option-group';
 
 
@@ -24,10 +24,11 @@
 			//  use native for mobile devices
 
 			this.defaults = {
-				      ariaEnabled : true,
-				     renderOption : function (text) { return text; },
-				renderDisplayArea : function(text, value) { return text; },
-				   hideFoundation : true
+				            ariaEnabled : true,
+				           renderOption : function (text) { return text; },
+				      renderDisplayArea : function(text, value) { return text; },
+				         hideFoundation : true,
+				    optionListMaxHeight : 150
 			};
 
 			this.config = $.extend({}, this.defaults, options || {});
@@ -194,11 +195,14 @@
 
 		_openOptionList : function () {
 			var $optionList = $(optionListSelector, this.$el);
+			var $displayArea = $(displayAreaSelector, this.$el);
 			this.$el.attr('data-state', 'open');
 
 			if(this.config.ariaEnabled) {
 				$optionList.attr('aria-hidden', false);
 			}
+
+			this._positionOptionList($displayArea, $optionList);
 
 			//  focus on currently selected option
 			var selectedIndex = this.select.selectedIndex;
@@ -326,7 +330,28 @@
 			$el.append($optionList);
 
 			this._renderOptions($optionList);
+
 			return $el;
+		},
+
+		_shouldOpenAboveDisplayArea : function (displayAreaDimensions, optionListDimensions) {
+
+			//  default is to display option list below the display area.
+			//  if there is not sufficient space, then we should display it above the display area.
+			var spaceBelowDisplayArea = window.innerHeight - (displayAreaDimensions.height + displayAreaDimensions.top)
+			return this.config.optionListMaxHeight > spaceBelowDisplayArea;
+
+		},
+
+		_positionOptionList : function ($displayArea, $optionList) {
+
+			var displayAreaDimensions = _getElementDimensions($displayArea[0]);
+			if (this._shouldOpenAboveDisplayArea(displayAreaDimensions)) {
+				$optionList.removeClass('below').addClass('above');
+			} else {
+				$optionList.removeClass('above').addClass('below');
+			}
+			$optionList.css('max-height', this.config.optionListMaxHeight);
 		},
 
 		_renderOptions : function($optionList) {
@@ -465,5 +490,9 @@
 	function _toArray(arrayLike){
 		return Array.prototype.slice.call(arrayLike);
 	}
+
+	function _getElementDimensions(el) {
+    return el.getBoundingClientRect();
+  }
 
 

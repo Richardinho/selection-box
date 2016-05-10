@@ -52,6 +52,20 @@ pre {
 	padding : 12px;
 	tab-size : 2;
 }
+ul {
+	list-style-position : inside;
+}
+ul li {
+	list-style-type : disc;
+
+}
+nav.links a {
+	display : block;
+}
+
+code {
+	font-family : courier;
+}
 
 .knockout-example-select-element {
 	margin-bottom : 20px;

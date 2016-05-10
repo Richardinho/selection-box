@@ -21,9 +21,17 @@
 	padding: 0;
 	margin: 0;
 	position: absolute;
-	top: calc(100% + 6px);
 	left: 4px;
 	width: 100%;
+	overflow : scroll;
+}
+
+.selection-box .option-list.below {
+	top: calc(100% + 6px);
+}
+
+.selection-box .option-list.above {
+	bottom : calc(100% + 6px);
 }
 
 .selection-box[data-state=closed] .option-list {
