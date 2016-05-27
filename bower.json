@@ -17,7 +17,6 @@
     "test",
     "tests"
   ],
-  "version" : "v0.4.0",
   "dependencies": {
     "jquery": "~2.1.4"
   }
