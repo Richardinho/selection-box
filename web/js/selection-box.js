@@ -32,10 +32,10 @@
 				    optionListMaxHeight : 150
 			};
 
-			this.config = $.extend({}, this.defaults, options || {});
+			this.config = sundry.extend({}, this.defaults, options || {});
 
 			this.$select = $(selectEl);
-			this.select = this.$select[0];
+			this.select = domutils.$(selectEl);
 
 			if(!this.select) {
 				throw {
@@ -43,14 +43,17 @@
 					message : 'You need to supply an existing select element'
 				};
 			}
-			this.id = this.$select.attr('id');
+			this.id = this.select.id;
 			this.$el = this.render(this.select);
+			this.el = this.$el[0];
 
 			if(this.config.hideFoundation) {
-				this.$select.hide();
+				this.select.style.display = 'none';
 			}
+			// todo implement this in vanilla
 			this.$el.insertAfter(this.$select);
-			this.$el.show();
+
+			this.el.style.display = 'block';
 
 			this.bindHandlers();
 		}
@@ -61,9 +64,9 @@
 		//  only function that is intended to be called from outside
 		//  re-renders option list
 		update : function() {
-			var $optionList = $(optionListSelector, this.$el);
+			var optionList = domutils.$(optionListSelector, this.el);
 			//  clear out contents
-			$optionList[0].innerHTML = '';
+			optionList.innerHTML = '';
 			this._renderOptions($optionList);
 		},
 
@@ -72,12 +75,12 @@
 			var self = this;
 
 			// handle events on display area
-			this.$el.on('click', displayAreaSelector, $.proxy(this._displayClickHandler, this));
-			this.$el.on('keyup', displayAreaSelector, $.proxy(this._displayKeyUpHandler, this));
+			domutils.delegate(this.$el[0],'click', displayAreaSelector, this._displayClickHandler, this);
+			domutils.delegate(this.$el[0],'keyup', displayAreaSelector, this._displayKeyUpHandler, this);
 
 			//  handle events on options
-			this.$el.on('click', optionSelector, $.proxy(this._optionClickHandler, this));
-			this.$el.on('keyup', optionSelector, $.proxy(this._optionKeyUpHandler, this));
+			domutils.delegate(this.$el[0], 'click', optionSelector, this._optionClickHandler, this);
+			domutils.delegate(this.$el[0], 'keyup', optionSelector, this._optionKeyUpHandler, this);
 
 			//  effectively disable keydown and keypress
 			this.$el.on('keydown keypress', optionSelector, function (event) {
@@ -106,8 +109,7 @@
 
 		_displayClickHandler : function () {
 			if(!this.select.disabled) {
-				var $optionList = $(optionListSelector, this.$el);
-				if(this.$el.attr('data-state') == 'closed') {
+				if(this.el.getAttribute('data-state') == 'closed') {
 					this._openOptionList();
 				} else {
 					this._closeOptionList();
@@ -129,14 +131,16 @@
 		},
 
 		_optionClickHandler : function (event) {
-			var optionEl = event.currentTarget;
-			if(!$(optionEl).hasClass('__disabled') && !$(optionEl).parent().hasClass('__disabled')) {
+			var optionEl = event.target;
+			var a = !optionEl.classList.contains('__disabled');
+			var b = !optionEl.parentElement.classList.contains('__disabled');
+			if(a && b ) {
 				this._selectValue(optionEl);
 			}
 		},
 
 		_optionKeyUpHandler : function (event) {
-			var option = event.currentTarget;
+			var option = event.target;
 
 			switch(event.which) {
 			case  UP:
@@ -151,7 +155,7 @@
 				break;
 			case ESCAPE :
 				this._closeOptionList();
-				$(displayAreaSelector, this.$el).focus();
+				domutils.$(displayAreaSelector, this.el).focus();
 				break;
 			default :
 				//  do nothing.
@@ -159,7 +163,7 @@
 		},
 
 		_handleFoundationSelectChange : function(event) {
-			this._changeSelected(this._getCurrentSelected(), this._getOptionByIndex(event.target.selectedIndex));
+			this._changeSelected(this._getCurrentSelected(), this._getOptionByIndex(event.target.selectedIndex)[0]);
 		},
 
 		//  end of handlers
@@ -168,28 +172,31 @@
 		//  this component will update via it's listener on the foundation select.
 		_selectValue : function(optionEl) {
 
-			var $newSelected = $(optionEl);
-			var value = $newSelected.attr('data-value') || $newSelected.text();
+			var value = optionEl.getAttribute('data-value') || optionEl.textContent;
 
 			//  set value back on original select
-			this.$select[0].value = value;
-			this.$select.change();
+			this.select.value = value;
+
+			var event = document.createEvent('Event');
+      event.initEvent('change', true, true);
+      this.select.dispatchEvent(event);
 		},
 
 		//  performs actual change on this component, e.g changing aria values etc.
-		_changeSelected : function($currentSelected, $newSelected) {
+		_changeSelected : function(currentSelected, newSelected) {
 
 			if(this.config.ariaEnabled) {
-				$currentSelected.attr('aria-selected', false);
-				$newSelected.attr('aria-selected', true)
+				currentSelected.setAttribute('aria-selected', false);
+				newSelected.setAttribute('aria-selected', true);
 			}
 
-			$currentSelected.removeClass('__selected');
-			$newSelected.addClass('__selected');
+			currentSelected.classList.remove('__selected');
+			newSelected.classList.add('__selected');
 
-			$(displayAreaSelector, this.$el).remove();
-			this.$el.prepend(this._renderDisplayArea());
-			var $displayArea = $(displayAreaSelector, this.$el).focus();
+			domutils.$(displayAreaSelector, this.el).remove();
+			this.el.insertBefore(this._renderDisplayArea()[0], this.el.firstChild  )
+
+			domutils.$(displayAreaSelector, this.el).focus();
 
 			this._closeOptionList();
 		},
@@ -197,7 +204,6 @@
 		_openOptionList : function () {
 			var $optionList = $(optionListSelector, this.$el);
 			var $displayArea = $(displayAreaSelector, this.$el);
-			var container = window;
 			this.$el.attr('data-state', 'open');
 
 			if(this.config.ariaEnabled) {
@@ -349,13 +355,8 @@
 
 			var displayAreaDimensions = _getElementDimensions($displayArea[0]);
 			if (this._shouldOpenAboveDisplayArea(displayAreaDimensions)) {
-				console.log('display above')
-				//  display above displayArea
-				//  shorten height if necessary
 				$optionList.removeClass('below').addClass('above');
 			} else {
-				// shorten height if necessary
-				console.log('display below')
 				$optionList.removeClass('above').addClass('below');
 			}
 			$optionList.css('max-height', this.config.optionListMaxHeight);
@@ -452,11 +453,12 @@
 		},
 
 		_getOptionByIndex : function (index) {
+			// how to implement this in vanilla JS?
 			return this.$el.find(optionSelector).eq(index);
 		},
 
 		_getCurrentSelected : function () {
-			return $('.__selected', this.$el);
+			return domutils.$('.__selected', this.el);
 		},
 
 		_generateId : function (suffix) {

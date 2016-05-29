@@ -15,7 +15,10 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('build', function () {
-	gulp.src('bower_components/jquery/dist/jquery.js')
+	gulp.src([
+	  'bower_components/jquery/dist/jquery.js',
+	  'bower_components/richardUtils/src/dom.js',
+	  'bower_components/richardUtils/src/sundry.js'])
 		.pipe(gulp.dest('./web/lib'));
 });
 

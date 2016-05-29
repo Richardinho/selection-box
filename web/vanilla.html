@@ -117,14 +117,16 @@ var flagsselectionBox = new SelectionBox(flags, {
 </div>
 
 <script src="/lib/jquery.js"></script>
+<script src="/lib/sundry.js"></script>
+<script src="/lib/dom.js"></script>
 <script type="text/javascript" src="/js/selection-box.js"></script>
 <script>
 
-	var vanilla = new SelectionBox($('#vanilla'));
-	var simple = new SelectionBox($('#simple-styling'));
-	var tranquility = new SelectionBox($('#tranquility'), {});
+	var vanilla = new SelectionBox('#vanilla');
+	var simple = new SelectionBox('#simple-styling');
+	var tranquility = new SelectionBox('#tranquility', {});
 
-	var flags = $('#flags');
+	var flags = '#flags';
 	var flagsselectionBox = new SelectionBox(flags, {
 		renderDisplayArea(text, value) {
 			return [

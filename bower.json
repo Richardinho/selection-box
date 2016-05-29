@@ -6,7 +6,9 @@
   ],
   "license": "MIT",
   "keywords": [
-    "jquery", "select", "custom select"
+    "jquery",
+    "select",
+    "custom select"
   ],
   "homepage": "https://github.com/Richardinho/selection-box",
   "moduleType": [],
@@ -18,6 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "richardUtils": "richy-utils#*"
   }
 }
