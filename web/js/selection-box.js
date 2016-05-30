@@ -34,7 +34,6 @@
 
 			this.config = sundry.extend({}, this.defaults, options || {});
 
-			this.$select = $(selectEl);
 			this.select = domutils.$(selectEl);
 
 			if(!this.select) {
@@ -44,14 +43,12 @@
 				};
 			}
 			this.id = this.select.id;
-			this.$el = this.render(this.select);
-			this.el = this.$el[0];
+			this.el = this.render(this.select);
 
 			if(this.config.hideFoundation) {
 				this.select.style.display = 'none';
 			}
-			// todo implement this in vanilla
-			this.$el.insertAfter(this.$select);
+			domutils.insertAfter(this.el, this.select)
 
 			this.el.style.display = 'block';
 
@@ -75,25 +72,28 @@
 			var self = this;
 
 			// handle events on display area
-			domutils.delegate(this.$el[0],'click', displayAreaSelector, this._displayClickHandler, this);
-			domutils.delegate(this.$el[0],'keyup', displayAreaSelector, this._displayKeyUpHandler, this);
+			domutils.delegate(this.el,'click', displayAreaSelector, this._displayClickHandler, this);
+			domutils.delegate(this.el,'keyup', displayAreaSelector, this._displayKeyUpHandler, this);
 
 			//  handle events on options
-			domutils.delegate(this.$el[0], 'click', optionSelector, this._optionClickHandler, this);
-			domutils.delegate(this.$el[0], 'keyup', optionSelector, this._optionKeyUpHandler, this);
+			domutils.delegate(this.el, 'click', optionSelector, this._optionClickHandler, this);
+			domutils.delegate(this.el, 'keyup', optionSelector, this._optionKeyUpHandler, this);
 
 			//  effectively disable keydown and keypress
-			this.$el.on('keydown keypress', optionSelector, function (event) {
+			domutils.delegate(this.el, 'keydown', optionSelector, function (event) {
+				event.preventDefault();
+			});
+			domutils.delegate(this.el, 'keypress', optionSelector, function (event) {
 				event.preventDefault();
 			});
 			// attach window event handler
-			$(window).click(function (event) {
-				if(!$.contains(self.$el[0], event.target)) {
+			window.addEventListener('click', function (event) {
+				if(!self.el.contains(event.target)) {
 					self._closeOptionList();
 				}
 			});
 			//  handle change events on foundation select
-			this.$select.on('change', this._handleFoundationSelectChange.bind(this));
+			this.select.addEventListener('change', this._handleFoundationSelectChange.bind(this));
 
 			//  handle mutation events on original select box
 			var observer = new MutationObserver(function(mutations) {
@@ -163,7 +163,7 @@
 		},
 
 		_handleFoundationSelectChange : function(event) {
-			this._changeSelected(this._getCurrentSelected(), this._getOptionByIndex(event.target.selectedIndex)[0]);
+			this._changeSelected(this._getCurrentSelected(), this._getOptionByIndex(event.target.selectedIndex));
 		},
 
 		//  end of handlers
@@ -194,7 +194,7 @@
 			newSelected.classList.add('__selected');
 
 			domutils.$(displayAreaSelector, this.el).remove();
-			this.el.insertBefore(this._renderDisplayArea()[0], this.el.firstChild  )
+			this.el.insertBefore(this._renderDisplayArea(), this.el.firstChild  )
 
 			domutils.$(displayAreaSelector, this.el).focus();
 
@@ -202,48 +202,51 @@
 		},
 
 		_openOptionList : function () {
-			var $optionList = $(optionListSelector, this.$el);
-			var $displayArea = $(displayAreaSelector, this.$el);
-			this.$el.attr('data-state', 'open');
+			var optionList = domutils.$(optionListSelector, this.el);
+			var displayArea = domutils.$(displayAreaSelector, this.el);
+			this.el.setAttribute('data-state', 'open');
 
 			if(this.config.ariaEnabled) {
-				$optionList.attr('aria-hidden', false);
+				optionList.setAttribute('aria-hidden', false);
 			}
 
-			this._positionOptionList($displayArea, $optionList);
+			this._positionOptionList(displayArea, optionList);
 
 			//  focus on currently selected option
 			var selectedIndex = this.select.selectedIndex;
-			$(optionSelector, this.$el).eq(selectedIndex).focus();
+
+			//todo: get a child node by its index
+			$(optionSelector, this.el).eq(selectedIndex).focus();
 		},
 
 		_closeOptionList : function () {
-			var $optionList = $(optionListSelector, this.$el);
+			var optionList = domutils.$(optionListSelector, this.el);
 			if(this.config.ariaEnabled) {
-				$optionList.attr('aria-hidden', true);
+				optionList.setAttribute('aria-hidden', true);
 			}
-			this.$el.attr('data-state', 'closed');
+			this.el.setAttribute('data-state', 'closed');
 		},
 
 		_focusOnPreviousOption : function(option) {
-			var $option = $(option);
-			var $prevOption = $(option).prev(optionSelector);
-			if($prevOption.length) {
+		//  todo: convert to vanilla
+			var $option = $(option);  // *
+			var $prevOption = $(option).prev(optionSelector);  // *
+			if($prevOption.length) {  // *
 				//  if there is a previous option and it isn't disabled, focus on it. Otherwise recursively call this function
-				if($prevOption.hasClass('__disabled')) {
+				if($prevOption.hasClass('__disabled')) {  // *
 					this._focusOnPreviousOption($prevOption);
 				} else {
 					$prevOption.focus();
 				}
-			} else if($(option).parent(optionGroupSelector).length) {
+			} else if($(option).parent(optionGroupSelector).length) {   // *
 				//  if option is in a group, try a previous group
-				var $parent = $(option).parent(optionGroupSelector);
-				var $prevGroup = this._getPrevGroup($parent);
+				var $parent = $(option).parent(optionGroupSelector);   // *
+				var $prevGroup = this._getPrevGroup($parent);  // *
 				if($prevGroup) {
-					$prevOption = $prevGroup.find(optionSelector).last();
+					$prevOption = $prevGroup.find(optionSelector).last();  // *
 					if($prevOption.length){
-						if(!$prevOption.hasClass('__disabled')) {
-							$prevOption.focus();
+						if(!$prevOption.hasClass('__disabled')) {  // *
+							$prevOption.focus();  // *
 						} else {
 							this._focusOnPreviousOption($prevOption);
 						}
@@ -253,6 +256,7 @@
 		},
 
 		_focusOnNextOption : function(option) {
+		//  todo: convert to vanilla
 			var $option = $(option); // wrap option in $
 			var $nextOption = $option.next(optionSelector);
 			if($nextOption.length) {
@@ -263,7 +267,7 @@
 				}
 			} else if($option.parent(optionGroupSelector).length) {
 				var $parent = $option.parent(optionGroupSelector);
-				var $nextGroup = this._getNextGroup($parent);
+				var $nextGroup = $(this._getNextGroup($parent[0]));
 				if($nextGroup) {
 					$nextOption = $nextGroup.find(optionSelector).first();
 					if($nextOption.length) {
@@ -278,6 +282,7 @@
 		},
 
 		_getPrevGroup : function(group) {
+		//  todo: convert to vanilla
 			var $group = $(group);
 			var $prevGroup = $group.prev(optionGroupSelector);
 			if($prevGroup.length) {
@@ -294,14 +299,16 @@
 		},
 
 		_getNextGroup : function(group) {
+		//  todo: convert to vanilla
 			var $group = $(group);
 			var $nextGroup = $group.next(optionGroupSelector);
-			if($nextGroup.length) {
-				if($nextGroup.hasClass('__disabled')) {
+			var nextGroup = $nextGroup[0];
+			if(nextGroup) {
+				if(nextGroup.classList.contains('__disabled')) {
 					// skip this group
-					return this._getNextGroup($nextGroup);
+					return this._getNextGroup(nextGroup);
 				} else {
-					return $nextGroup;
+					return nextGroup;
 				}
 
 			} else {
@@ -314,32 +321,30 @@
 			var self = this;
 			var ariaEnabled = this.config.ariaEnabled;
 
-			var $el = $('<div>', {
-				       class : 'selection-box',
-				          id : this.select.id + '-selection-box',
-				'data-state' : 'closed'
-			});
+			var el = document.createElement('div');
+			el.id = this.select.id + '-selection-box';
+			el.classList.add('selection-box');
+			el.setAttribute('data-state', 'closed');
 
 			if(select.disabled) {
-				$el.addClass('__disabled');
+				el.classList.add('__disabled');
 			}
 
-			var $displayArea = this._renderDisplayArea(select.disabled);
+			var displayArea = this._renderDisplayArea(select.disabled);
 
-			var $optionList = $('<div>', {
-				          'class' : 'option-list',
-				             'id' : this._generateId('option-list'),
-				            'role': 'listbox',
-				    'aria-hidden' : true,
-				'aria-labelledby' : this._generateId('display-area')
-			});
+			var optionList = document.createElement('div');
+			optionList.id = this._generateId('option-list');
+			optionList.classList.add('option-list');
+			optionList.setAttribute('role', 'listbox');
+			optionList.setAttribute('aria-hidden', true);
+			optionList.setAttribute('aria-labelledby', this._generateId('display-area'));
 
-			$el.append($displayArea);
-			$el.append($optionList);
+			el.appendChild(displayArea);
+			el.appendChild(optionList);
 
-			this._renderOptions($optionList);
+			this._renderOptions(optionList);
 
-			return $el;
+			return el;
 		},
 
 		_shouldOpenAboveDisplayArea : function (displayAreaDimensions, optionListDimensions) {
@@ -351,18 +356,21 @@
 
 		},
 
-		_positionOptionList : function ($displayArea, $optionList) {
+		_positionOptionList : function (displayArea, optionList) {
 
-			var displayAreaDimensions = _getElementDimensions($displayArea[0]);
+			var displayAreaDimensions = _getElementDimensions(displayArea);
 			if (this._shouldOpenAboveDisplayArea(displayAreaDimensions)) {
-				$optionList.removeClass('below').addClass('above');
+				optionList.classList.remove('below');
+				optionList.classList.add('above');
 			} else {
-				$optionList.removeClass('above').addClass('below');
+				optionList.classList.remove('above');
+        optionList.classList.add('below');
+
 			}
-			$optionList.css('max-height', this.config.optionListMaxHeight);
+			optionList.style.maxHeight = this.config.optionListMaxHeight + 'px';
 		},
 
-		_renderOptions : function($optionList) {
+		_renderOptions : function(optionList) {
 			var self = this;
 			var select = this.select;
 			var ariaEnabled = this.config.ariaEnabled;
@@ -370,91 +378,86 @@
 			if(_hasGroups(select)) {
 				var groups = _toArray(select.querySelectorAll('optgroup'));
 				groups.forEach(function(optionGroup) {
-					$optionList.append(self._renderOptionGroup(optionGroup, ariaEnabled));
+					optionList.appendChild(self._renderOptionGroup(optionGroup, ariaEnabled));
 				});
 			} else {
 				var options = _toArray(select.querySelectorAll('option'));
 				options.forEach(function(option) {
-					$optionList.append(self._renderOption(option, select.disabled, ariaEnabled));
+					optionList.appendChild(self._renderOption(option, select.disabled, ariaEnabled));
 				});
 			}
 		},
 
 		_renderDisplayArea : function (disabled) {
 
-			var selectedOption = this._getSelectedOptionFromFoundationSelect()[0];
+			var displayArea = document.createElement('div');
 
-			var $displayArea = $('<div>', {
-				    'class' : 'display-area',
-				 'tabindex' : disabled ? null : 0,
-				       'id' : this._generateId('display-area')
-			});
+			var selectedOption = this._getSelectedOptionFromFoundationSelect();
+
+			displayArea.classList.add('display-area');
+			displayArea.setAttribute('tabindex', disabled ? null : 0);
+			displayArea.id = this._generateId('display-area')
 
 			var text = _getSelectedTextFromOption(selectedOption);
 			var value = selectedOption.value;
-			$displayArea.html(this.config.renderDisplayArea(text, value));
+			displayArea.innerHTML = this.config.renderDisplayArea(text, value);
 
 			if(this.config.ariaEnabled) {
 
-				$displayArea.attr({
-					         'role' : 'button',
-					'aria-haspopup' : true,
-					    'aria-owns' : this._generateId('option-list')
-				});  
+				displayArea.setAttribute('role', 'button');
+				displayArea.setAttribute('aria-haspopup', true);
+				displayArea.setAttribute('aria-owns', this._generateId('option-list'));
 			}
-			return $displayArea;
+			return displayArea;
 		},
 
 		_renderOptionGroup : function (optionGroup, ariaEnabled) {
-			var self = this;
-			var $optionGroup = $('<div>', {
-				      class : 'option-group'
-			});
 
-			$optionGroup.append(_renderOptionGroupLabel(optionGroup.label, this.config.prefix));
+			var self = this;
+
+			var optionGroupEl = document.createElement('div');
+			optionGroupEl.classList.add('option-group');
+
+			optionGroupEl.appendChild(_renderOptionGroupLabel(optionGroup.label, this.config.prefix));
 
 			if(optionGroup.disabled) {
-				$optionGroup.addClass('__disabled');
+				optionGroupEl.classList.add('__disabled');
 			}
 			_toArray(optionGroup.querySelectorAll('option')).forEach(function (option){
-				$optionGroup.append(self._renderOption(option, optionGroup.disabled, ariaEnabled));
+				optionGroupEl.appendChild(self._renderOption(option, optionGroup.disabled, ariaEnabled));
 			});
 
-			return $optionGroup;
+			return optionGroupEl;
 		},
 
 		_renderOption : function(option, parentDisabled, ariaEnabled) {
 
-			var $option =  $('<div>', {
-				     'class' : 'option',
-				  'tabindex' : (option.disabled || parentDisabled) ? null : -1,
-				'data-value' : option.value || option.innerHTML
-			});
+			var optionEl = document.createElement('div');
+			optionEl.classList.add('option');
+			optionEl.setAttribute('tabindex', (option.disabled || parentDisabled) ? null : -1);
+			optionEl.setAttribute('data-value', option.value || option.innerHTML );
 
 			var text = option.label || option.innerHTML;
 
-			$option.html(this.config.renderOption(text));
+			optionEl.innerHTML = this.config.renderOption(text)
 
 			if(ariaEnabled) {
-				$option.attr({
-					         'role' : 'option',
-					'aria-selected' : option.selected 
-				});
+				optionEl.setAttribute('role', 'option');
+				optionEl.setAttribute('aria-selected', option.selected);
 			}
 
 			if(option.selected) {
-				$option.addClass('__selected');
+				optionEl.classList.add('__selected');
 			}
 
 			if(option.disabled || parentDisabled) {
-				$option.addClass('__disabled');
+				optionEl.classList.add('__disabled');
 			}
-			return $option;
+			return optionEl;
 		},
 
 		_getOptionByIndex : function (index) {
-			// how to implement this in vanilla JS?
-			return this.$el.find(optionSelector).eq(index);
+			return this.el.querySelectorAll(optionSelector)[index];
 		},
 
 		_getCurrentSelected : function () {
@@ -468,17 +471,20 @@
 		// foundation select functions
 
 		_getSelectedOptionFromFoundationSelect : function () {
-			return $('option:selected', this.select);
+      return this.select.options[ this.select.selectedIndex ];
 		}
 	};
 
 	//  stateless functions
 
 	function _renderOptionGroupLabel(label, prefix) {
-		return $('<div>', { 
-			class : 'option-group-label',
-			 text : label 
-		});
+
+		var optionGroupLabel = document.createElement('div');
+		optionGroupLabel.classList.add('option-group-label');
+		optionGroupLabel.appendChild(document.createTextNode(label));
+
+		return optionGroupLabel;
+
 	}
 
 	//  foundation select utility functions
@@ -489,10 +495,6 @@
 
 	function _hasGroups(select) {
 		return select.querySelectorAll('optgroup').length > 0;
-	}
-
-	function _hasOptGroups(selectEl) {
-		return !!$('optgroup', selectEl).length;
 	}
 
 	// other utils
