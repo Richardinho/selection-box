@@ -94,14 +94,18 @@
 			//  handle change events on foundation select
 			this.select.addEventListener('change', this._handleFoundationSelectChange.bind(this));
 
-			//  handle mutation events on original select box
-			var observer = new MutationObserver(function(mutations) {
-				self.update();
-			});
-			// configuration of the observer:
-			var config = { childList: true };
-      // pass in the target node, as well as the observer options
-      observer.observe(this.select, config);
+			//  because PhantomJS doesn't support MutationObserver!!
+			if(typeof MutationObserver !== 'undefined') {
+
+				//  handle mutation events on original select box
+				var observer = new MutationObserver(function(mutations) {
+					self.update();
+				});
+				// configuration of the observer:
+				var config = { childList: true };
+	      // pass in the target node, as well as the observer options
+	      observer.observe(this.select, config);
+      }
 		},
 
 		//  handlers
@@ -433,6 +437,7 @@
 
 			var optionEl = document.createElement('div');
 			optionEl.classList.add('option');
+			//  todo : should set to '' if disabled?
 			optionEl.setAttribute('tabindex', (option.disabled || parentDisabled) ? null : -1);
 			optionEl.setAttribute('data-value', option.value || option.innerHTML );
 

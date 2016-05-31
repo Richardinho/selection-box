@@ -15,7 +15,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'web/lib/polyfill.js',
       'web/lib/jquery.js',
+      'web/lib/sundry.js',
+      'web/lib/dom.js',
       'js/**/*.js',
       'test/unit/**/*spec.js'
     ],
