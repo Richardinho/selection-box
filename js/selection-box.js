@@ -413,7 +413,7 @@
 			}
 			return displayArea;
 		},
-
+		//  tested
 		_renderOptionGroup : function (optionGroup, ariaEnabled) {
 
 			var self = this;
@@ -421,7 +421,7 @@
 			var optionGroupEl = document.createElement('div');
 			optionGroupEl.classList.add('option-group');
 
-			optionGroupEl.appendChild(_renderOptionGroupLabel(optionGroup.label, this.config.prefix));
+			optionGroupEl.appendChild(_renderOptionGroupLabel(optionGroup.label));
 
 			if(optionGroup.disabled) {
 				optionGroupEl.classList.add('__disabled');

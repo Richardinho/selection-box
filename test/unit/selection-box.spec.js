@@ -101,6 +101,48 @@ describe('selection box', function () {
 		});
 	});
 
+	describe('_renderOptionGroup()', function () {
+		var optionGroup, _renderOptionGroup, result, context;
+		beforeEach(function () {
+			var optionsHTML = [
+				'<option>a</option>',
+				'<option>b</option>',
+				'<option>c</option>',
+			].join('');
+			optionGroup = document.createElement('optgroup');
+
+			optionGroup.innerHTML = optionsHTML;
+
+			context = {
+				config : { prefix : 'foo' },
+				_renderOption : function () {
+					return document.createElement('div');
+				}
+			}
+			_renderOptionGroup = SelectionBox.prototype._renderOptionGroup.bind(context);
+		});
+		describe('when a label is supplied', function () {
+			beforeEach(function () {
+				optionGroup.label = 'shaving foam';
+				result = _renderOptionGroup(optionGroup, true);
+			});
+			it('should add label element', function () {
+				expect(result.classList.contains('option-group')).toBe(true);
+				expect(result.children.length).toBe(4);
+				expect(result.firstElementChild.textContent).toBe('shaving foam');
+			});
+		});
+		describe('when a option group is disabled', function () {
+			beforeEach(function () {
+				optionGroup.disabled = true;
+				result = _renderOptionGroup(optionGroup, true);
+			});
+			it('should add __disabled class', function () {
+				expect(result.classList.contains('__disabled')).toBe(true);
+			});
+		});
+	});
+
 	describe('_hasGroups()', function () {
 		describe('when select box contains only options', function () {
 			it('should return FALSE', function () {
