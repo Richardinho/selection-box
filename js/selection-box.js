@@ -432,7 +432,7 @@
 
 			return optionGroupEl;
 		},
-
+		//  tested
 		_renderOption : function(option, parentDisabled, ariaEnabled) {
 
 			var optionEl = document.createElement('div');
@@ -459,7 +459,7 @@
 			}
 			return optionEl;
 		},
-
+		//  tested
 		_getOptionByIndex : function (index) {
 			return this.el.querySelectorAll(optionSelector)[index];
 		},
@@ -481,7 +481,7 @@
 
 	//  stateless functions
 
-	function _renderOptionGroupLabel(label, prefix) {
+	function _renderOptionGroupLabel(label) {
 
 		var optionGroupLabel = document.createElement('div');
 		optionGroupLabel.classList.add('option-group-label');

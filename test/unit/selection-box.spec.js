@@ -18,6 +18,13 @@ describe('selection box', function () {
 		document.body.removeChild(root);
 	});
 
+	describe('_getOptionByIndex()', function () {
+		it('should return option by index', function () {
+			selectionBox = new SelectionBox('#alpha');
+			expect(selectionBox._getOptionByIndex(2).innerText).toBe('carrot');
+		})
+	});
+
 	describe('When selection box is created from ordinary select dropdown', function () {
 		beforeEach(function () {
 			selectionBox = new SelectionBox('#alpha');
@@ -112,6 +119,8 @@ describe('selection box', function () {
 		return [
 			'<select id="alpha">',
 				'<option>apple</option>',
+				'<option>banana</option>',
+				'<option>carrot</option>',
 			'</select>'
 		].join('');
 	}
