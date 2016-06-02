@@ -230,6 +230,10 @@
 			this.el.setAttribute('data-state', 'closed');
 		},
 
+		_focusOn : function($el) {
+			$el.focus();
+		},
+
 		_focusOnPreviousOption : function(option) {
 		//  todo: convert to vanilla
 			var $option = $(option);  // *
@@ -239,7 +243,7 @@
 				if($prevOption.hasClass('__disabled')) {  // *
 					this._focusOnPreviousOption($prevOption);
 				} else {
-					$prevOption.focus();
+					this._focusOn($prevOption);
 				}
 			} else if($(option).parent(optionGroupSelector).length) {   // *
 				//  if option is in a group, try a previous group
@@ -249,7 +253,7 @@
 					$prevOption = $prevGroup.find(optionSelector).last();  // *
 					if($prevOption.length){
 						if(!$prevOption.hasClass('__disabled')) {  // *
-							$prevOption.focus();  // *
+							this._focusOn($prevOption);
 						} else {
 							this._focusOnPreviousOption($prevOption);
 						}

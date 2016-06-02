@@ -95,14 +95,18 @@
 			//  handle change events on foundation select
 			this.select.addEventListener('change', this._handleFoundationSelectChange.bind(this));
 
-			//  handle mutation events on original select box
-			var observer = new MutationObserver(function(mutations) {
-				self.update();
-			});
-			// configuration of the observer:
-			var config = { childList: true };
-      // pass in the target node, as well as the observer options
-      observer.observe(this.select, config);
+			//  because PhantomJS doesn't support MutationObserver!!
+			if(typeof MutationObserver !== 'undefined') {
+
+				//  handle mutation events on original select box
+				var observer = new MutationObserver(function(mutations) {
+					self.update();
+				});
+				// configuration of the observer:
+				var config = { childList: true };
+	      // pass in the target node, as well as the observer options
+	      observer.observe(this.select, config);
+      }
 		},
 
 		//  handlers
@@ -227,6 +231,10 @@
 			this.el.setAttribute('data-state', 'closed');
 		},
 
+		_focusOn : function($el) {
+			$el.focus();
+		},
+
 		_focusOnPreviousOption : function(option) {
 		//  todo: convert to vanilla
 			var $option = $(option);  // *
@@ -236,7 +244,7 @@
 				if($prevOption.hasClass('__disabled')) {  // *
 					this._focusOnPreviousOption($prevOption);
 				} else {
-					$prevOption.focus();
+					this._focusOn($prevOption);
 				}
 			} else if($(option).parent(optionGroupSelector).length) {   // *
 				//  if option is in a group, try a previous group
@@ -246,7 +254,7 @@
 					$prevOption = $prevGroup.find(optionSelector).last();  // *
 					if($prevOption.length){
 						if(!$prevOption.hasClass('__disabled')) {  // *
-							$prevOption.focus();  // *
+							this._focusOn($prevOption);
 						} else {
 							this._focusOnPreviousOption($prevOption);
 						}
@@ -410,7 +418,7 @@
 			}
 			return displayArea;
 		},
-
+		//  tested
 		_renderOptionGroup : function (optionGroup, ariaEnabled) {
 
 			var self = this;
@@ -418,7 +426,7 @@
 			var optionGroupEl = document.createElement('div');
 			optionGroupEl.classList.add('option-group');
 
-			optionGroupEl.appendChild(_renderOptionGroupLabel(optionGroup.label, this.config.prefix));
+			optionGroupEl.appendChild(_renderOptionGroupLabel(optionGroup.label));
 
 			if(optionGroup.disabled) {
 				optionGroupEl.classList.add('__disabled');
@@ -429,11 +437,12 @@
 
 			return optionGroupEl;
 		},
-
+		//  tested
 		_renderOption : function(option, parentDisabled, ariaEnabled) {
 
 			var optionEl = document.createElement('div');
 			optionEl.classList.add('option');
+			//  todo : should set to '' if disabled?
 			optionEl.setAttribute('tabindex', (option.disabled || parentDisabled) ? null : -1);
 			optionEl.setAttribute('data-value', option.value || option.innerHTML );
 
@@ -455,7 +464,7 @@
 			}
 			return optionEl;
 		},
-
+		//  tested
 		_getOptionByIndex : function (index) {
 			return this.el.querySelectorAll(optionSelector)[index];
 		},
@@ -477,7 +486,7 @@
 
 	//  stateless functions
 
-	function _renderOptionGroupLabel(label, prefix) {
+	function _renderOptionGroupLabel(label) {
 
 		var optionGroupLabel = document.createElement('div');
 		optionGroupLabel.classList.add('option-group-label');
