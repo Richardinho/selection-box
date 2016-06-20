@@ -7,19 +7,19 @@ describe('_focusOnPreviousOption(): ordinary select box', function () {
 		document.body.appendChild(root);
 
 		_focusOnPreviousOption = SelectionBox.prototype._focusOnPreviousOption;
-			context = {
-				_focusOnPreviousOption : _focusOnPreviousOption,
-				_focusOn : function () {}
-			};
-			spyOnFocus = spyOn(context, '_focusOn');
+		context = {
+			_focusOnPreviousOption : _focusOnPreviousOption,
+			_focusOn : function () {}
+		};
+		spyOnFocus = spyOn(context, '_focusOn');
 
-			root.innerHTML = createSelectionBoxHTML();
+		root.innerHTML = createSelectionBoxHTML();
 
-			optionA = document.getElementById('a');
-			optionB = document.getElementById('b');
-			optionC = document.getElementById('c');
-			optionD = document.getElementById('d');
-			optionE = document.getElementById('e');
+		optionA = document.getElementById('a');
+		optionB = document.getElementById('b');
+		optionC = document.getElementById('c');
+		optionD = document.getElementById('d');
+		optionE = document.getElementById('e');
 	});
 
 	afterEach(function () {
@@ -33,7 +33,7 @@ describe('_focusOnPreviousOption(): ordinary select box', function () {
 			expect(focusedEl).toBe(optionA);
 		});
 	});
-	describe('When there is a NOT previous option', function () {
+	describe('When there is NOT a previous option', function () {
 		it('should remain on current option', function (){
 			_focusOnPreviousOption.call(context, optionA);
 			expect(spyOnFocus).not.toHaveBeenCalled();
