@@ -4,6 +4,20 @@ describe('_toArray()', function () {
     
     var arrayLike, resultArray;
 
+    describe('_parent()', function () {
+
+
+				//  todo: write test
+
+    });
+
+    describe('_prev()', function () {
+
+
+				//  todo: write test
+
+    });
+
     describe('when array-like is Arguments', function () {
         beforeEach(function() {
             arrayLike = createArrayLike('alpha', 'beta', 'gamma', 'delta'); 

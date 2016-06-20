@@ -230,32 +230,30 @@
 			this.el.setAttribute('data-state', 'closed');
 		},
 
-		_focusOn : function($el) {
-			$el.focus();
+		_focusOn : function(el) {
+			el.focus();
 		},
 
 		_focusOnPreviousOption : function(option) {
-		//  todo: convert to vanilla
-			var $option = $(option);  // *
-			var $prevOption = $(option).prev(optionSelector);  // *
-			if($prevOption.length) {  // *
+			var prevOption = _prev(option, optionSelector);
+			if(prevOption) {
 				//  if there is a previous option and it isn't disabled, focus on it. Otherwise recursively call this function
-				if($prevOption.hasClass('__disabled')) {  // *
-					this._focusOnPreviousOption($prevOption);
+				if(prevOption.classList.contains('__disabled')) {
+					this._focusOnPreviousOption(prevOption);
 				} else {
-					this._focusOn($prevOption);
+					this._focusOn(prevOption);
 				}
-			} else if($(option).parent(optionGroupSelector).length) {   // *
+			} else if(_parent(option, optionGroupSelector)) {
 				//  if option is in a group, try a previous group
-				var $parent = $(option).parent(optionGroupSelector);   // *
-				var $prevGroup = this._getPrevGroup($parent);  // *
-				if($prevGroup) {
-					$prevOption = $prevGroup.find(optionSelector).last();  // *
-					if($prevOption.length){
-						if(!$prevOption.hasClass('__disabled')) {  // *
-							this._focusOn($prevOption);
+				var parent = _parent(option, optionGroupSelector);
+				var prevGroup = this._getPrevGroup(parent);
+				if(prevGroup) {
+					prevOption = _toArray(prevGroup.querySelectorAll(optionSelector)).pop();
+					if(prevOption){
+						if(!prevOption.classList.contains('__disabled')) {
+							this._focusOn(prevOption);
 						} else {
-							this._focusOnPreviousOption($prevOption);
+							this._focusOnPreviousOption(prevOption);
 						}
 					}
 				}
@@ -289,17 +287,14 @@
 		},
 
 		_getPrevGroup : function(group) {
-		//  todo: convert to vanilla
-			var $group = $(group);
-			var $prevGroup = $group.prev(optionGroupSelector);
-			if($prevGroup.length) {
-				if($prevGroup.hasClass('__disabled')) {
+			var prevGroup = _prev(group,optionGroupSelector);
+			if(prevGroup) {
+				if(prevGroup.classList.contains('__disabled')) {
 					// skip this group
-					return this._getPrevGroup($prevGroup);
+					return this._getPrevGroup(prevGroup);
 				} else {
-					return $prevGroup;
+					return prevGroup;
 				}
-
 			} else {
 				return false;
 			}
@@ -512,6 +507,29 @@
 
 	function _getElementDimensions(el) {
     return el.getBoundingClientRect();
+  }
+
+	/*
+		Get the immediately preceding sibling of each
+		element in the set of matched elements.
+		If a selector is provided, it retrieves the previous
+		 sibling only if it matches that selector.
+	*/
+	function _prev(el, selector) {
+		var prevSibling = el.previousElementSibling;
+		return prevSibling && matches(prevSibling, selector) ? prevSibling : null;
+	}
+
+	function _parent(el, selector) {
+		var parent = el.parentNode;
+		return parent && matches(parent, selector) ? parent : null;
+	}
+
+	function matches(elm, selector) {
+    var matches = (elm.document || elm.ownerDocument).querySelectorAll(selector),
+        i = matches.length;
+    while (--i >= 0 && matches.item(i) !== elm) {}
+    return i > -1;
   }
 
 

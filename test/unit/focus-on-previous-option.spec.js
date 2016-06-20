@@ -29,7 +29,7 @@ describe('_focusOnPreviousOption(): ordinary select box', function () {
 	describe('When there is a previous option', function () {
 		it('should focus on previous option', function (){
 			_focusOnPreviousOption.call(context, optionB);
-			focusedEl = spyOnFocus.calls.argsFor(0)[0][0];
+			focusedEl = spyOnFocus.calls.argsFor(0)[0];
 			expect(focusedEl).toBe(optionA);
 		});
 	});
@@ -42,7 +42,7 @@ describe('_focusOnPreviousOption(): ordinary select box', function () {
 	describe('when previous option is disabled', function (){
 		it('should call previous enabled option', function (){
 			_focusOnPreviousOption.call(context, optionD);
-			focusedEl = spyOnFocus.calls.argsFor(0)[0][0];
+			focusedEl = spyOnFocus.calls.argsFor(0)[0];
 			expect(focusedEl).toBe(optionB);
 		});
 	});
