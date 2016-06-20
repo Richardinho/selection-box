@@ -1,4 +1,4 @@
-describe('_focusOnPreviousOption(): multi select box', function () {
+describe('_focusOnPreviousOption(): select box with groups', function () {
 	var _focusOnPreviousOption,
 	    focusedEl,
 	    context,
