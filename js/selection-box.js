@@ -269,6 +269,7 @@
 					this._focusOnNextOption($nextOption);
 				} else {
 					$nextOption.focus();
+					this._focusOn($nextOption);
 				}
 			} else if($option.parent(optionGroupSelector).length) {
 				var $parent = $option.parent(optionGroupSelector);
