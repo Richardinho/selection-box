@@ -219,7 +219,7 @@
 			var selectedIndex = this.select.selectedIndex;
 
 			//todo: get a child node by its index
-			$(optionSelector, this.el).eq(selectedIndex).focus();
+			$(optionSelector, this.el).eq(selectedIndex).focus();  //jquery
 		},
 
 		_closeOptionList : function () {
@@ -299,10 +299,7 @@
 		},
 
 		_getNextGroup : function(group) {
-		//  todo: convert to vanilla
-			var $group = $(group);
-			var $nextGroup = $group.next(optionGroupSelector);
-			var nextGroup = $nextGroup[0];
+			var nextGroup = _next(group, optionGroupSelector);
 			if(nextGroup) {
 				if(nextGroup.classList.contains('__disabled')) {
 					// skip this group
@@ -310,7 +307,6 @@
 				} else {
 					return nextGroup;
 				}
-
 			} else {
 				return false;
 			}
