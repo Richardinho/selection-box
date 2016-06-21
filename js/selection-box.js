@@ -278,7 +278,7 @@
 					$nextOption = $nextGroup.find(optionSelector).first();
 					if($nextOption.length) {
 						if(!$nextOption.hasClass('__disabled')) {
-							$nextOption.focus();
+							this._focusOn($nextOption);
 						} else {
 							this._focusOnNextOption($nextOption);
 						}
