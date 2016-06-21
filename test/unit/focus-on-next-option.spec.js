@@ -38,7 +38,7 @@ describe('_focusOnNextOption(): ordinary select box', function () {
 	describe('When there is a following option', function () {
 		it('should focus on following option', function (){
 			_focusOnNextOption.call(context, optionA);
-			focusedEl = spyOnFocus.calls.argsFor(0)[0][0];
+			focusedEl = spyOnFocus.calls.argsFor(0)[0];
 			expect(focusedEl).toBe(optionB);
 		});
 	});
@@ -51,7 +51,7 @@ describe('_focusOnNextOption(): ordinary select box', function () {
 	describe('when following option is disabled', function (){
 		it('should call previous enabled option', function (){
 			_focusOnNextOption.call(context, optionB);
-			focusedEl = spyOnFocus.calls.argsFor(0)[0][0];
+			focusedEl = spyOnFocus.calls.argsFor(0)[0];
 			expect(focusedEl).toBe(optionD);
 		});
 	});

@@ -261,28 +261,25 @@
 		},
 
 		_focusOnNextOption : function(option) {
-		//  todo: convert to vanilla
-			var $option = $(option); // wrap option in $
-			var $nextOption = $option.next(optionSelector);
-			if($nextOption.length) {
-				if($nextOption.hasClass('__disabled')) {
-					this._focusOnNextOption($nextOption);
+			var nextOption = _next(option, optionSelector);
+			if(nextOption) {
+				if(nextOption.classList.contains('__disabled')) {
+					this._focusOnNextOption(nextOption);
 				} else {
-					$nextOption.focus();
-					this._focusOn($nextOption);
+					this._focusOn(nextOption);
 				}
-			} else if($option.parent(optionGroupSelector).length) {
-				var $parent = $option.parent(optionGroupSelector);
-				var $nextGroup = $(this._getNextGroup($parent[0]));
-				if($nextGroup) {
-					$nextOption = $nextGroup.find(optionSelector).first();
-					if($nextOption.length) {
-						if(!$nextOption.hasClass('__disabled')) {
-							this._focusOn($nextOption);
+			} else if(_parent(option, optionGroupSelector)) {
+				var parent = _parent(option, optionGroupSelector);
+				var nextGroup = this._getNextGroup(parent);
+				if(nextGroup) {
+					var nextOption = _toArray(nextGroup.querySelectorAll(optionSelector)).shift();
+					if(nextOption) {
+						if(!nextOption.classList.contains('__disabled')) {
+							this._focusOn(nextOption);
 						} else {
-							this._focusOnNextOption($nextOption);
+							this._focusOnNextOption(nextOption);
 						}
-					} // no
+					}
 				}
 			};
 		},
@@ -519,6 +516,11 @@
 	function _prev(el, selector) {
 		var prevSibling = el.previousElementSibling;
 		return prevSibling && matches(prevSibling, selector) ? prevSibling : null;
+	}
+
+	function _next(el, selector) {
+		var nextSibling = el.nextElementSibling;
+		return nextSibling && matches(nextSibling, selector) ? nextSibling : null;
 	}
 
 	function _parent(el, selector) {

@@ -53,7 +53,7 @@ describe('_focusOnNextOption(): select box with groups', function () {
 	describe('When there is a next option', function () {
 		it('should focus on next option', function() {
 			_focusOnNextOption.call(context, optionA);
-			focusedEl = spyOnFocus.calls.argsFor(0)[0][0];
+			focusedEl = spyOnFocus.calls.argsFor(0)[0];
 			expect(focusedEl).toBe(optionB);
 		});
 	});
@@ -66,20 +66,20 @@ describe('_focusOnNextOption(): select box with groups', function () {
 	describe('when on last option in group', function () {
 		it('should focus on next option in next group', function () {
 			_focusOnNextOption.call(context, optionI);
-			focusedEl = spyOnFocus.calls.argsFor(0)[0][0];
+			focusedEl = spyOnFocus.calls.argsFor(0)[0];
 			expect(focusedEl).toBe(optionJ);
 		});
 		describe('when next option is disabled', function () {
 			it('should skip to next enabled option', function () {
 				_focusOnNextOption.call(context, optionE);
-  			focusedEl = spyOnFocus.calls.argsFor(0)[0][0];
+  			focusedEl = spyOnFocus.calls.argsFor(0)[0];
   			expect(focusedEl).toBe(optionG);
 			});
 		});
 		describe('when next group is disabled', function () {
 			it('should skip to next enabled option', function () {
 				_focusOnNextOption.call(context, optionJ);
-				focusedEl = spyOnFocus.calls.argsFor(0)[0][0];
+				focusedEl = spyOnFocus.calls.argsFor(0)[0];
 				expect(focusedEl).toBe(optionK);
 			});
 		});
