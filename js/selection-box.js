@@ -217,9 +217,7 @@
 
 			//  focus on currently selected option
 			var selectedIndex = this.select.selectedIndex;
-
-			//todo: get a child node by its index
-			$(optionSelector, this.el).eq(selectedIndex).focus();  //jquery
+			this.el.querySelectorAll(optionSelector)[selectedIndex].focus();
 		},
 
 		_closeOptionList : function () {
@@ -235,7 +233,7 @@
 		},
 
 		_focusOnPreviousOption : function(option) {
-			var prevOption = _prev(option, optionSelector);
+			var prevOption = domutils.prev(option, optionSelector);
 			if(prevOption) {
 				//  if there is a previous option and it isn't disabled, focus on it. Otherwise recursively call this function
 				if(prevOption.classList.contains('__disabled')) {
@@ -243,9 +241,9 @@
 				} else {
 					this._focusOn(prevOption);
 				}
-			} else if(_parent(option, optionGroupSelector)) {
+			} else if(domutils.parent(option, optionGroupSelector)) {
 				//  if option is in a group, try a previous group
-				var parent = _parent(option, optionGroupSelector);
+				var parent = domutils.parent(option, optionGroupSelector);
 				var prevGroup = this._getPrevGroup(parent);
 				if(prevGroup) {
 					prevOption = _toArray(prevGroup.querySelectorAll(optionSelector)).pop();
@@ -261,15 +259,15 @@
 		},
 
 		_focusOnNextOption : function(option) {
-			var nextOption = _next(option, optionSelector);
+			var nextOption = domutils.next(option, optionSelector);
 			if(nextOption) {
 				if(nextOption.classList.contains('__disabled')) {
 					this._focusOnNextOption(nextOption);
 				} else {
 					this._focusOn(nextOption);
 				}
-			} else if(_parent(option, optionGroupSelector)) {
-				var parent = _parent(option, optionGroupSelector);
+			} else if(domutils.parent(option, optionGroupSelector)) {
+				var parent = domutils.parent(option, optionGroupSelector);
 				var nextGroup = this._getNextGroup(parent);
 				if(nextGroup) {
 					var nextOption = _toArray(nextGroup.querySelectorAll(optionSelector)).shift();
@@ -285,7 +283,7 @@
 		},
 
 		_getPrevGroup : function(group) {
-			var prevGroup = _prev(group,optionGroupSelector);
+			var prevGroup = domutils.prev(group,optionGroupSelector);
 			if(prevGroup) {
 				if(prevGroup.classList.contains('__disabled')) {
 					// skip this group
@@ -299,7 +297,7 @@
 		},
 
 		_getNextGroup : function(group) {
-			var nextGroup = _next(group, optionGroupSelector);
+			var nextGroup = domutils.next(group, optionGroupSelector);
 			if(nextGroup) {
 				if(nextGroup.classList.contains('__disabled')) {
 					// skip this group
@@ -501,34 +499,6 @@
 
 	function _getElementDimensions(el) {
     return el.getBoundingClientRect();
-  }
-
-	/*
-		Get the immediately preceding sibling of each
-		element in the set of matched elements.
-		If a selector is provided, it retrieves the previous
-		 sibling only if it matches that selector.
-	*/
-	function _prev(el, selector) {
-		var prevSibling = el.previousElementSibling;
-		return prevSibling && matches(prevSibling, selector) ? prevSibling : null;
-	}
-
-	function _next(el, selector) {
-		var nextSibling = el.nextElementSibling;
-		return nextSibling && matches(nextSibling, selector) ? nextSibling : null;
-	}
-
-	function _parent(el, selector) {
-		var parent = el.parentNode;
-		return parent && matches(parent, selector) ? parent : null;
-	}
-
-	function matches(elm, selector) {
-    var matches = (elm.document || elm.ownerDocument).querySelectorAll(selector),
-        i = matches.length;
-    while (--i >= 0 && matches.item(i) !== elm) {}
-    return i > -1;
   }
 
 

@@ -1,4 +1,4 @@
-+function($, global){
++function(global){
 var utils = utils || {};
 
 
@@ -169,4 +169,4 @@ var utils = utils || {};
 
 	global.SelectionBox = SelectionBox;
 
-}(jQuery, window);
+}(window);

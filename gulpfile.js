@@ -37,7 +37,7 @@ gulp.task('sass', function () {
 
 gulp.task('wrap', function () {
 	gulp.src('./js/*.js')
-		.pipe(wrap('+function($, global){\n<%= contents %>\n\tglobal.SelectionBox = SelectionBox;\n\n}(jQuery, window);'))
+		.pipe(wrap('+function(global){\n<%= contents %>\n\tglobal.SelectionBox = SelectionBox;\n\n}(window);'))
 		.pipe(gulp.dest("./web/js"));
 });
 

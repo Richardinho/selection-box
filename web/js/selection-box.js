@@ -1,14 +1,7 @@
-+function($, global){
++function(global){
 
 
 	'use strict';
-
-	function matches(elm, selector) {
-      var matches = (elm.document || elm.ownerDocument).querySelectorAll(selector),
-          i = matches.length;
-      while (--i >= 0 && matches.item(i) !== elm) {}
-      return i > -1;
-  }
 
 
 	var RETURN = 13,
@@ -225,9 +218,7 @@
 
 			//  focus on currently selected option
 			var selectedIndex = this.select.selectedIndex;
-
-			//todo: get a child node by its index
-			$(optionSelector, this.el).eq(selectedIndex).focus();
+			this.el.querySelectorAll(optionSelector)[selectedIndex].focus();
 		},
 
 		_closeOptionList : function () {
@@ -243,7 +234,7 @@
 		},
 
 		_focusOnPreviousOption : function(option) {
-			var prevOption = _prev(option, optionSelector);
+			var prevOption = domutils.prev(option, optionSelector);
 			if(prevOption) {
 				//  if there is a previous option and it isn't disabled, focus on it. Otherwise recursively call this function
 				if(prevOption.classList.contains('__disabled')) {
@@ -251,9 +242,9 @@
 				} else {
 					this._focusOn(prevOption);
 				}
-			} else if(_parent(option, optionGroupSelector)) {
+			} else if(domutils.parent(option, optionGroupSelector)) {
 				//  if option is in a group, try a previous group
-				var parent = _parent(option, optionGroupSelector);
+				var parent = domutils.parent(option, optionGroupSelector);
 				var prevGroup = this._getPrevGroup(parent);
 				if(prevGroup) {
 					prevOption = _toArray(prevGroup.querySelectorAll(optionSelector)).pop();
@@ -269,34 +260,31 @@
 		},
 
 		_focusOnNextOption : function(option) {
-		//  todo: convert to vanilla
-			var $option = $(option); // wrap option in $
-			var $nextOption = $option.next(optionSelector);
-			if($nextOption.length) {
-				if($nextOption.hasClass('__disabled')) {
-					this._focusOnNextOption($nextOption);
+			var nextOption = domutils.next(option, optionSelector);
+			if(nextOption) {
+				if(nextOption.classList.contains('__disabled')) {
+					this._focusOnNextOption(nextOption);
 				} else {
-					$nextOption.focus();
+					this._focusOn(nextOption);
 				}
-			} else if($option.parent(optionGroupSelector).length) {
-				var $parent = $option.parent(optionGroupSelector);
-				var $nextGroup = $(this._getNextGroup($parent[0]));
-				if($nextGroup) {
-					$nextOption = $nextGroup.find(optionSelector).first();
-					if($nextOption.length) {
-						if(!$nextOption.hasClass('__disabled')) {
-							$nextOption.focus();
+			} else if(domutils.parent(option, optionGroupSelector)) {
+				var parent = domutils.parent(option, optionGroupSelector);
+				var nextGroup = this._getNextGroup(parent);
+				if(nextGroup) {
+					var nextOption = _toArray(nextGroup.querySelectorAll(optionSelector)).shift();
+					if(nextOption) {
+						if(!nextOption.classList.contains('__disabled')) {
+							this._focusOn(nextOption);
 						} else {
-							this._focusOnNextOption($nextOption);
+							this._focusOnNextOption(nextOption);
 						}
-					} // no
+					}
 				}
 			};
 		},
 
 		_getPrevGroup : function(group) {
-		//  todo: convert to vanilla
-			var prevGroup = _prev(group,optionGroupSelector);
+			var prevGroup = domutils.prev(group,optionGroupSelector);
 			if(prevGroup) {
 				if(prevGroup.classList.contains('__disabled')) {
 					// skip this group
@@ -304,17 +292,13 @@
 				} else {
 					return prevGroup;
 				}
-
 			} else {
 				return false;
 			}
 		},
 
 		_getNextGroup : function(group) {
-		//  todo: convert to vanilla
-			var $group = $(group);
-			var $nextGroup = $group.next(optionGroupSelector);
-			var nextGroup = $nextGroup[0];
+			var nextGroup = domutils.next(group, optionGroupSelector);
 			if(nextGroup) {
 				if(nextGroup.classList.contains('__disabled')) {
 					// skip this group
@@ -322,7 +306,6 @@
 				} else {
 					return nextGroup;
 				}
-
 			} else {
 				return false;
 			}
@@ -519,24 +502,8 @@
     return el.getBoundingClientRect();
   }
 
-	/*
-		Get the immediately preceding sibling of each
-		element in the set of matched elements.
-		If a selector is provided, it retrieves the previous
-		 sibling only if it matches that selector.
-	*/
-	function _prev(el, selector) {
-		var prevSibling = el.previousElementSibling;
-		return prevSibling && matches(prevSibling, selector) ? prevSibling : null;
-	}
-
-	function _parent(el, selector) {
-		var parent = el.parentNode;
-		return parent && matches(parent, selector) ? parent : null;
-	}
-
 
 
 	global.SelectionBox = SelectionBox;
 
-}(jQuery, window);
+}(window);
