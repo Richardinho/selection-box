@@ -1,5 +1,16 @@
-+function(global){
+(function(root, factory) {
 
+	if (typeof define === 'function' && define.amd) {
+		define(['utils'], function(utils) {
+			return factory(utils);
+		});
+	} else if (typeof exports !== 'undefined') {
+		exports = factory(require('utils'));
+	} else {
+		root.SelectionBox = factory(root.utils);
+	}
+
+})(window, function(utils) {
 
 	'use strict';
 
@@ -16,7 +27,10 @@
 	    optionListSelector  = '.option-list',
 	    optionGroupSelector = '.option-group';
 
-
+	/*
+		todo: multiselect support
+		autocomplete maybe?
+	*/
 	function SelectionBox(selectEl, options){
 
 		if( !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ) {
@@ -499,11 +513,11 @@
 	}
 
 	function _getElementDimensions(el) {
-    return el.getBoundingClientRect();
-  }
+		return el.getBoundingClientRect();
+	}
 
 
 
-	global.SelectionBox = SelectionBox;
 
-}(window);
+	return SelectionBox;
+});

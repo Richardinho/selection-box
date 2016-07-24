@@ -16,11 +16,31 @@ gulp.task('browser-sync', function() {
 
 gulp.task('build', function () {
 	gulp.src([
-	  'bower_components/jquery/dist/jquery.js',
 	  'bower_components/richardUtils/src/dom.js',
 	  'bower_components/richardUtils/src/sundry.js'])
 		.pipe(gulp.dest('./web/lib'));
 });
+
+gulp.task('dependencies', function () {
+	gulp.src([
+		'bower_components/richardUtils/src/dom.js',
+		'bower_components/richardUtils/src/sundry.js'])
+		.pipe(gulp.dest('./build/lib'));
+});
+
+gulp.task('sass-for-build', function () {
+	gulp.src('./scss/**/*.scss')
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest('./build/css'));
+});
+
+gulp.task('wrap-for-build', function () {
+	gulp.src('./js/selection-box.js')
+		.pipe(wrap({ src: './template.txt'}))
+		.pipe(gulp.dest("./build"));
+});
+
+gulp.task('deploy', ['dependencies', 'wrap-for-build', 'sass-for-build']);
 
 gulp.task('test', function (done) {
   new Server({
@@ -36,8 +56,8 @@ gulp.task('sass', function () {
 });
 
 gulp.task('wrap', function () {
-	gulp.src('./js/*.js')
-		.pipe(wrap('+function(global){\n<%= contents %>\n\tglobal.SelectionBox = SelectionBox;\n\n}(window);'))
+	gulp.src('./js/selection-box.js')
+		.pipe(wrap({ src: './template.txt'}))
 		.pipe(gulp.dest("./web/js"));
 });
 

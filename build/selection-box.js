@@ -1,3 +1,17 @@
+(function(root, factory) {
+
+	if (typeof define === 'function' && define.amd) {
+		define(['domutils', 'sundry'], function(utils, sundry) {
+			return factory(utils, sundry);
+		});
+	} else if (typeof exports !== 'undefined') {
+		exports = factory(require('dom-utils'), require('sundry'));
+	} else {
+		root.SelectionBox = factory(root.domutils, root.sundry);
+	}
+
+})(window, function(domutils, sundry) {
+
 	'use strict';
 
 
@@ -503,3 +517,7 @@
 	}
 
 
+
+
+	return SelectionBox;
+});
