@@ -20,7 +20,14 @@
     "tests",
     "scss",
     "js",
-    "web"
+    "web",
+    "template.txt",
+    "conf.js",
+    "gulpfile.js",
+    "*.iml",
+    "karma.conf.js"
+
+
   ],
   "dependencies": {
     "richardUtils": "richy-utils#*"

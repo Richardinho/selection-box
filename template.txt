@@ -5,7 +5,7 @@
 			return factory(utils, sundry);
 		});
 	} else if (typeof exports !== 'undefined') {
-		exports = factory(require('dom-utils'), require('sundry'));
+		exports = factory(require('./lib/dom-utils'), require('./lib/sundry'));
 	} else {
 		root.SelectionBox = factory(root.domutils, root.sundry);
 	}

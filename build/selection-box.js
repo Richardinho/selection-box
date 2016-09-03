@@ -5,7 +5,7 @@
 			return factory(utils, sundry);
 		});
 	} else if (typeof exports !== 'undefined') {
-		exports = factory(require('dom-utils'), require('sundry'));
+		exports = factory(require('./lib/dom-utils'), require('./lib/sundry'));
 	} else {
 		root.SelectionBox = factory(root.domutils, root.sundry);
 	}
@@ -28,8 +28,9 @@
 	    optionGroupSelector = '.option-group';
 
 	/*
-		todo: multiselect support
-		autocomplete maybe?
+		todo:
+		1. multiselect support
+		2. support for focus when clicking on any label belonging to select box
 	*/
 	function SelectionBox(selectEl, options){
 

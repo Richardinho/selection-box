@@ -1,16 +1,16 @@
 (function(root, factory) {
 
 	if (typeof define === 'function' && define.amd) {
-		define(['utils'], function(utils) {
-			return factory(utils);
+		define(['domutils', 'sundry'], function(utils, sundry) {
+			return factory(utils, sundry);
 		});
 	} else if (typeof exports !== 'undefined') {
-		exports = factory(require('utils'));
+		exports = factory(require('./lib/dom-utils'), require('./lib/sundry'));
 	} else {
-		root.SelectionBox = factory(root.utils);
+		root.SelectionBox = factory(root.domutils, root.sundry);
 	}
 
-})(window, function(utils) {
+})(window, function(domutils, sundry) {
 
 	'use strict';
 
@@ -28,8 +28,9 @@
 	    optionGroupSelector = '.option-group';
 
 	/*
-		todo: multiselect support
-		autocomplete maybe?
+		todo:
+		1. multiselect support
+		2. support for focus when clicking on any label belonging to select box
 	*/
 	function SelectionBox(selectEl, options){
 
