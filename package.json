@@ -1,12 +1,14 @@
 {
   "name": "selection-box",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Vanilla JS library for custom select elements",
   "directories": {
     "test": "test"
   },
-  "files" : ["build"],
-  "main" : "build/selection-box.js",
+  "files": [
+    "build"
+  ],
+  "main": "build/selection-box.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
