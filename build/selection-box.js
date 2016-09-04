@@ -1,18 +1,21 @@
 (function(root, factory) {
 
 	if (typeof define === 'function' && define.amd) {
-		define(['domutils', 'sundry'], function(utils, sundry) {
-			return factory(utils, sundry);
+		define(['richardUtils'], function(richardUtils) {
+			return factory(richardUtils);
 		});
 	} else if (typeof exports !== 'undefined') {
-		exports = factory(require('./lib/dom-utils'), require('./lib/sundry'));
+		module.exports = factory(require('richardUtils'));
 	} else {
-		root.SelectionBox = factory(root.domutils, root.sundry);
+		root.SelectionBox = factory(root.richardUtils);
 	}
 
-})(window, function(domutils, sundry) {
+})(window, function(richardUtils) {
 
-	'use strict';
+	var sundry = richardUtils.sundry;
+	var domutils = richardUtils.domUtils;
+
+		'use strict';
 
 
 	var RETURN = 13,

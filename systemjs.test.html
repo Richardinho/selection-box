@@ -1,0 +1,41 @@
+<html>
+<head>
+	<link href='./web/css/reset.css' rel='stylesheet'>
+	<link href='./build/css/main.css' rel='stylesheet'>
+	<style>
+		body {
+			padding : 150px;
+		}
+		.selection-box {
+			width : 200px;
+		}
+		</style>
+</head>
+<body>
+
+	<select id='vanilla'>
+		<option>alpha</option>
+		<option>beta</option>
+		<option>gamma</option>
+		<option>delta</option>
+		<option>epsilon</option>
+		<option>epsilon</option>
+		<option>epsilon</option>
+		<option>epsilon</option>
+		<option>epsilon</option>
+	</select>
+
+<script src="https://jspm.io/system@0.19.js"></script>
+<script>
+		System.config({
+			map : {
+				'selection-box' : './build/selection-box.js',
+				'richardUtils' : './node_modules/richardUtils/src/index.js'
+			}
+		});
+		System.import('selection-box').then(function(SelectionBox) {
+			var vanilla = new SelectionBox('#vanilla');
+		});
+	</script>
+</body>
+<html>

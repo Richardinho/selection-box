@@ -23,7 +23,8 @@
 	position: absolute;
 	left: 4px;
 	width: 100%;
-	overflow : scroll;
+	overflow-y : auto;
+
 }
 
 .selection-box .option-list.below {

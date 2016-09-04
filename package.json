@@ -1,10 +1,12 @@
 {
-  "name": "styledSelect",
+  "name": "selection-box",
   "version": "0.1.0",
-  "description": "Jquery plug in for custom select elements",
+  "description": "Vanilla JS library for custom select elements",
   "directories": {
     "test": "test"
   },
+  "files" : ["build"],
+  "main" : "build/selection-box.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,5 +28,8 @@
   },
   "author": "Richard Hunter",
   "license": "MIT",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "richardUtils": "^0.6.1"
+  }
 }

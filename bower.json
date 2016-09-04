@@ -28,8 +28,5 @@
     "karma.conf.js"
 
 
-  ],
-  "dependencies": {
-    "richardUtils": "richy-utils#*"
-  }
+  ]
 }
