@@ -4,5 +4,7 @@ node_js:
 before_script:
   - npm install -g gulp
 script : gulp test
+dist: trusty
+sudo: false
 addons:
   chrome: stable
