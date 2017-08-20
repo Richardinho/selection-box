@@ -1,6 +1,5 @@
 var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
-var wrap = require('gulp-wrap');
+//var wrap = require('gulp-wrap');
 var Server = require('karma').Server;
 
 gulp.task('wrap', function () {

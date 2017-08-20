@@ -21,6 +21,25 @@ greater styling flexibility than is possible with native select elements.
 
 ```http://localhost:4444/wd/hub/static/resource/hub.html```
 
+## Requirements
+
+- Should work exactly in the same way as a native select element
+- Should work on as many browsers/device as possible
+- Should provide fallback for non supporting browsers/devices
+- Should be usable by screen readers
+- Should be usable using keyboard
+- Should have a suite of unit and behavioural tests
+- 
+
+Todo:
+- research how to style native select element
+- catalogue entire list of behaviours of select element
+- research Yarn as replacement for NPM
+- research correct aria roles for select box
+- learn to use a screen reader
+- How to run tests across multiple browsers
+
+
 
 
 

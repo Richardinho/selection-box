@@ -16,16 +16,13 @@
     "select"
   ],
   "devDependencies": {
-    "browser-sync": "^2.10.1",
-    "gulp": "^3.9.0",
-    "gulp-sass": "^2.1.1",
-    "gulp-wrap": "^0.11.0",
-    "jasmine-core": "^2.4.1",
-    "karma": "^0.13.16",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^0.2.2",
+    "gulp": "^3.9.1",
+    "jasmine-core": "^2.7.0",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "nightwatch": "^0.9.16",
     "phantomjs": "^2.1.7"
   },
   "author": "Richard Hunter",
@@ -33,7 +30,6 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "express": "^4.15.4",
-    "nightwatch": "^0.9.16",
-    "richardUtils": "^0.6.1"
+    "richardUtils": "^0.6.3"
   }
 }

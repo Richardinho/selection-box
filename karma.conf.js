@@ -15,12 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'web/lib/polyfill.js',
-      'web/lib/jquery.js',
-      'web/lib/sundry.js',
-      'web/lib/dom.js',
-      'js/**/*.js',
-      'test/unit/**/*spec.js'
+      'tests/unit/**/*.js'
     ],
 
 
@@ -60,7 +55,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
 
 
     // Continuous Integration mode
