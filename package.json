@@ -10,7 +10,7 @@
   ],
   "main": "build/selection-box.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "behavioural": "./node_modules/.bin/nightwatch"
   },
   "keywords": [
     "select"
@@ -32,6 +32,8 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
+    "express": "^4.15.4",
+    "nightwatch": "^0.9.16",
     "richardUtils": "^0.6.1"
   }
 }
