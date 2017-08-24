@@ -1,0 +1,15 @@
+.sb {
+    background: red;
+    display: inline-block;
+}
+
+.sb__main {}
+
+.sb__options {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sb__option {}

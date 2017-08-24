@@ -3,25 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link href="foo.css" rel="stylesheet">
 </head>
 <body>
     Test page
-    <h1 id="foo">This is foo</h1>
 
-    <select class="foo" autofocus name="my-dropdown" required>
-        <optgroup label="Americas">
-            <option label="United States" value="usa">USA</option>
-            <option disabled>Mexico</option>
-        </optgroup>
-        <optgroup label="Europe" disabled>
-            <option>UK</option>
-            <option>France</option>
-        </optgroup>
-        <optgroup label="Africa">
-            <option label="Egypt" value="egypt">Egypt</option>
-            <option label="South Africa">South Africa</option>
-        </optgroup>
-    </select>
+    <!--
+       The value of the aria-owns attribute is a space-separated list of IDREFS that reference one or
+       more elements in the document by ID. The reason for adding aria-owns is to expose a parent/child
+       contextual relationship to assistive technologies that is otherwise impossible to infer from the DOM.
+   -->
+    <div tabindex="0" class="sb" id="bar">
+        <div id="foobar-button"
+             role="button"
+             tabindex="-1"
+             aria-haspopup="true"
+             aria-owns="foobar"
+             class="sb__main">Mexico</div>
+        <!--  An element that contains or owns all the listbox options has role listbox. -->
+        <ul role="listbox"
+            id="foobar"
+            aria-hidden="true"
+            class="sb__options">
+            <!--
+                Each option in the listbox has role option and is a DOM descendant of the element with role
+                listbox or is referenced by an aria-owns property on the listbox element. -->
+            <li role="option" tabindex="-1" class="sb__option">United States of America, In God We Trust</li>
+            <!-- In a single-select listbox, the selected option has aria-selected set to true. -->
+            <li role="option" tabindex="-1" aria-selected="true" class="sb__option">Mexico</li>
+            <li role="option" tabindex="-1" class="sb__option">UK</li>
+        </ul>
+    </div>
+    <script src="selection-box.js"></script>
+    <script>
+
+        var el = document.getElementById('bar');
+        new SelectionBox(el);
+    </script>
+    <h2>Requirements</h2>
+    <ul>
+        <li>
+            <strong>Given</strong> that the options box is closed<br>
+            <strong>When</strong> the user clicks on the main section<br>
+            <strong>Then</strong> the options box should be opened<br>
+        </li>
+        <li>
+            <strong>Given</strong> that the options box is open<br>
+            <strong>When</strong> the user clicks outside the main section<br>
+            <strong>Then</strong> the options box should be closed<br>
+        </li>
+        <li>
+            <strong>Given</strong> that the options box is open<br>
+            <strong>When</strong> the user clicks on an option<br>
+            <strong>And</strong> it is not disabled<br>
+            <strong>Then</strong> the option should be selected<br>
+            <strong>And</strong> the option box should close<br>
+            <strong>And</strong> the selected option should be shown in the main section<br>
+        </li>
+        <li>The whole box should be as wide as the widest option within it</li>
+        <li>
+            <strong>Given</strong> that the options box is open<br>
+            <strong>When</strong> the user clicks on a key<br>
+            <strong>Then</strong> the option most closely corresponding to that key should have focus<br>
+        </li>
+    </ul>
 
 </body>
 </html>

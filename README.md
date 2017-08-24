@@ -29,16 +29,16 @@ greater styling flexibility than is possible with native select elements.
 - Should be usable by screen readers
 - Should be usable using keyboard
 - Should have a suite of unit and behavioural tests
-- 
+- Should support searching for options by typing initial characters
 
 Todo:
 - research how to style native select element
 - catalogue entire list of behaviours of select element
-- research Yarn as replacement for NPM
 - research correct aria roles for select box
 - learn to use a screen reader
+- best way of handling keyevents
 - How to run tests across multiple browsers
-dfdfdfjljljlj
+
 
 
 
