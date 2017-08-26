@@ -39,6 +39,10 @@ Todo:
 - best way of handling keyevents
 - How to run tests across multiple browsers
 
+### Resources
+- [w3c wai-aria guidelines for list box](https://www.w3.org/TR/wai-aria-practices/#Listbox)
+- [whatwg html spec for select element](https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element)
+
 
 
 

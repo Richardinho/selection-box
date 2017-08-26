@@ -6,6 +6,30 @@
     <link href="foo.css" rel="stylesheet">
 </head>
 <body>
+
+    <select>
+        <option>apple</option>
+        <option selected>banana</option>
+        <option>carrot</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+        <option>donut</option>
+    </select>
     Test page
 
     <!--
@@ -41,32 +65,202 @@
         new SelectionBox(el);
     </script>
     <h2>Requirements</h2>
+    <p>
+        The box should be as wide as the widest option
+    </p>
+    <h3>Mouse events</h3>
     <ul>
         <li>
-            <strong>Given</strong> that the options box is closed<br>
-            <strong>When</strong> the user clicks on the main section<br>
-            <strong>Then</strong> the options box should be opened<br>
+            <h4>Opening the options box</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is closed
+                <li><strong>When</strong> the user clicks on the main section
+                <li><strong>Then</strong> the options box should be opened
+            </ul>
         </li>
         <li>
-            <strong>Given</strong> that the options box is open<br>
-            <strong>When</strong> the user clicks outside the main section<br>
-            <strong>Then</strong> the options box should be closed<br>
+            <h4>Closing the options box</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>When</strong> the user clicks outside the main section
+                <li><strong>Then</strong> the options box should be closed
+            </ul>
         </li>
         <li>
-            <strong>Given</strong> that the options box is open<br>
-            <strong>When</strong> the user clicks on an option<br>
-            <strong>And</strong> it is not disabled<br>
-            <strong>Then</strong> the option should be selected<br>
-            <strong>And</strong> the option box should close<br>
-            <strong>And</strong> the selected option should be shown in the main section<br>
+            <h4>Hovering over an option</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>When</strong> the user hovers over an option
+                <li><strong>Then</strong> the option should be highlighted
+                <li><strong>And</strong> there should be a clear difference between an option that is highlighted and one that is selected
+            </ul>
         </li>
-        <li>The whole box should be as wide as the widest option within it</li>
         <li>
-            <strong>Given</strong> that the options box is open<br>
-            <strong>When</strong> the user clicks on a key<br>
-            <strong>Then</strong> the option most closely corresponding to that key should have focus<br>
+            <h4>Selecting an option</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>When</strong> the user clicks on an option
+                <li><strong>And</strong> it is not disabled
+                <li><strong>Then</strong> the option should be selected
+                <li><strong>And</strong> the option box should close
+                <li><strong>And</strong> the selected option should be shown in the main section
+            </ul>
         </li>
     </ul>
 
+    <hr>
+    <h3>Aria roles and properties</h3>
+    <p>
+        The component should use aria roles and properties to allow screen readers to understand its behaviour.
+    </p>
+    <ul>
+        <li>
+            <h4>dhkhkhkh</h4>
+            <ul>
+                <li></li>
+            </ul>
+        </li>
+    </ul>
+
+    <hr>
+    <h3>Keyboard events</h3>
+    <p>
+        The user should be able to open and close the options list, move the focus, and make selections
+        using the keyboard
+    </p>
+    <ul>
+
+        <li>
+            <h4>Opening the options box</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is closed
+                <li><strong>And</strong> the select box has focus
+                <li><strong>When</strong> the user clicks the down key, up key, or spacebar
+                <li><strong>Then</strong> the option box should open
+                <li><strong>And</strong> the selected option should have focus
+            </ul>
+        </li>
+        <li>
+            <h4>Pressing Down key 1</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>And</strong> an option has focus which is not the last option in the list
+                <li><strong>When</strong> the user clicks the down key
+                <li><strong>Then</strong> the next option down should get focus
+            </ul>
+        </li>
+        <li>
+            <h4>Pressing Down key 2</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>And</strong> an option has focus which is the last option in the list
+                <li><strong>When</strong> the user clicks the down key
+                <li><strong>Then</strong> the focus should remain on the last option
+            </ul>
+        </li>
+        <li>
+            <h4>Pressing Up key 1</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>And</strong> an option has focus which is not the first option in the list
+                <li><strong>When</strong> the user clicks the up key
+                <li><strong>Then</strong> the next option up should get focus
+            </ul>
+        </li>
+        <li>
+            <h4>Pressing Up key 2</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>And</strong> an option has focus which is the first option in the list
+                <li><strong>When</strong> the user clicks the up key
+                <li><strong>Then</strong> the focus should remain on the first option
+            </ul>
+        </li>
+        <li>
+            <h4>Pressing Escape key when options box is open</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>When</strong> the user clicks the escape key
+                <li><strong>Then</strong> the options box should close
+                <li><strong>And</strong> the selected option should not change
+                <li><strong>And</strong> the select box should retain focus
+            </ul>
+        </li>
+        <li>
+            <h4>Selecting an option</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>When</strong> the user clicks the spacebar, or return key
+                <li><strong>Then</strong> the options box should close
+                <li><strong>And</strong> the focused option becomes the selected option
+                <li><strong>And</strong> the select box should retain focus
+            </ul>
+        </li>
+    </ul>
+
+    <hr>
+    <h3>Select option by typing</h3>
+    <p>
+        The user should be able to put the focus on options by typing the first character or
+        characters of its label
+    </p>
+    <ul>
+        <li><strong>Given</strong> that the options box is open
+        <li><strong>When</strong> the user types a string of characters within a short period of time
+        <li><strong>Then</strong> a search algorithm should run which searches for an option corresponding to this string
+        <li><strong>And</strong> this option should get focus
+    </ul>
+
+    <hr>
+    <h3>Positioning of option box</h3>
+    <p>
+        When the options box is open, every effort should be made to ensure that the user does not have to scroll the page
+        in order to see it. That is to say, the position of the box should be flexible so that it is always in the most
+        favourable place.
+    </p>
+    <h5>Definitions</h5>
+    <dl>
+        <dt>Beneath position</dt>
+        <dd>
+            A greater part of the options box is positioned beneath the display box. A lesser part of the options box may still be
+            at the same level or above the display box. (This is Chrome behaviour, check other browsers)
+        </dd>
+        <dt>Above position</dt>
+        <dd>
+            A greater part of the options box is positioned above the display box. A lesser part of the options box may still be
+            at the same level or beneath the display box.
+        </dd>
+    </dl>
+    <ul>
+        <li>
+            <h4>Sufficient space below options box</h4>
+            <p>This is the default</p>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>And</strong> there is sufficient space below the display box
+                <li><strong>Then</strong> the options box should be displayed in the 'beneath' position
+            </ul>
+        </li>
+        <li>
+            <h4>Insufficient space below options box</h4>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>And</strong> there is NOT sufficient space below the display box
+                <li><strong>Then</strong> the options box should be displayed in the 'above' position
+            </ul>
+        </li>
+        <li>
+            <h4>Insufficient space above and below options box</h4>
+            <p>Note: In this situation, browsers can display the options box outside of the viewport. This option is obviously not
+            available for non native components.</p>
+            <ul>
+                <li><strong>Given</strong> that the options box is open
+                <li><strong>And</strong> there is NOT sufficient space below the display box
+                <li><strong>And</strong> there is NOT sufficient space above the display box
+                <li><strong>Then</strong> the options box should be displayed using the full height of the space available
+                <li><strong>And</strong> its content should be scrollable
+            </ul>
+        </li>
+    </ul>
 </body>
 </html>

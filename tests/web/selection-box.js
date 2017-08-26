@@ -25,13 +25,33 @@ SelectionBox.prototype = {
     onKeyDown : function (event) {
 
         event.preventDefault();
-        const key = this.getKeyFromEvent(event);
+
+        switch (event.key) {
+            case "ArrowDown":
+              // Do something for "down arrow" key press.
+              break;
+            case "ArrowUp":
+              // Do something for "up arrow" key press.
+              break;
+            case "ArrowLeft":
+              // Do something for "left arrow" key press.
+              break;
+            case "ArrowRight":
+              // Do something for "right arrow" key press.
+              break;
+            case "Enter":
+              // Do something for "enter" or "return" key press.
+              break;
+            case "Escape":
+              // Do something for "esc" key press.
+              break;
+            default:
+              return; // Quit when this doesn't handle the key event.
+        }
     },
 
     getKeyFromEvent : function (event) {
-
-        return 'a';
-
+        return event.key;
     },
 
     handleClick : function (event) {
