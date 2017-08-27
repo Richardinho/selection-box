@@ -1,5 +1,5 @@
 nightwatch_config = {
-  "src_folders" : ["tests/specs"],
+  "src_folders" : ["tests/e2e/specs"],
   "output_folder" : "reports",
   selenium : {
     "start_process" : false,
