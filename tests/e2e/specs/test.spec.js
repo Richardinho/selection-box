@@ -1,5 +1,5 @@
-let createMouseTests = require('../mouse.js');
-let pageObject = require('../mouse-page-object');
+var createMouseTests = require('../mouse.js');
+var pageObject = require('../mouse-page-object');
 
 module.exports = {
 

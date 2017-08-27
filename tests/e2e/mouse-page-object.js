@@ -1,4 +1,4 @@
-let page = {
+var page = {
 
     theOptionsBoxIsOpen: function () {
         return this;
