@@ -6,7 +6,7 @@ describe('selection box', () => {
     describe('getKeyFromEvent()', () => {
         let key;
         beforeEach(() => {
-            key = selectionBox.getKeyFromEvent()
+            key = selectionBox.getKeyFromEvent({ key: 'a'})
         });
         it ('should...', () => {
             expect(key).toBe('a');

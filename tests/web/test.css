@@ -1,0 +1,39 @@
+select.example-1 {
+    /*  box model properties */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    background: lightblue;
+    background-image: url(ty-cobb.jpg);
+    background-size: cover;
+
+}
+
+select.example-1 option {
+    background: orange;
+    background-image: url(ty-cobb.jpg);
+    font-weight: bold;
+
+}
+
+select.example-2 {
+
+
+    background-image: url(ty-cobb.jpg);
+    background-size: cover;
+    border: none;
+    padding: 20px 20px;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0;
+    outline: none;
+    box-shadow: 1px 1px 2px #888888;
+    padding-right: 60px;
+    text-shadow: 2px 2px 1px #FF0000;
+    line-height: 2;
+}
+option {
+
+
+}
