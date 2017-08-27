@@ -22,7 +22,7 @@
     "default" : {
       "launch_url" : "http://localhost",
       "selenium_port"  : 4444,
-      "selenium_host"  : "localhost",
+      "selenium_host"  : "hub-cloud.browserstack.com",
       "silent": true,
       "screenshots" : {
         "enabled" : false,
