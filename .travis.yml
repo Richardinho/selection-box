@@ -4,7 +4,7 @@ node_js:
 before_script:
 - npm install -g gulp
 - npm run server &
-script: gulp test
+script: npm run behavioural
 dist: trusty
 sudo: required
 addons:
