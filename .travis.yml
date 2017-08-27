@@ -1,11 +1,15 @@
 language: node_js
 node_js:
-  - "4.2"
+- '4.2'
 before_script:
-  - npm install -g gulp
-  - npm run server &
-script : gulp test
+- npm install -g gulp
+- npm run server &
+script: gulp test
 dist: trusty
 sudo: required
 addons:
   chrome: stable
+  browserstack:
+    username: "hunter129"
+    access_key:
+      secure: UVK75yeFDGsPgEmdrG2cVuGe+qtNUJczMyB0cQyR5EKuJ/l9I9NEEo4daUltlb0spnBKf0gfvX3O131DlhH6Tz9zXV7AjXAJeFJK8V5iQv7ip0nFImPBlLr2qwgnthlN+1vc3IDDvOCltKdnrhN6k8XHJXfgTn+6BsHiSNENqutIMQhek11N3chuQG910qqY+uUyeuZ+Mx1I3hG3zUMrn4/VSrmeFFAsRTn/sR7miLztWTk2r7WXbPZfVkKkknnUZWovBXJ03JOvEriN4PQeCM8y1/Jb/fx52oF7mKvFNALsggwG8HWeZMOkZVAKqcpfxSw4GVfb1hHJUfWVnKOgNJUyDs/gXz8hdoNMY0MsFDFb2UUGrk4aS7kkvMk/mZCCHXJWFQOwydrm9TnaeqnUjH6mbz8Z1JMbdvPUOCqd0s8nYbCAmFQKvqwsMIrfOlDiD0B7gZ73NLOEFCIC84cW1wyHToK4D0t8IkeQizTzebuTpgQYqAq+jby9aYm/0uYnwNuFlhYNHwi2Ndz2sScVy3wS740ifOcviYf/WXcUiTbsSi84oNrObLOIeuHfqAfS6J8+yVZZ5QJQpTZdl83j7C0V7O8UtNc1IJ+V7wZA7DSAV0/xXqsAn+TxutDWy9Q2qKU0KbnDA3QGZ6dX8RzuJTl/ZMV06TtmueiBI+Dor9A=
