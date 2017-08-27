@@ -5,7 +5,7 @@ module.exports = {
 
     mouseTests : function (browser) {
 
-        let mouseTests = createMouseTests();
+        var mouseTests = createMouseTests();
         mouseTests.openingOptionsBox(pageObject);
         mouseTests.closingOptionsBox(pageObject);
         mouseTests.hoveringOverAnOption(pageObject);
