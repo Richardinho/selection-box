@@ -10,13 +10,14 @@
   ],
   "main": "build/selection-box.js",
   "scripts": {
-    "behavioural": "./node_modules/.bin/nightwatch",
+    "behavioural": "node ./runner.js -c nightwatch.js",
     "server": "node ./tests/web/server.js"
   },
   "keywords": [
     "select"
   ],
   "devDependencies": {
+    "browserstack-local": "^1.3.0",
     "gulp": "^3.9.1",
     "jasmine-core": "^2.7.0",
     "karma": "^1.7.0",
