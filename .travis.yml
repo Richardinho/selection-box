@@ -3,6 +3,7 @@ node_js:
   - "4.2"
 before_script:
   - npm install -g gulp
+  - npm run server &
 script : gulp test
 dist: trusty
 sudo: required
