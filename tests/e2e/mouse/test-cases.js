@@ -1,33 +1,39 @@
-module.exports = function () {
+var createSteps = require('./steps.js');
+
+module.exports = function (pageObject) {
+
+  var steps = createSteps(pageObject);
 
   return {
 
-    openingOptionsBox: function (page) {
+    openingOptionsBox: function () {
 
-      page
+      pageObject.navigate();
+
+      steps
         .given.theOptionsBoxIsClosed()
         .when.theUserClicksOnTheMainSection()
         .then.theOptionsBoxShouldBeOpen();
     },
 
-    closingOptionsBox: function (page) {
+    closingOptionsBox: function () {
 
-      page
+      steps
         .given.theOptionsBoxIsOpen()
         .when.theUserClicksOutsideTheMainSection()
         .then.theOptionsBoxShouldBeClosed();
     },
 
-    hoveringOverAnOption: function(page) {
+    hoveringOverAnOption: function() {
 
-      page
+      steps
         .given.theOptionsBoxIsOpen()
         .when.theUserHoversOverAnOption()
         .then.theOptionShouldBeHighlighted();
     },
 
-    selectingAnOption: function(page) {
-      page
+    selectingAnOption: function() {
+      steps
         .given.theOptionsBoxIsOpen()
         .and.theOptionIsNotDisabled()
         .when.theUserClicksOnAnOption()

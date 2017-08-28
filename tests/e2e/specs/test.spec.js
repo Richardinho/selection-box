@@ -1,15 +1,15 @@
-var createMouseTests = require('../mouse.js');
-var pageObject = require('../mouse-page-object');
+var createMouseTestCases = require('../mouse/test-cases.js');
 
 module.exports = {
 
-    mouseTests : function (browser) {
+    mouseTests : function (client) {
 
-        var mouseTests = createMouseTests();
-        mouseTests.openingOptionsBox(pageObject);
-        mouseTests.closingOptionsBox(pageObject);
-        mouseTests.hoveringOverAnOption(pageObject);
-        mouseTests.selectingAnOption(pageObject);
+        var mouseTests = createMouseTestCases(client.page.blah());
+
+        mouseTests.openingOptionsBox();
+        mouseTests.closingOptionsBox();
+        mouseTests.hoveringOverAnOption();
+        mouseTests.selectingAnOption();
 
     }
 }

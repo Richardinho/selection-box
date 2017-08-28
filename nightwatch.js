@@ -1,6 +1,7 @@
 nightwatch_config = {
   "src_folders" : ["tests/e2e/specs"],
   "output_folder" : "reports",
+  "page_objects_path": "tests/e2e/page-objects",
   selenium : {
     "start_process" : false,
     "host" : "hub-cloud.browserstack.com",
